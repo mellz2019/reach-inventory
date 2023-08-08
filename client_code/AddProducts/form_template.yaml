@@ -8,13 +8,11 @@ components:
   name: content_panel
   layout_properties: {slot: default}
   components:
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Scan Barcode, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_1
-    layout_properties: {grid_position: 'ZDDOBH,YGTAWW'}
+  - type: FileLoader
+    properties: {}
+    name: file_loader_1
+    layout_properties: {grid_position: 'CVUIJO,LGPVWI'}
+    event_bindings: {change: file_loader_1_change}
 - type: FlowPanel
   properties: {}
   name: navbar_links
