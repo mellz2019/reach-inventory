@@ -8,16 +8,21 @@ def get_table(table):
   if table == 'products':
     return products_table
 
+def match_record(table, column_to_match_on, value):
+    return table.match(column_to_match_on, value)
+
 @anvil.server.callable
-def add_item(table, item):
+def add_item(table, item, return_record=True):
     table = get_table(table)
     try:
-      inserted_record = table.insert(product, True)
+      inserted_record = table.insert(item, True)
     except Exception as e:
         return f'Error inserting item:  + {e}'
     else:
         if return_record:
             return inserted_record
+        else:
+          return 'Item inserted successfully.'
 
 @anvil.server.callable
 def delete_item(table, id):
