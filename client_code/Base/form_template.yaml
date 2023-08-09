@@ -1,0 +1,28 @@
+is_package: true
+container:
+  type: HtmlTemplate
+  properties: {html: '@theme:standard-page.html'}
+components:
+- type: ColumnPanel
+  properties: {}
+  name: content_panel
+  layout_properties: {slot: default}
+- type: FlowPanel
+  properties: {}
+  name: navbar_links
+  layout_properties: {slot: nav-right}
+  components:
+  - type: Link
+    properties: {role: title, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Sign In, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:sign-in'}
+    name: sign_in_link
+    layout_properties: {}
+- type: Link
+  properties: {role: title, url: '', align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: REACH Products, font_size: null, wrap_on: mobile, font: '',
+    col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: 'fa:archive'}
+  name: home_link
+  layout_properties: {slot: title}

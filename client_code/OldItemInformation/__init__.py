@@ -1,21 +1,19 @@
-from ._anvil_designer import ItemInformationTemplate
+from ._anvil_designer import OldItemInformationTemplate
 from anvil import *
 import anvil.server
 import anvil.image
 from .. import Globals
 
-class ItemInformation(ItemInformationTemplate):
+class OldItemInformation(OldItemInformationTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
     # Any code you write here will run before the form opens.
+
 
   def file_loader_1_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     data = anvil.server.call('decode', anvil.image.generate_thumbnail(file, 640))
-
-    self.file_loader_1.text = 'Image loaded.'
 
     if len(data) < 1:
       alert('No barcode found.')
@@ -24,8 +22,6 @@ class ItemInformation(ItemInformationTemplate):
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
-    print("HELLO")
-
     # Use some custom JS to hint the FileLoader to open the phone camera by default
     self.call_js("initFileLoader")
 
@@ -37,3 +33,4 @@ class ItemInformation(ItemInformationTemplate):
     else:
       Globals.product = product
       open_form('ItemDetails', my_parameter="an_argument")
+
