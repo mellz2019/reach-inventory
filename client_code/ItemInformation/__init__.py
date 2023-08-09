@@ -15,7 +15,11 @@ class ItemInformation(ItemInformationTemplate):
     """This method is called when a new file is loaded into this FileLoader"""
     data = anvil.server.call('decode', anvil.image.generate_thumbnail(file, 640))
 
-    self.barcode_text_box.text = data
+    if len(data) < 1:
+      alert('No barcode found.')
+    else:
+      # Remove the first [' and last ']
+      self.barcode_text_box.text = data[2:-2]
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
