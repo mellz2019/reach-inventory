@@ -1,6 +1,7 @@
 from ._anvil_designer import ItemInformationTemplate
 from anvil import *
 import anvil.server
+import anvil.image
 from .. import Globals
 
 class ItemInformation(ItemInformationTemplate):
@@ -12,7 +13,9 @@ class ItemInformation(ItemInformationTemplate):
 
   def file_loader_1_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    self.raise_event("change", file=file)
+    data = anvil.server.call('decode', anvil.image.generate_thumbnail(file, 640))
+
+    self.barcode_text_box.text = data
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""

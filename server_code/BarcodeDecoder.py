@@ -31,4 +31,4 @@ def decode(img_file):
   
   bs = BytesIO()
   img.save(bs, format="JPEG")
-  return anvil.BlobMedia("image/jpeg", bs.getvalue()), data
+  return data
