@@ -19,7 +19,7 @@ class ItemInformation(ItemInformationTemplate):
       alert('No barcode found.')
     else:
       # Remove the first [' and last ']
-      self.barcode_text_box.text = data[2:-2]
+      self.barcode_text_box.text = data
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
