@@ -18,7 +18,6 @@ class ItemInformation(ItemInformationTemplate):
     if len(data) < 1:
       alert('No barcode found.')
     else:
-      # Remove the first [' and last ']
       self.barcode_text_box.text = data
 
   def form_show(self, **event_args):
