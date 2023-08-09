@@ -12,20 +12,16 @@ class ItemInformation(ItemInformationTemplate):
     # Any code you write here will run before the form opens.
 
   def file_loader_1_change(self, file, **event_args):
-    """This method is called when a new file is loaded into this FileLoader"""
-    data = anvil.server.call('decode', anvil.image.generate_thumbnail(file, 640))
+      """This method is called when a new file is loaded into this FileLoader"""
+      data = anvil.server.call('decode', anvil.image.generate_thumbnail(file, 640))
 
-    self.file_loader_1.text = 'Image loaded.'
-
-    if len(data) < 1:
-      alert('No barcode found.')
-    else:
-      self.barcode_text_box.text = data
+      if len(data) < 1:
+        alert('No barcode found.')
+      else:
+        self.barcode_text_box.text = data
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
-    print("HELLO")
-
     # Use some custom JS to hint the FileLoader to open the phone camera by default
     self.call_js("initFileLoader")
 
