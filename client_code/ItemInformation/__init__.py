@@ -24,7 +24,7 @@ class ItemInformation(ItemInformationTemplate):
     """This method is called when the button is clicked"""
     product = anvil.server.call('match_record', 'products', 'Barcode', self.barcode_text_box.text)
     if not product:
-      alert('It not found.')
+      alert('Item not found.')
     else:
       Globals.product = product
       open_form('ItemDetails', my_parameter="an_argument")

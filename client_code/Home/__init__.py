@@ -9,6 +9,14 @@ class Home(HomeTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    all_products = anvil.server.call('get_all_items', 'products')
+    all_product_count = len(all_products)
+    
+    sold_products = anvil.server.call('get_items_from_view', 'products', 'Sold')
+    sold_products_count = len(sold_products)
+
+    self.total_product_label.text = f'Products: {all_product_count}'
+    self.products_sold_label.text = f'Products Sold: {sold_products_count}'
 
   # def add_items_button_click(self, **event_args):
    # self.content_panel.clear()

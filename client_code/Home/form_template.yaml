@@ -8,6 +8,18 @@ components:
   name: content_panel
   layout_properties: {slot: default}
   components:
+  - type: Label
+    properties: {}
+    name: total_product_label
+    layout_properties: {grid_position: 'HTYTRG,HVUXRD'}
+  - type: Label
+    properties: {}
+    name: products_sold_label
+    layout_properties: {grid_position: 'HTYTRG,TDVNGT'}
+  - type: Spacer
+    properties: {height: 53}
+    name: spacer_1
+    layout_properties: {grid_position: 'UNXLYE,AYEFRA'}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: column_panel_1
@@ -21,6 +33,13 @@ components:
       name: product_info_button
       layout_properties: {grid_position: 'TSKCLX,MXIYMT'}
       event_bindings: {click: product_info_button_click}
+  - type: Button
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Orders, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:inbox'}
+    name: orders_button
+    layout_properties: {grid_position: 'DABTZK,OAPNYN'}
 - type: FlowPanel
   properties: {}
   name: navbar_links

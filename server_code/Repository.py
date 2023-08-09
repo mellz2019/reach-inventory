@@ -58,11 +58,18 @@ def get_all_items(table):
 @anvil.server.callable
 def get_single_item(table, id):
   table = get_table(table)
-  product = table.get(id)
-  if not product:
+  item = table.get(id)
+  if not item:
     return 'Item not found'
   else:
-    return product
+    return item
+
+@anvil.server.callable
+def get_items_from_view(table, view):
+  table = get_table(table)
+  items = table.get_all(view=view)
+  return items
+  
 
 @anvil.server.callable
 def update_item(table, id, fields):
