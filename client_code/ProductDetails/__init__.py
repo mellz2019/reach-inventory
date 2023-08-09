@@ -1,14 +1,17 @@
-from ._anvil_designer import RowTemplate1Template
+from ._anvil_designer import ProductDetailsTemplate
 from anvil import *
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
+from .. import Globals
 
-class RowTemplate1(RowTemplate1Template):
+class ProductDetails(ProductDetailsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
+    product = Globals.product
+    
+    self.product_image.source = product['fields']['Cover Image'][0]['thumbnails']['full']['url']

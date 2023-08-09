@@ -1,10 +1,15 @@
-from ._anvil_designer import ItemInformationTemplate
+from ._anvil_designer import ProductInformationTemplate
 from anvil import *
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
+import anvil.users
 import anvil.server
 import anvil.image
 from .. import Globals
+from ..ProductDetails import ProductDetails
 
-class ItemInformation(ItemInformationTemplate):
+class ProductInformation(ProductInformationTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -18,7 +23,7 @@ class ItemInformation(ItemInformationTemplate):
       if len(data) < 1:
         alert('No barcode found.')
       else:
-        self.barcode_text_box.text = data
+        self.barcode_text_box.text = ",".join(data)
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
@@ -32,4 +37,5 @@ class ItemInformation(ItemInformationTemplate):
       alert('Item not found.')
     else:
       Globals.product = product
-      open_form('ItemDetails', my_parameter="an_argument")
+      self.content_panel.clear()
+      self.content_panel.add_component(ProductDetails())

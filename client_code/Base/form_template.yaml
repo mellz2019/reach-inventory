@@ -26,3 +26,4 @@ components:
     italic: false, background: '', bold: false, underline: false, icon: 'fa:archive'}
   name: home_link
   layout_properties: {slot: title}
+  event_bindings: {click: home_link_click}
