@@ -10,8 +10,19 @@ name: Reach Products
 runtime_options:
   version: 2
   client_version: '3'
-  server_version: python3-sandbox
-  server_spec: {base: python310-machine-learning}
+  server_version: python3-full
+  server_spec: null
+  server_spec_disabled: {requirements: 'airtable-python-wrapper==0.15.3
+
+      opencv-python
+
+      pyzbar
+
+      Library
+
+      pyzbar
+
+      requests', base: python310-machine-learning}
 metadata: {title: Reach Products}
 startup_form: null
 renamed: true

@@ -1,6 +1,0 @@
-airtable-python-wrapper==0.15.3
-opencv-python
-pyzbar
-Library
-pyzbar
-requests
