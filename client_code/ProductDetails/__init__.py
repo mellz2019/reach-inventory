@@ -65,13 +65,8 @@ class ProductDetails(ProductDetailsTemplate):
     """This method is called when the button is clicked"""
     user = anvil.users.get_user()
     if user['admin'] or user['can_remove_product_from_production']:
-        t = TextBox(placeholder="Example: Sister Fannie is getting this for her house.")
-        alert(content=t,
-        title="Enter a reason for this action.", 
-              buttons=[
-                 ("Confirm", "Confirm"),
-                 ("Cancel", "Cancel"),
-               ])
+      # TO DO
+      pass
     else:
       alert('You do not have access to this feature. Please contact an administrator.')
 

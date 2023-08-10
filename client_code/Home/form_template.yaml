@@ -22,4 +22,5 @@ components:
       underline: false, icon: 'fa:inbox'}
     name: orders_button
     layout_properties: {grid_position: 'EQDPHA,SCEMTB'}
+    event_bindings: {click: orders_button_click}
 is_package: true
