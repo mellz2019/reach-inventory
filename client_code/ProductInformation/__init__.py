@@ -18,6 +18,10 @@ class ProductInformation(ProductInformationTemplate):
 
     # Any code you write here will run before the form opens.
 
+  def back(self):
+    self.content_panel.clear()
+    self.content_panel.add_component(ProductInformation())
+
   def file_loader_1_change(self, file, **event_args):
       """This method is called when a new file is loaded into this FileLoader"""
       data = anvil.server.call('decode', anvil.image.generate_thumbnail(file, 640))
@@ -35,9 +39,15 @@ class ProductInformation(ProductInformationTemplate):
   def search_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     product = anvil.server.call('match_record', 'products', 'Barcode', self.barcode_text_box.text)
+    
     if not product:
-      alert('Item not found.')
+      alert('Product not found.')
     else:
+      has_main = product['fields']['Has Main']
+    if has_main != 1:
+      alert('Product is not connected to main.')
+    else:
+      Globals.main = anvil.server.call('get_single_item', 'main', product['fields']['Main ID'][0])
       Globals.product = product
       self.content_panel.clear()
-      self.content_panel.add_component(ProductDetails())
+      self.content_panel.add_component(ProductDetails(self.back))

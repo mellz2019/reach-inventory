@@ -25,7 +25,7 @@ class Base(BaseTemplate):
     user = anvil.users.get_user()
     if user:
       email = user['email']
-      self.sign_in_link.text = email
+      self.sign_in_link.text = 'Sign Out'
     else:
       self.sign_in_link.text = 'Sign In'
 

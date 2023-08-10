@@ -22,7 +22,7 @@ def decode(img_file):
   
   for barcode in decoded:
     rect = barcode.rect
-    print(rect)
+    # print(rect)
     draw.rectangle(
         (
             (rect.left, rect.top),
