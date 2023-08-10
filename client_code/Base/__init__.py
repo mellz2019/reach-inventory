@@ -25,7 +25,7 @@ class Base(BaseTemplate):
     user = anvil.users.get_user()
     if user:
       email = user['email']
-      self.sign_in_link.text = 'Account'
+      self.sign_in_link.text = email
     else:
       self.sign_in_link.text = 'Sign In'
 
@@ -41,8 +41,11 @@ class Base(BaseTemplate):
       if logout:
         anvil.users.logout()
         self.sign_in_link.text = 'Sign In'
+        self.go_to_home()
     else:
       anvil.users.login_with_form()
+      n = Notification("Sign in successful!")
+      n.show()
       self.change_sign_in_text()
 
 

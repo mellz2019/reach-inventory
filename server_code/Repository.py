@@ -19,14 +19,20 @@ REPORTS_TABLE_NAME = 'Reports'
 USERS_TABLE_NAME = 'Users'
 ATTENDEES_TABLE_NAME = 'Attendees'
 
+main_table = Airtable(REACH_PRODUCTS_BASE_ID, MAIN_TABLE_NAME, MY_API_KEY)
 products_table = Airtable(REACH_PRODUCTS_BASE_ID, PRODUCTS_TABLE_NAME, MY_API_KEY)
 orders_table = Airtable(REACH_PRODUCTS_BASE_ID, ORDERS_TABLE_NAME, MY_API_KEY)
+users_table = Airtable(REACH_PRODUCTS_BASE_ID, USERS_TABLE_NAME, MY_API_KEY)
 
 def get_table(table):
   if table == 'products':
     return products_table
   elif table == 'orders':
     return orders_table
+  elif table == 'users':
+    return users_table
+  elif table == 'main':
+    return main_table
 
 @anvil.server.callable
 def match_record(table, column_to_match_on, value):
@@ -89,3 +95,8 @@ def update_item(table, id, fields):
         return f'Error updating item: {e}'
     else:
         return 'Item updated successfully'
+
+# Returns a view of your database to the front end, but the data can not be changed
+@anvil.server.callable()
+def get_user_details():
+  return app_tables.users.client_readable()

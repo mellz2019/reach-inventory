@@ -6,7 +6,6 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 
-
 product = {}
-
 order = {}
+

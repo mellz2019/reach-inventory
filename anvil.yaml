@@ -61,5 +61,18 @@ db_schema:
     - name: signed_up
       type: datetime
       admin_ui: {order: 7, width: 200}
+    - name: admin
+      admin_ui: {width: 200}
+      type: bool
+    - name: can_view_product_info
+      admin_ui: {width: 217}
+      type: bool
+    - name: email_confirmation_key
+      admin_ui: {width: 200}
+      type: string
+    - name: user_roles
+      admin_ui: {order: 11, width: 200}
+      type: link_multiple
+      target: user_roles
     title: Users
 renamed: true
