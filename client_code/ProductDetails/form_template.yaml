@@ -24,6 +24,13 @@ components:
       icon: ''}
     name: name_label
     layout_properties: {grid_position: 'NEBVIT,MZJHHT'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: barcode_label
+    layout_properties: {grid_position: 'VXURSF,KMQTGB'}
   - type: Image
     properties: {role: null, vertical_align: center, height: '200', tooltip: '', border: '',
       foreground: '', visible: true, display_mode: original_size, spacing_above: small,
@@ -32,14 +39,21 @@ components:
     layout_properties: {grid_position: 'LZLUGV,HHFFTS'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: description_label
     layout_properties: {grid_position: 'IHAPJL,IWTSNC'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: condition_label
+    layout_properties: {grid_position: 'ROFRML,QWZOLS'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: category_label
@@ -53,49 +67,56 @@ components:
     layout_properties: {grid_position: 'KIFRXF,IOHCEB'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: lowest_price_label
     layout_properties: {grid_position: 'UJDHFQ,JQGKUL'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: status_label
     layout_properties: {grid_position: 'MYOKUX,HHANFA'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: total_quantity_label
     layout_properties: {grid_position: 'ZYGLYB,NPHTDO'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: available_label
     layout_properties: {grid_position: 'SIROYE,YLXIYG'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: quantity_sold_label
     layout_properties: {grid_position: 'UDGNZR,NRDHBX'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: added_on_label
     layout_properties: {grid_position: 'GWMQJR,OAYJXR'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: added_by_label
+    layout_properties: {grid_position: 'RFOYPI,WBYMFL'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: approved_for_sale_on_label
@@ -116,6 +137,7 @@ components:
         background: '', bold: true, underline: false, icon: ''}
       name: remove_from_production_button
       layout_properties: {grid_position: 'KMCAES,KWGGZS'}
+      event_bindings: {click: remove_from_production_button_click}
     - type: Button
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Order, font_size: null, font: '', spacing_above: small,
@@ -123,6 +145,7 @@ components:
         underline: false, icon: ''}
       name: order_button
       layout_properties: {grid_position: 'KMCAES,GPDBXS'}
+      event_bindings: {click: order_button_click}
 is_package: true
 custom_component: true
 properties:

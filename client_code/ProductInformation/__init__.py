@@ -38,6 +38,11 @@ class ProductInformation(ProductInformationTemplate):
 
   def search_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    
+    if not self.barcode_text_box.text:
+      alert("Please scan or enter a barcode.")
+      return
+    
     product = anvil.server.call('match_record', 'products', 'Barcode', self.barcode_text_box.text)
     
     if not product:
