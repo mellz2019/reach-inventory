@@ -1,5 +1,7 @@
 from ._anvil_designer import BaseTemplate
 from anvil import *
+import anvil.google.auth, anvil.google.drive
+from anvil.google.drive import app_files
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
@@ -9,12 +11,38 @@ from ..Home import Home
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
+    self.change_sign_in_text()
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.go_to_home()
+
+  def go_to_home(self):
+    self.content_panel.clear()
     self.content_panel.add_component(Home())
+    self.change_sign_in_text()
+
+  def change_sign_in_text(self):
+    user = anvil.users.get_user()
+    if user:
+      email = user['email']
+      self.sign_in_link.text = 'Account'
+    else:
+      self.sign_in_link.text = 'Sign In'
 
   def home_link_click(self, **event_args):
     """This method is called when the link is clicked"""
-    self.content_panel.clear()
-    self.add_component(Home())
+    self.go_to_home()
+
+  def sign_in_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    user = anvil.users.get_user()
+    if user:
+      logout = confirm("Would you like to logout?")
+      if logout:
+        anvil.users.logout()
+        self.sign_in_link.text = 'Sign In'
+    else:
+      anvil.users.login_with_form()
+      self.change_sign_in_text()
+
 
