@@ -70,5 +70,8 @@ db_schema:
     - name: email_confirmation_key
       admin_ui: {width: 200}
       type: string
+    - name: can_remove_product_from_production
+      admin_ui: {order: 11, width: 200}
+      type: bool
     title: Users
 renamed: true

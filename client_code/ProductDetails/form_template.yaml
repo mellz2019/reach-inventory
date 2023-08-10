@@ -3,14 +3,135 @@ container:
   properties: {col_widths: '{}'}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    spacing_below: small, background: ''}
   name: content_panel
   layout_properties: {grid_position: 'XVMTFB,SRVRAZ'}
   components:
+  - type: Button
+    properties: {role: filled-button, align: left, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Back, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:arrow-circle-left'}
+    name: button_1
+    layout_properties: {grid_position: 'BIXZRI,CSAIYS'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 20, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      icon: ''}
+    name: name_label
+    layout_properties: {grid_position: 'NEBVIT,MZJHHT'}
   - type: Image
     properties: {role: null, vertical_align: center, height: '200', tooltip: '', border: '',
-      foreground: '', visible: true, display_mode: fill_width, spacing_above: small,
+      foreground: '', visible: true, display_mode: zoom_to_fill, spacing_above: small,
       source: '', spacing_below: small, background: '', horizontal_align: center}
     name: product_image
     layout_properties: {grid_position: 'LZLUGV,HHFFTS'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: description_label
+    layout_properties: {grid_position: 'IHAPJL,IWTSNC'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: category_label
+    layout_properties: {grid_position: 'ELILDL,BGUYBQ'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: price_label
+    layout_properties: {grid_position: 'KIFRXF,IOHCEB'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: lowest_price_label
+    layout_properties: {grid_position: 'UJDHFQ,JQGKUL'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: total_quantity_label
+    layout_properties: {grid_position: 'ZYGLYB,NPHTDO'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: status_label
+    layout_properties: {grid_position: 'BZUNSZ,QQTMHR'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: available_label
+    layout_properties: {grid_position: 'SIROYE,YLXIYG'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 15, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: quantity_sold_label
+    layout_properties: {grid_position: 'UDGNZR,NRDHBX'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: added_on_label
+    layout_properties: {grid_position: 'GWMQJR,OAYJXR'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: approved_for_sale_on_label
+    layout_properties: {grid_position: 'MEEPIB,XHKWTV'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: is_in_order_label
+    layout_properties: {grid_position: 'CPKUDJ,NCGYBD'}
+  - type: Spacer
+    properties: {height: 10}
+    name: spacer_1
+    layout_properties: {grid_position: 'UYBMSP,JNYILW'}
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: column_panel_1
+    layout_properties: {grid_position: 'BNMQBI,YFAGNU'}
+    components:
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Remove from Production, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
+      name: remove_from_production_button
+      layout_properties: {grid_position: 'KMCAES,KWGGZS'}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Order, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: order_button
+      layout_properties: {grid_position: 'KMCAES,GPDBXS'}
 is_package: true
+custom_component: true
+properties:
+- {name: product, type: object, default_binding_prop: true}
+- {name: remove_from_production_callback, type: string, default_value: ''}
+- {name: order_information_callback, type: string, default_value: ''}
