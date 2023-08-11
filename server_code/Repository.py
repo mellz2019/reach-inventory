@@ -45,12 +45,12 @@ def add_item(table, item, return_record=True):
     try:
       inserted_record = table.insert(item, True)
     except Exception as e:
-        return f'Error inserting item:  + {e}'
+      return f'Error inserting item:  + {e}'
     else:
-        if return_record:
-            return inserted_record
-        else:
-          return 'Item inserted successfully.'
+      if return_record:
+        return inserted_record
+      else:
+        return 'Item inserted successfully.'
 
 @anvil.server.callable
 def delete_item(table, id):
@@ -86,11 +86,12 @@ def get_items_from_view(table, view):
 @anvil.server.callable
 def update_item(table, id, fields):
   table = get_table(table)
-  if not product:
+  item = table.get(id)
+  if not item:
     return f'Error: Item not found for id: {id}'
   else:
     try:
-      table.update(record_id, fields, True)
+      table.update(id, fields, True)
     except Exception as e:
         return f'Error updating item: {e}'
     else:

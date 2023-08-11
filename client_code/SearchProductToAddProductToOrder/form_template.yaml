@@ -1,0 +1,56 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'ULSSPT,XKVVYO'}
+  components:
+  - type: FileLoader
+    properties:
+      role: filled-button
+      show_state: true
+      align: center
+      tooltip: ''
+      border: ''
+      file_types: null
+      enabled: true
+      files: []
+      foreground: ''
+      visible: true
+      text: Scan Barcode
+      font_size: null
+      font: ''
+      spacing_above: small
+      icon_align: left
+      spacing_below: small
+      italic: false
+      file: null
+      background: ''
+      bold: false
+      underline: false
+      multiple: false
+      icon: fa:barcode
+    name: file_loader_1
+    layout_properties: {grid_position: 'LPPLEU,XMVYGW'}
+    event_bindings: {change: file_loader_1_change}
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Or manually type barcode...,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: barcode_textbox
+    layout_properties: {grid_position: 'QSFDKL,TIIZLS'}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Search, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: search_button
+    layout_properties: {grid_position: 'FYCDOT,DYGSJP'}
+    event_bindings: {click: search_button_click}
+is_package: true
+custom_component: true
+properties:
+- {name: render_start_order, type: object, default_binding_prop: true}

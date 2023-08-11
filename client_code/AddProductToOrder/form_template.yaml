@@ -1,0 +1,46 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'EILVKE,OBQHES'}
+  components:
+  - type: Label
+    properties: {role: title, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: product_name_label
+    layout_properties: {grid_position: 'IZHGJN,EARSFR'}
+  - type: Image
+    properties: {}
+    name: product_image
+    layout_properties: {grid_position: 'OYTSVW,WNKMLS'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: price_label
+    layout_properties: {grid_position: 'TNUFMN,RTJFTB'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: status_label
+    layout_properties: {grid_position: 'FWCQNN,OWCAHW'}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Add Product to Order, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: add_product_button
+    layout_properties: {grid_position: 'JOTBQU,WCJPTJ'}
+    event_bindings: {click: add_product_button_click}
+is_package: true
+custom_component: true
+properties:
+- {name: render_start_order, type: object, default_binding_prop: true}

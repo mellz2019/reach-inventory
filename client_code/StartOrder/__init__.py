@@ -8,6 +8,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from ..ProductInOrder import ProductInOrder
+from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
 
 class StartOrder(StartOrderTemplate):
   def __init__(self, **properties):
@@ -22,3 +23,12 @@ class StartOrder(StartOrderTemplate):
       {'from': 'Sally', 'subject': 'Movie night on Friday?'},
       {'from': 'Ada', 'subject': 'My top 10 cat videos'},
     )
+
+  def render_start_order(self):
+    self.content_panel.clear()
+    self.content_panel.add_component(StartOrder())
+
+  def add_product_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.content_panel.clear()
+    self.content_panel.add_component(SearchProductToAddProductToOrder(self.render_start_order))

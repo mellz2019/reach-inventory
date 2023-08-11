@@ -9,7 +9,11 @@ from datetime import datetime
 
 main = {}
 product = {}
-order = {}
+
+order = []
+order_id = 0
+# The product IDs in the order. If the user cancels the order, then the products' statuses need to go back to 'In Production'
+product_ids = []
 
 
 def convert_airtable_date_to_date_time(airtable_date):
