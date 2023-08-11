@@ -49,50 +49,6 @@ components:
         background: '', bold: false, underline: false}
       name: barcode_text_box
       layout_properties: {}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Cover Image, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_1
-      layout_properties: {}
-      data_bindings: []
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Supplementary Images, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_2
-    layout_properties: {grid_position: 'OGDQHM,UZNTRY'}
-  - type: DropDown
-    properties:
-      role: null
-      align: full
-      tooltip: ''
-      placeholder: Select condition
-      border: ''
-      enabled: true
-      foreground: ''
-      items: [New, Used (Like New), Used (Good), Used (Fair)]
-      visible: true
-      font_size: null
-      font: ''
-      spacing_above: small
-      spacing_below: small
-      italic: false
-      background: ''
-      bold: false
-      underline: false
-      include_placeholder: true
-    name: condition_drop_down
-    layout_properties: {grid_position: 'METDKQ,SETEDZ'}
-  - type: TextArea
-    properties: {role: null, align: left, height: '', tooltip: '', placeholder: Description,
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: description_text_box
-    layout_properties: {grid_position: 'AMIRUH,XKKSNY'}
   - type: Button
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Add Item, font_size: null, font: '', spacing_above: small,

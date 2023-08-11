@@ -7,6 +7,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from ..StartOrder import StartOrder
 
 class OrderSelector(OrderSelectorTemplate):
   def __init__(self, cancel_button_callback, **properties):
@@ -23,7 +24,8 @@ class OrderSelector(OrderSelectorTemplate):
     """This method is called when the button is clicked"""
     user = anvil.users.get_user()
     if user['admin'] or user['can_start_order']:
-        # TO DO
+        self.content_panel.clear()
+        self.content_panel.add_component(StartOrder())
         pass
     else:
         alert('You do not have access to this feature. Please contact an administrator.')

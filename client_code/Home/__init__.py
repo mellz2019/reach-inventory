@@ -33,5 +33,12 @@ class Home(HomeTemplate):
 
   def orders_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.content_panel.clear()
-    self.content_panel.add_component(OrderSelector(self.cancel))
+    user = anvil.users.get_user()
+    if user:
+      if user['admin'] or user['can_start_order']:
+        self.content_panel.clear()
+        self.content_panel.add_component(OrderSelector(self.cancel))
+      else:
+        alert('You do not have access to this feature. Please contact an administrator.')
+    else:
+      alert('You must be signed in to use this feature.')
