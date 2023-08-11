@@ -27,7 +27,7 @@ class ProductInOrder(ProductInOrderTemplate):
 
     if c:
       # Remove the button
-      self.remove_product_button.remove_from_parent()
+      # self.remove_product_button.remove_from_parent()
 
       # Update the product's status back to "In Production"
       update_product = {
@@ -39,7 +39,11 @@ class ProductInOrder(ProductInOrderTemplate):
       # Reset necessary Globals
       Globals.product_ids.remove(self.item['id'])
       Globals.order_total -= self.item['fields']['Price']
-    
+
+      # Refresh the UI
+      self.remove_from_parent()
+      self.parent.clear()
+      
     else:
       return
 
