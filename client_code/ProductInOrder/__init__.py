@@ -7,14 +7,19 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from .. import Globals
 
 class ProductInOrder(ProductInOrderTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
-    self.product_price_label.text = self.item['from']
+    if not Globals.order:
+      self.product_title_label.text = "Please add a product."
+    else:
+      self.product_title_label.text = self.item['fields']['Main Name'][0]
+      self.product_image.source = self.item['fields']['Main Image'][0]['thumbnails']['large']['url']
+      self.product_price_label.text = f"${self.item['fields']['Price']}"
 
   def remove_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -25,8 +30,16 @@ class ProductInOrder(ProductInOrderTemplate):
       self.remove_product_button.remove_from_parent()
 
       # Update the product's status back to "In Production"
-      # Remove the product from the order
-      # Remove the product from the last
+      update_product = {
+        "Status": "In Production",
+        "Order": None
+      }
+      anvil.server.call('update_item', 'products', self.item['id'], update_product)
+    
+      # Reset necessary Globals
+      Globals.product_ids.remove(self.item['id'])
+      Globals.order_total -= self.item['fields']['Price']
+    
     else:
       return
 

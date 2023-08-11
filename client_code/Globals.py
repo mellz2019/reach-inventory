@@ -10,10 +10,20 @@ from datetime import datetime
 main = {}
 product = {}
 
-order = []
+# Order information
+order = ()
 order_id = 0
 # The product IDs in the order. If the user cancels the order, then the products' statuses need to go back to 'In Production'
 product_ids = []
+order_total = 0
+
+def reset_order_details():
+  main = {}
+  product = {}
+  order = ()
+  order_id = 0
+  product_ids = []
+  order_total = 0
 
 
 def convert_airtable_date_to_date_time(airtable_date):

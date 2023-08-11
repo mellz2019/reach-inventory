@@ -43,17 +43,26 @@ class AddProductToOrder(AddProductToOrderTemplate):
           "Products": Globals.product['id'],
           "Created By": airtable_user['id']
         }
-        anvil.server.call('add_item', 'orders', order_to_add)
+        new_order = anvil.server.call('add_item', 'orders', order_to_add)
         update_product_status = {
           "Status": "In Pending Order"
         }
         anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
-        Globals.order.append(Globals.product)
+        Globals.order = Globals.order + (Globals.product,)
+        Globals.order_total = Globals.product['fields']['Price']
         Globals.product_ids.append(Globals.product['id'])
+        Globals.order_id = new_order['id']
         alert('Product added to order successfully!')
         self.render_start_order()
       else:
-        Globals.order.append(Globals.product)
+        update_product_status = {
+          "Status": "In Pending Order",
+          "Order": Globals.order_id
+        }
+        anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
+        Globals.order = Globals.order + (Globals.product,)
+        Globals.order_total += Globals.product['fields']['Price']
         Globals.product_ids.append(Globals.product['id'])
+        alert('Product added to order successfully!')
         self.render_start_order()
 
