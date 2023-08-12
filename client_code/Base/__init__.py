@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 from ..Home import Home
+from ..StartOrder import StartOrder
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
@@ -20,6 +21,9 @@ class Base(BaseTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(Home())
     self.change_sign_in_text()
+
+  def render_start_order(self):
+    StartOrder.render_start_order(self)
 
   def change_sign_in_text(self):
     user = anvil.users.get_user()

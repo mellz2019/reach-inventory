@@ -41,6 +41,7 @@ class ProductInOrder(ProductInOrderTemplate):
       Globals.order_total -= self.item['fields']['Price']
 
       # Refresh the UI
+      get_open_form().render_start_order()
       self.remove_from_parent()
     else:
       return
