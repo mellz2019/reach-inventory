@@ -42,8 +42,6 @@ class ProductInOrder(ProductInOrderTemplate):
 
       # Refresh the UI
       self.remove_from_parent()
-      self.parent.clear()
-      
     else:
       return
 
