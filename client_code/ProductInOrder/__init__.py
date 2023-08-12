@@ -40,6 +40,9 @@ class ProductInOrder(ProductInOrderTemplate):
       Globals.product_ids.remove(self.item['id'])
       Globals.order_total -= self.item['fields']['Price']
 
+      # Remove the product from Globals.order and the product id from the list of product ids
+      Globals.order = Globals.remove_element_by_id(Globals.order, self.item['id'])
+
       # Refresh the UI
       get_open_form().render_start_order()
       self.remove_from_parent()

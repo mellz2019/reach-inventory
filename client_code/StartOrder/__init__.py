@@ -19,6 +19,8 @@ class StartOrder(StartOrderTemplate):
     # Any code you write here will run before the form opens.
     self.products_panel.item_template = ProductInOrder
 
+    Globals.order = Globals.get_globals_order()
+
     if not Globals.order:
       self.order_total_label.text = 'Order total: $0'
       self.clear_order_button.enabled = False

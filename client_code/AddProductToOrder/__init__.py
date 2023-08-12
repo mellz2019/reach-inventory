@@ -52,7 +52,6 @@ class AddProductToOrder(AddProductToOrderTemplate):
         Globals.order_total = Globals.product['fields']['Price']
         Globals.product_ids.append(Globals.product['id'])
         Globals.order_id = new_order['id']
-        alert('Product added to order successfully!')
         self.render_start_order()
       else:
         update_product_status = {
@@ -63,6 +62,5 @@ class AddProductToOrder(AddProductToOrderTemplate):
         Globals.order = Globals.order + (Globals.product,)
         Globals.order_total += Globals.product['fields']['Price']
         Globals.product_ids.append(Globals.product['id'])
-        alert('Product added to order successfully!')
         self.render_start_order()
 
