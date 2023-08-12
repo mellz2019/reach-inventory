@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 from .. import Globals
+from ..StartOrder import StartOrder
 
 class ProductDetails(ProductDetailsTemplate):
   def __init__(self, back_button_callback, **properties):
@@ -54,12 +55,34 @@ class ProductDetails(ProductDetailsTemplate):
     product = Globals.product
     main = Globals.main
     user = anvil.users.get_user()
-    if product_is_in_order:
-      if user['admin'] or user['can_start_order']:
-        # TO DO
-        pass
+    airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
+    if not airtable_user:
+      alert('Airtable user not found. Please contanct an admin.')
+    else:
+      if product['fields']['Status'] == "In Production":
+        if user['admin'] or user['can_start_order']:
+          # This is the first product in the order
+          # Create Order in airtable
+          order_to_add = {
+            "Products": Globals.product['id'],
+            "Created By": airtable_user['id']
+          }
+          new_order = anvil.server.call('add_item', 'orders', order_to_add)
+          update_product_status = {
+            "Status": "In Pending Order"
+          }
+          anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
+          Globals.order = Globals.order + (Globals.product,)
+          Globals.order_total = Globals.product['fields']['Price']
+          Globals.product_ids.append(Globals.product['id'])
+          Globals.order_id = new_order['id']
+          self.content_panel.clear()
+          self.content_panel.add_component(StartOrder(self.back_button_callback))
+          pass
+        else:
+          alert('You do not have access to this feature. Please contact an administrator.')
       else:
-        alert('You do not have access to this feature. Please contact an administrator.')
+        alert('Product status must be In Production to add to an order.')
 
   def remove_from_production_button_click(self, **event_args):
     """This method is called when the button is clicked"""

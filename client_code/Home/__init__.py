@@ -25,7 +25,7 @@ class Home(HomeTemplate):
     if user:
       if user['admin'] or user['can_view_product_info']:
         self.content_panel.clear()
-        self.content_panel.add_component(ProductInformation())
+        self.content_panel.add_component(ProductInformation(self.cancel))
       else:
         alert('You do not have access to this feature. Please contact an administrator.')
     else:

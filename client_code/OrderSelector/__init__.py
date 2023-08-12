@@ -16,6 +16,10 @@ class OrderSelector(OrderSelectorTemplate):
 
     self.cancel_button_callback = cancel_button_callback
 
+  def back(self):
+    self.content_panel.clear()
+    self.content_panel.add_component(OrderSelector(self.cancel_button_callback))
+
   def cancel_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.cancel_button_callback()
@@ -25,7 +29,7 @@ class OrderSelector(OrderSelectorTemplate):
     user = anvil.users.get_user()
     if user['admin'] or user['can_start_order']:
         self.content_panel.clear()
-        self.content_panel.add_component(StartOrder())
+        self.content_panel.add_component(StartOrder(self.back))
         pass
     else:
         alert('You do not have access to this feature. Please contact an administrator.')

@@ -12,12 +12,14 @@ from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
 from .. import Globals
 
 class StartOrder(StartOrderTemplate):
-  def __init__(self, **properties):
+  def __init__(self, back, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
     self.products_panel.item_template = ProductInOrder
+
+    self.back = back
 
     Globals.order = Globals.get_globals_order()
 
@@ -43,7 +45,7 @@ class StartOrder(StartOrderTemplate):
 
   def render_start_order(self):
     self.content_panel.clear()
-    self.content_panel.add_component(StartOrder())
+    self.content_panel.add_component(StartOrder(self.back))
 
   def add_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -78,5 +80,10 @@ class StartOrder(StartOrderTemplate):
       self.reset_order_details()
       Globals.reset_order_details()
       self.content_panel.clear()
-      self.content_panel.add_component(StartOrder())
+      self.content_panel.add_component(StartOrder(self.back))
+
+  def back_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.back()
+
 

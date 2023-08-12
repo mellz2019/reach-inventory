@@ -12,15 +12,17 @@ from .. import Globals
 from ..ProductDetails import ProductDetails
 
 class ProductInformation(ProductInformationTemplate):
-  def __init__(self, **properties):
+  def __init__(self, cancel, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+
+    self.cancel = cancel
 
     # Any code you write here will run before the form opens.
 
   def back(self):
     self.content_panel.clear()
-    self.content_panel.add_component(ProductInformation())
+    self.content_panel.add_component(ProductInformation(self.cancel))
 
   def file_loader_1_change(self, file, **event_args):
       """This method is called when a new file is loaded into this FileLoader"""
@@ -56,3 +58,8 @@ class ProductInformation(ProductInformationTemplate):
       Globals.product = product
       self.content_panel.clear()
       self.content_panel.add_component(ProductDetails(self.back))
+
+  def button_1_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.cancel()
+
