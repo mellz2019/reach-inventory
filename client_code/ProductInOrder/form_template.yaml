@@ -37,9 +37,9 @@ components:
       properties: {role: elevated-button, align: center, tooltip: '', border: '',
         enabled: true, foreground: '', visible: true, text: Remove, font_size: null,
         font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+        background: '', bold: false, underline: false, icon: 'fa:trash'}
       name: remove_product_button
-      layout_properties: {x: 314, y: 32, width: 100}
+      layout_properties: {x: 314, y: 32, width: 146}
       event_bindings: {click: remove_product_button_click}
 container:
   type: ColumnPanel

@@ -26,9 +26,6 @@ class ProductInOrder(ProductInOrderTemplate):
     c = confirm("Are you sure you want to remove this product from the order?")
 
     if c:
-      # Remove the button
-      # self.remove_product_button.remove_from_parent()
-
       # Update the product's status back to "In Production"
       update_product = {
         "Status": "In Production",
@@ -37,7 +34,6 @@ class ProductInOrder(ProductInOrderTemplate):
       anvil.server.call('update_item', 'products', self.item['id'], update_product)
     
       # Reset necessary Globals
-      Globals.product_ids.remove(self.item['id'])
       Globals.order_total -= self.item['fields']['Price']
 
       # Remove the product from Globals.order and the product id from the list of product ids

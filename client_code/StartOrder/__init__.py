@@ -40,7 +40,6 @@ class StartOrder(StartOrderTemplate):
     Globals.product = {}
     Globals.order = ()
     Globals.order_id = 0
-    Globals.product_ids = []
     Globals.order_total = 0
 
   def render_start_order(self):
@@ -59,20 +58,22 @@ class StartOrder(StartOrderTemplate):
       # Set the order's status to cancelled, clear the current product ids, and set former products to product ids
       user = anvil.users.get_user()
       airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
+      print(f"Globals.order: {Globals.order}")
+      print(f"Potential list of ids: {Globals.get_item_from_order_list_dictionary('id')}")
       update_order = {
         "Status": "Cancelled",
         "Products": None,
         "Cancelled By": airtable_user['id'],
-        "Former Products": Globals.product_ids
+        "Former Products": Globals.get_item_from_order_list_dictionary('id')
       }
       anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
       
       # Set the products' status back to In Production
-      for i in range(len(Globals.product_ids)):
+      for i in range(len(Globals.order)):
         update_product = {
           "Status": "In Production"
         }
-        anvil.server.call('update_item', 'products', Globals.product_ids[i], update_product)
+        anvil.server.call('update_item', 'products', Globals.order[i]['id'], update_product)
 
       alert("The order was cancelled successfully.")
         

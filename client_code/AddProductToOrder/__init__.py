@@ -17,6 +17,8 @@ class AddProductToOrder(AddProductToOrderTemplate):
 
     self.render_start_order = render_start_order
 
+    self.add_product_button.enabled = True
+
     # Any code you write here will run before the form opens.
     self.product_name_label.text = Globals.main['fields']['Name']
     self.product_image.source = Globals.main['fields']['Image'][0]['thumbnails']['large']['url']
@@ -24,6 +26,9 @@ class AddProductToOrder(AddProductToOrderTemplate):
     self.status_label.text = f"Status: {Globals.product['fields']['Status']}"
 
   def add_product_button_click(self, **event_args):
+    # We don't want to add the same product twice.
+    self.add_product_button.enabled = False
+    self.add_product_button.text = 'Adding product'
     """This method is called when the button is clicked"""
     # If Globals.order is empty, then create a new Order record in AirTable and set the id in globals
     # just in case the user cancels the order
@@ -50,7 +55,6 @@ class AddProductToOrder(AddProductToOrderTemplate):
         anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
         Globals.order = Globals.order + (Globals.product,)
         Globals.order_total = Globals.product['fields']['Price']
-        Globals.product_ids.append(Globals.product['id'])
         Globals.order_id = new_order['id']
         self.render_start_order()
       else:
@@ -61,6 +65,5 @@ class AddProductToOrder(AddProductToOrderTemplate):
         anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
         Globals.order = Globals.order + (Globals.product,)
         Globals.order_total += Globals.product['fields']['Price']
-        Globals.product_ids.append(Globals.product['id'])
         self.render_start_order()
 

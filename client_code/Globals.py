@@ -8,13 +8,12 @@ import anvil.server
 from datetime import datetime
 
 main = {}
+# For when you need to get information on a single product
 product = {}
 
 # Order information
 order = ()
 order_id = 0
-# The product IDs in the order. If the user cancels the order, then the products' statuses need to go back to 'In Production'
-product_ids = []
 order_total = 0
 
 def reset_order_details():
@@ -22,7 +21,6 @@ def reset_order_details():
   product = {}
   order = ()
   order_id = 0
-  product_ids = []
   order_total = 0
 
 def get_globals_order():
@@ -53,3 +51,9 @@ def remove_element_by_id(tup, target_id):
     lst = [item for item in lst if item['id'] != target_id]
     # Convert list back to tuple
     return tuple(lst)
+
+def get_item_from_order_list_dictionary(item):
+  return [d[item] for d in order]
+
+def get_record_ids_from_order():
+  record_ids = [item['fields']['Record ID'] for item in Globals.order]

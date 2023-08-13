@@ -9,6 +9,7 @@ import anvil.users
 import anvil.server
 from ..Home import Home
 from ..StartOrder import StartOrder
+from ..OrderSelector import OrderSelector
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
@@ -24,6 +25,12 @@ class Base(BaseTemplate):
 
   def render_start_order(self):
     StartOrder.render_start_order(self)
+
+  def back(self):
+    OrderSelector.back(self)
+
+  def cancel(self):
+    Home.cancel(self)
 
   def change_sign_in_text(self):
     user = anvil.users.get_user()
