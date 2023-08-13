@@ -26,6 +26,9 @@ class Base(BaseTemplate):
   def render_start_order(self):
     StartOrder.render_start_order(self)
 
+  def clear_start_order_content_panel(self):
+    StartOrder.clear_start_order_content_panel(self)
+
   def back(self):
     OrderSelector.back(self)
 

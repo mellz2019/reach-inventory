@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from ..ProductInOrder import ProductInOrder
 from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
 from .. import Globals
+from ..EditPrice import EditPrice
 
 class StartOrder(StartOrderTemplate):
   def __init__(self, back, **properties):
@@ -24,12 +25,12 @@ class StartOrder(StartOrderTemplate):
     Globals.order = Globals.get_globals_order()
 
     if not Globals.order:
-      self.order_total_label.text = 'Order total: $0'
+      self.order_total_label.text = 'Order total: $0.00'
       self.clear_order_button.enabled = False
       self.add_product_button.text = "Add a Product"
     else:
       self.clear_order_button.enabled = True
-      self.order_total_label.text = f"Order total: ${Globals.order_total}"
+      self.order_total_label.text = f"Order total: ${Globals.round_to_decimal_places(Globals.order_total, 2)}"
       self.add_product_button.text = "Add another Product"
       self.products_panel.items = (
         Globals.order
@@ -41,6 +42,10 @@ class StartOrder(StartOrderTemplate):
     Globals.order = ()
     Globals.order_id = 0
     Globals.order_total = 0
+
+  def clear_start_order_content_panel(self):
+    self.content_panel.clear()
+    self.content_panel.add_component(EditPrice())
 
   def render_start_order(self):
     self.content_panel.clear()
@@ -58,8 +63,6 @@ class StartOrder(StartOrderTemplate):
       # Set the order's status to cancelled, clear the current product ids, and set former products to product ids
       user = anvil.users.get_user()
       airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
-      print(f"Globals.order: {Globals.order}")
-      print(f"Potential list of ids: {Globals.get_item_from_order_list_dictionary('id')}")
       update_order = {
         "Status": "Cancelled",
         "Products": None,
@@ -71,7 +74,8 @@ class StartOrder(StartOrderTemplate):
       # Set the products' status back to In Production
       for i in range(len(Globals.order)):
         update_product = {
-          "Status": "In Production"
+          "Status": "In Production",
+          "Edited Price": None
         }
         anvil.server.call('update_item', 'products', Globals.order[i]['id'], update_product)
 

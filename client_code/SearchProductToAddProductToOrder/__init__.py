@@ -39,6 +39,10 @@ class SearchProductToAddProductToOrder(SearchProductToAddProductToOrderTemplate)
     if not self.barcode_textbox.text:
       alert("Please scan or enter a barcode.")
       return
+
+    self.search_button.text = 'Searching...'
+    self.search_button.enabled = False
+    self.file_loader_1.enabled = False
     
     product = anvil.server.call('match_record', 'products', 'Barcode', self.barcode_textbox.text)
 

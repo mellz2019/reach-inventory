@@ -27,15 +27,15 @@ class ProductDetails(ProductDetailsTemplate):
       self.order_button.text = 'Add to New Order'
 
     msrp_price = product['fields']['Price']
-    self.name_label.text = f"{main['fields']['Name']} - ${msrp_price}"
+    self.name_label.text = f"{main['fields']['Name']} - ${Globals.round_to_decimal_places(msrp_price, 2)}"
     self.product_image.source = main['fields']['Image'][0]['thumbnails']['large']['url']
     self.barcode_label.text = product['fields']['Barcode']['text']
     self.description_label.text = main['fields']['Description']
     self.condition_label.text = f"Condition: {product['fields']['Condition']}"
     self.category_label.text = f"Categories: {Globals.convert_list_to_string(main['fields']['Category'])}"
     lowest_price = product['fields']['Lowest Price']
-    self.price_label.text = f'MSRP: ${msrp_price}'
-    self.lowest_price_label.text = f'Lowest Price: ${lowest_price}'
+    self.price_label.text = f'MSRP: ${Globals.round_to_decimal_places(msrp_price, 2)}'
+    self.lowest_price_label.text = f'Lowest Price: ${Globals.round_to_decimal_places(lowest_price, 2)}'
     self.status_label.text = f'Status: {product["fields"]["Status"]}'
     self.total_quantity_label.text = f"Total Units: {main['fields']['Quantity']}"
     self.available_label.text = f"Available for Sale: {main['fields']['Available']}"
