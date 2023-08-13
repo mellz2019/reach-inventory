@@ -59,30 +59,41 @@ class ProductDetails(ProductDetailsTemplate):
     if not airtable_user:
       alert('Airtable user not found. Please contanct an admin.')
     else:
-      if product['fields']['Status'] == "In Production":
+      if product['fields']['Is In Order'] == 1:
+        # Fetch the order from the database
+          airtable_order = anvil.server.call('get_single_item', 'orders', Globals.product['id'])
+          if not airtable_order:
+            alert('Airtable order not found')
+          else:
+            # Set the order id
+            Globals.order_id = airtable_order['id']
+            # Create Globals order object and append all the products
+            Globals.order = Globals.order + (Globals.product,)
+            # Calculate order total
+            Globals.order_total = Globals.calculate_order_total()
+            # Render the UI
+            self.content_panel.clear()
+            self.content_panel.add_component(StartOrder(self.back_button_callback))
+      else:
         if user['admin'] or user['can_start_order']:
-          # This is the first product in the order
-          # Create Order in airtable
-          order_to_add = {
-            "Products": Globals.product['id'],
-            "Created By": airtable_user['id']
-          }
-          new_order = anvil.server.call('add_item', 'orders', order_to_add)
-          update_product_status = {
-            "Status": "In Pending Order"
-          }
-          anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
-          Globals.order = Globals.order + (Globals.product,)
-          Globals.order_total = Globals.product['fields']['Price']
-          Globals.product_ids.append(Globals.product['id'])
-          Globals.order_id = new_order['id']
-          self.content_panel.clear()
-          self.content_panel.add_component(StartOrder(self.back_button_callback))
-          pass
+           # This is the first product in the order
+            # Create Order in airtable
+            order_to_add = {
+              "Products": Globals.product['id'],
+              "Created By": airtable_user['id']
+            }
+            new_order = anvil.server.call('add_item', 'orders', order_to_add)
+            update_product_status = {
+              "Status": "In Pending Order"
+            }
+            anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
+            Globals.order = Globals.order + (Globals.product,)
+            Globals.order_total = Globals.calculate_order_total()
+            Globals.order_id = new_order['id']
+            self.content_panel.clear()
+            self.content_panel.add_component(StartOrder(self.back_button_callback))
         else:
           alert('You do not have access to this feature. Please contact an administrator.')
-      else:
-        alert('Product status must be In Production to add to an order.')
 
   def remove_from_production_button_click(self, **event_args):
     """This method is called when the button is clicked"""
