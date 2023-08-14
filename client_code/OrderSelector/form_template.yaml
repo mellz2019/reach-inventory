@@ -28,8 +28,9 @@ components:
       foreground: '', visible: true, text: Completed Orders, font_size: null, font: '',
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: false, underline: false, icon: ''}
-    name: button_1
+    name: completed_orders_button
     layout_properties: {grid_position: 'EYMZPS,XPRODZ'}
+    event_bindings: {click: completed_orders_button_click}
   - type: Button
     properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Cancel, font_size: null, font: '', spacing_above: small,

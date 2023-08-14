@@ -8,6 +8,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from ..StartOrder import StartOrder
+from ..PendingOrders import PendingOrders
 
 class OrderSelector(OrderSelectorTemplate):
   def __init__(self, cancel, **properties):
@@ -36,7 +37,18 @@ class OrderSelector(OrderSelectorTemplate):
 
   def pending_orders_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    self.pending_orders_button.text = 'Loading...'
+    self.pending_orders_button.enabled = False
+    self.start_order_button.enabled = False
+    self.completed_orders_button.enabled = False
+    self.content_panel.clear()
+    self.content_panel.add_component(PendingOrders())
     pass
+
+  def completed_orders_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
 
 
 

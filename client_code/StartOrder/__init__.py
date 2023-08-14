@@ -39,6 +39,11 @@ class StartOrder(StartOrderTemplate):
       self.products_panel.items = (
         Globals.order
       )
+      order_status = anvil.server.call('get_single_item', 'orders', Globals.order_id)
+      if order_status == 'Completed' or order_status == "Canceleed":
+        self.add_product_button.enabled = False
+        self.finalize_order_button.enabled = False
+        self.clear_order_button.enabled = False
 
   def reset_order_details(self):
     Globals.main = {}

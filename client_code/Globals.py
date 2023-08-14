@@ -13,13 +13,11 @@ main = {}
 product = {}
 
 # Order information
-orders = ()
 order = ()
 order_id = 0
 order_total = 0
 
 def reset_order_details():
-  orders = ()
   main = {}
   product = {}
   order = ()
@@ -28,9 +26,6 @@ def reset_order_details():
 
 def get_globals_order():
   return order
-
-def get_globals_orders():
-  return orders
 
 def convert_airtable_date_to_date_time(airtable_date):
     year = airtable_date.split("-")[0]
