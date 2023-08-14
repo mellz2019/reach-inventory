@@ -59,16 +59,23 @@ class ProductDetails(ProductDetailsTemplate):
     if not airtable_user:
       alert('Airtable user not found. Please contanct an admin.')
     else:
+      self.remove_from_production_button.enabled = False
+      self.back_button.enabled = False
       if product['fields']['Is In Order'] == 1:
-        # Fetch the order from the database
-          airtable_order = anvil.server.call('get_single_item', 'orders', Globals.product['id'])
+          self.order_button.text = 'Locating order...'
+          # Fetch the order from the database
+          airtable_order = anvil.server.call('get_single_item', 'orders', Globals.product['fields']['Order ID'][0])
           if not airtable_order:
             alert('Airtable order not found')
           else:
             # Set the order id
             Globals.order_id = airtable_order['id']
             # Create Globals order object and append all the products
-            Globals.order = Globals.order + (Globals.product,)
+            Globals.order = ()
+            product_ids_from_airtable = airtable_order['fields']['Products']
+            for p in range(len(product_ids_from_airtable)):
+              product_from_airtable = anvil.server.call('match_record', 'products', 'Record ID', product_ids_from_airtable[p])
+              Globals.order = Globals.order + (product_from_airtable,)
             # Calculate order total
             Globals.order_total = Globals.calculate_order_total()
             # Render the UI
@@ -76,7 +83,8 @@ class ProductDetails(ProductDetailsTemplate):
             self.content_panel.add_component(StartOrder(self.back_button_callback))
       else:
         if user['admin'] or user['can_start_order']:
-           # This is the first product in the order
+            self.order_button.text = 'Adding to new order...'
+            # This is the first product in the order
             # Create Order in airtable
             order_to_add = {
               "Products": Globals.product['id'],
