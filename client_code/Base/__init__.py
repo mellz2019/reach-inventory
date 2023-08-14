@@ -10,6 +10,7 @@ import anvil.server
 from ..Home import Home
 from ..StartOrder import StartOrder
 from ..OrderSelector import OrderSelector
+from ..FinalizeOrder import FinalizeOrder
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
@@ -23,8 +24,14 @@ class Base(BaseTemplate):
     self.content_panel.add_component(Home())
     self.change_sign_in_text()
 
+  def render_finalize_order(self):
+    FinalizeOrder.render_finalize_order(self)
+
   def render_start_order(self):
     StartOrder.render_start_order(self)
+
+  def update_start_order_order_id_label(self):
+    StartOrder.update_order_id_label(self)
 
   def clear_start_order_content_panel(self):
     StartOrder.clear_start_order_content_panel(self)

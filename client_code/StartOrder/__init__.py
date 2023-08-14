@@ -11,6 +11,7 @@ from ..ProductInOrder import ProductInOrder
 from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
 from .. import Globals
 from ..EditPrice import EditPrice
+from ..FinalizeOrder import FinalizeOrder
 
 class StartOrder(StartOrderTemplate):
   def __init__(self, back, **properties):
@@ -28,10 +29,13 @@ class StartOrder(StartOrderTemplate):
       self.order_total_label.text = 'Order total: $0.00'
       self.clear_order_button.enabled = False
       self.add_product_button.text = "Add a Product"
+      self.finalize_order_button.enabled = False
     else:
+      self.new_order_label.text = f"Order - {Globals.order_id}"
       self.clear_order_button.enabled = True
       self.order_total_label.text = f"Order total: ${Globals.round_to_decimal_places(Globals.order_total, 2)}"
       self.add_product_button.text = "Add another Product"
+      self.finalize_order_button.enabled = True
       self.products_panel.items = (
         Globals.order
       )
@@ -48,8 +52,12 @@ class StartOrder(StartOrderTemplate):
     self.content_panel.add_component(EditPrice())
 
   def render_start_order(self):
+    Globals.order = Globals.get_globals_order()
     self.content_panel.clear()
     self.content_panel.add_component(StartOrder(self.back))
+
+  def update_order_id_label(self):
+    self.new_order_label = f"Order - {Globals.order_id}"
 
   def add_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -90,5 +98,24 @@ class StartOrder(StartOrderTemplate):
   def back_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.back()
+
+  def finalize_order_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    # Update the order's status to 'Finalization'
+    self.finalize_order_button.text = "Finalizing..."
+    self.add_product_button.enabled = False
+    self.finalize_order_button.enabled = False
+    self.back_button.enabled = False
+    self.clear_order_button.enabled = False
+    user = anvil.users.get_user()
+    airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
+    update_order = {
+      "Status": "Finalization",
+      "Finalization By": airtable_user['id']
+    }
+    anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
+    self.content_panel.clear()
+    self.content_panel.add_component(FinalizeOrder())
+
 
 

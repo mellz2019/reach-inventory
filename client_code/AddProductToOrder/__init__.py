@@ -56,6 +56,8 @@ class AddProductToOrder(AddProductToOrderTemplate):
         Globals.order = Globals.order + (Globals.product,)
         Globals.order_total = Globals.product['fields']['Price']
         Globals.order_id = new_order['id']
+        self.content_panel.clear()
+        get_open_form().update_start_order_order_id_label()
         self.render_start_order()
       else:
         update_product_status = {

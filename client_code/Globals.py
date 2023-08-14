@@ -13,11 +13,13 @@ main = {}
 product = {}
 
 # Order information
+orders = ()
 order = ()
 order_id = 0
 order_total = 0
 
 def reset_order_details():
+  orders = ()
   main = {}
   product = {}
   order = ()
@@ -27,6 +29,8 @@ def reset_order_details():
 def get_globals_order():
   return order
 
+def get_globals_orders():
+  return orders
 
 def convert_airtable_date_to_date_time(airtable_date):
     year = airtable_date.split("-")[0]
@@ -71,7 +75,7 @@ def edit_product_in_order_by_id(id, value_to_update, update_value):
     items_list = list(order)
     for item in items_list:
         if item['id'] == id:
-            item['fields']['Price'] = update_value
+            item['fields'][value_to_update] = update_value
     return tuple(items_list)
 
 def add_trailing_zero_if_needed(value):
@@ -100,4 +104,11 @@ def calculate_order_total():
           total += float(fields.get('Edited Price', 0))
       else:
           total += float(fields.get('Price', 0))
+        
   return round_to_decimal_places(total, 2)
+
+def ensure_order_can_be_completed():
+  for item in order:
+      if item['fields']['Status'] not in ['Picked Up', 'Delivered']:
+          return False
+  return True

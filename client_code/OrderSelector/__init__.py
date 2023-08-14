@@ -10,19 +10,19 @@ from anvil.tables import app_tables
 from ..StartOrder import StartOrder
 
 class OrderSelector(OrderSelectorTemplate):
-  def __init__(self, cancel_button_callback, **properties):
+  def __init__(self, cancel, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    self.cancel_button_callback = cancel_button_callback
+    self.cancel = cancel
 
   def back(self):
     self.content_panel.clear()
-    self.content_panel.add_component(OrderSelector(self.cancel_button_callback))
+    self.content_panel.add_component(OrderSelector(self.cancel))
 
   def cancel_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.cancel_button_callback()
+    self.cancel()
 
   def start_order_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -33,5 +33,10 @@ class OrderSelector(OrderSelectorTemplate):
         pass
     else:
         alert('You do not have access to this feature. Please contact an administrator.')
+
+  def pending_orders_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
 
 

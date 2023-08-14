@@ -15,7 +15,7 @@ components:
     name: new_order_label
     layout_properties: {grid_position: 'DNZLAE,SFRZKP'}
   - type: Label
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+    properties: {role: title, align: center, tooltip: '', border: '', foreground: '',
       visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
@@ -37,6 +37,14 @@ components:
     name: add_product_button
     layout_properties: {grid_position: 'ZLZASE,SERGEH'}
     event_bindings: {click: add_product_button_click}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Finalize Order, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: finalize_order_button
+    layout_properties: {grid_position: 'OAWWTE,YTXZPI'}
+    event_bindings: {click: finalize_order_button_click}
   - type: Button
     properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Cancel Order, font_size: null, font: '',

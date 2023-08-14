@@ -55,12 +55,13 @@ class ProductInOrder(ProductInOrderTemplate):
   def edit_price_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     # Make sure that the price can be edited
-    if float(self.item['fields']['Price']) > float(self.item['fields']['Lowest Price']):
+    if float(self.item['fields']['Price']) < float(self.item['fields']['Lowest Price']) and self.item['fields']['Has Edited Price'] == 0:
+      alert(f"${self.item['fields']['Price']} is the lowest price accepted for this item. The price cannot be edited.")
+    else:
       Globals.product = Globals.get_single_product_from_order(self.item['id'])
       self.content_panel.clear()
       get_open_form().clear_start_order_content_panel()
       # self.content_panel.add_component(EditPrice())
-    else:
-      alert(f"${self.item['fields']['Price']} is the lowest price accepted for this item. The price cannot be edited.")
+      
 
 
