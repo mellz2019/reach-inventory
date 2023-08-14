@@ -10,23 +10,44 @@ components:
   layout_properties: {grid_position: 'MIHSJG,OGBJUX'}
   components:
   - type: Spacer
-    properties: {height: 140}
+    properties: {height: 69}
     name: spacer_1
-    layout_properties: {grid_position: 'SGMTWV,GABDOZ'}
-  - type: Button
-    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Get Product Information, font_size: null,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: 'fa:search'}
-    name: product_info_button
-    layout_properties: {grid_position: 'AAGBCT,UHKZRG'}
-    event_bindings: {click: product_info_button_click}
-  - type: Button
-    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Orders, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: 'fa:inbox'}
-    name: orders_button
-    layout_properties: {grid_position: 'EQDPHA,SCEMTB'}
-    event_bindings: {click: orders_button_click}
+    layout_properties: {grid_position: 'RDITJZ,UQSFLJ'}
+  - type: ColumnPanel
+    properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: card_content_panel
+    layout_properties: {grid_position: 'GPSFIJ,JKKKAZ'}
+    components:
+    - type: Label
+      properties: {role: title, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: Please select an option below, font_size: 19, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
+      name: select_label
+      layout_properties: {grid_position: 'JPDVTH,PTSTFH'}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Get Product Information, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: 'fa:search'}
+      name: product_info_button
+      layout_properties: {grid_position: 'LLUPKR,UQTYRJ'}
+      event_bindings: {click: product_info_button_click}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Orders, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: 'fa:inbox'}
+      name: orders_button
+      layout_properties: {grid_position: 'HHTJDZ,IZKNXH'}
+      event_bindings: {click: orders_button_click}
+    - type: Button
+      properties: {role: elevated-button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: '', visible: true, text: Settings, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: 'fa:cogs'}
+      name: settings_button
+      layout_properties: {grid_position: 'KEIUOM,PFNSSI'}
 is_package: true

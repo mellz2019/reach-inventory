@@ -34,6 +34,8 @@ class AddProductToOrder(AddProductToOrderTemplate):
     # just in case the user cancels the order
     if Globals.product['fields']['Status'] != 'In Production':
       alert('Product status must be In Production to add to an order.')
+      self.add_product_button.enabled = True
+      self.add_product_button.text = 'Add Product to Order'
       return
     anvil_user = anvil.users.get_user()
     airtable_user = anvil.server.call('match_record', 'users', 'Email', anvil_user['email'])
