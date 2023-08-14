@@ -22,13 +22,38 @@ class RemoveProductFromProduction(RemoveProductFromProductionTemplate):
 
   def reason_textbox_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
-    if len(self.reason_textbox.text) > 10:
+    if len(self.reason_textbox.text) >= 10:
       self.remove_button.enabled = True
     else:
       self.remove_button.enabled = False
 
+  def remove_from_production(self):
+    self.remove_button.text = "Removing from Production..."
+    self.remove_button.enabled = False
+    self.cancel_button.enabled = False
+    user = anvil.users.get_user()
+    airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
+    update_product = {
+      "Status": "Removed from Production",
+      "Removed from Production Reason": self.reason_textbox.text,
+      "Removed from Production By": airtable_user['id']
+    }
+    anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
+
+    # Go back to Product Information
+
   def remove_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    self.remove_from_production()
+
+  def reason_textbox_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.remove_from_production()
+
+  def cancel_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
     pass
+
+
 
 
