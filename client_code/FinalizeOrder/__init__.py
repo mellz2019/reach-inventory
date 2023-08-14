@@ -72,8 +72,24 @@ class FinalizeOrder(FinalizeOrderTemplate):
     self.content_panel.clear()
     get_open_form().render_start_order()
 
+  def set_order_paid_status(self, status):
+    udpate_order = {}
+    if status:
+      user = anvil.users.get_user()
+      airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
+      update_order = {
+        "Paid": status,
+        "Marked as Paid By": airtable_user['id']
+      }
+    else:
+      update_order = {
+        "Paid": status
+      }
+    airtable_order = anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
+  
   def mark_as_paid_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    self.mark_as_paid_button.text = "Loading..."
     self.mark_as_paid_button.enabled = False
     self.complete_order_button.enabled = False
     self.edit_order_button.enabled = False
@@ -81,8 +97,16 @@ class FinalizeOrder(FinalizeOrderTemplate):
     airtable_order = anvil.server.call('get_single_item', 'orders', Globals.order_id)
     if Globals.order_paid:
       self.mark_as_paid_button.text = "Marking as Unpaid..."
+      self.set_order_paid_status(False)
+      self.mark_as_paid_button.text = "Mark as Paid"
     else:
       self.mark_as_paid_button.text = "Marking as Paid..."
+      self.set_order_paid_status(True)
+      self.mark_as_paid_button.text = "Mark as Unpaid"
+
+    self.mark_as_paid_button.enabled = True
+    self.complete_order_button.enabled = True
+    self.edit_order_button.enabled = True
 
 
 
