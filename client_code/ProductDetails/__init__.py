@@ -67,6 +67,7 @@ class ProductDetails(ProductDetailsTemplate):
         else:
           # Set the order id
           Globals.order_id = airtable_order['id']
+          Globals.order_paid = airtable_order['Fields']['Is Paid'] == 1
           # Create Globals order object and append all the products
           Globals.order = ()
           product_ids_from_airtable = airtable_order['fields']['Products']
@@ -97,6 +98,7 @@ class ProductDetails(ProductDetailsTemplate):
           Globals.order = Globals.order + (Globals.product,)
           Globals.order_total = Globals.calculate_order_total()
           Globals.order_id = new_order['id']
+          Globals.order_paid = False
           self.content_panel.clear()
           self.content_panel.add_component(StartOrder(self.back_button_callback))
       else:

@@ -80,7 +80,7 @@ class EditPrice(EditPriceTemplate):
     self.confirm_price_button.enabled = False
     self.cancel_button.enabled = False
 
-     # Update the price in the Order tuple
+    # Update the price in the Order tuple
     Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', selected_price)
     # Update the product's Edited price in airtable
     user = anvil.users.get_user()

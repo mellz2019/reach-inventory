@@ -51,6 +51,7 @@ class StartOrder(StartOrderTemplate):
     Globals.order = ()
     Globals.order_id = 0
     Globals.order_total = 0
+    Globals.order_paid = False
 
   def clear_start_order_content_panel(self):
     self.content_panel.clear()

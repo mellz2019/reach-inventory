@@ -16,6 +16,7 @@ product = {}
 order = ()
 order_id = 0
 order_total = 0
+order_paid = False
 
 def reset_order_details():
   main = {}
@@ -23,6 +24,7 @@ def reset_order_details():
   order = ()
   order_id = 0
   order_total = 0
+  order_paid = False
 
 def get_globals_order():
   return order

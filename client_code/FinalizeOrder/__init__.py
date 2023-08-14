@@ -20,6 +20,14 @@ class FinalizeOrder(FinalizeOrderTemplate):
 
     Globals.order = Globals.get_globals_order()
 
+    airtable_order = anvil.server.call('get_single_item', 'orders', Globals.order_id)
+    Globals.order_paid = airtable_order['fields']['Is Paid'] == 1
+
+    if Globals.order_paid:
+      self.mark_as_paid_button.text = 'Mark as Unpaid'
+    else:
+      self.mark_as_paid_button.text = 'Mark as Paid'
+
     self.products_panel.items = (Globals.order)
 
   def render_finalize_order(self):
@@ -63,5 +71,18 @@ class FinalizeOrder(FinalizeOrderTemplate):
     """This method is called when the button is clicked"""
     self.content_panel.clear()
     get_open_form().render_start_order()
+
+  def mark_as_paid_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.mark_as_paid_button.enabled = False
+    self.complete_order_button.enabled = False
+    self.edit_order_button.enabled = False
+
+    airtable_order = anvil.server.call('get_single_item', 'orders', Globals.order_id)
+    if Globals.order_paid:
+      self.mark_as_paid_button.text = "Marking as Unpaid..."
+    else:
+      self.mark_as_paid_button.text = "Marking as Paid..."
+
 
 

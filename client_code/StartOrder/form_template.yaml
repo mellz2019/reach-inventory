@@ -31,9 +31,9 @@ components:
     - {property: items, code: 'self.item['''']'}
   - type: Button
     properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Add Product, font_size: 19, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
+      foreground: '', visible: true, text: Add Product, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: ''}
     name: add_product_button
     layout_properties: {grid_position: 'ZLZASE,SERGEH'}
     event_bindings: {click: add_product_button_click}

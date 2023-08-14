@@ -46,6 +46,6 @@ components:
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: 'fa:arrow-circle-o-up'}
       name: view_order_button
-      layout_properties: {row: REMPLW, width_xs: 3, col_xs: 5, width: 99.9922}
+      layout_properties: {row: REMPLW, width_xs: 8, col_xs: 2, width: 99.9922}
       event_bindings: {click: view_order_button_click}
 is_package: true
