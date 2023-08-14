@@ -7,6 +7,10 @@ components:
   name: content_panel
   layout_properties: {grid_position: 'WQNXXK,JPHQCO'}
   components:
+  - type: Spacer
+    properties: {height: 90}
+    name: spacer_1
+    layout_properties: {grid_position: 'PNUZIV,YGQXVU'}
   - type: Button
     properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Start Order, font_size: null, font: '',

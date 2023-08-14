@@ -9,6 +9,7 @@ import anvil.users
 import anvil.server
 from .. import Globals
 from ..StartOrder import StartOrder
+from ..RemoveProductFromProduction import RemoveProductFromProduction
 
 class ProductDetails(ProductDetailsTemplate):
   def __init__(self, back_button_callback, **properties):
@@ -109,7 +110,8 @@ class ProductDetails(ProductDetailsTemplate):
     user = anvil.users.get_user()
     if user['admin'] or user['can_remove_product_from_production']:
       # TO DO
-      pass
+      self.content_panel.clear()
+      self.content_panel.add_component(RemoveProductFromProduction())
     else:
       alert('You do not have access to this feature. Please contact an administrator.')
 
