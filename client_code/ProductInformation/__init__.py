@@ -18,7 +18,7 @@ class ProductInformation(ProductInformationTemplate):
 
     self.cancel = cancel
 
-    # Any code you write here will run before the form opens.
+    self.search_button.enabled = False
 
   def back(self):
     self.content_panel.clear()
@@ -32,6 +32,7 @@ class ProductInformation(ProductInformationTemplate):
         alert('No barcode found.')
       else:
         self.barcode_text_box.text = ",".join(data)
+        self.search_button.enabled = True
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
@@ -84,5 +85,13 @@ class ProductInformation(ProductInformationTemplate):
   def barcode_text_box_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     self.search()
+
+  def barcode_text_box_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    if not self.barcode_text_box.text:
+      self.search_button.enabled = False
+    else:
+      self.search_button.enabled = True
+
 
 

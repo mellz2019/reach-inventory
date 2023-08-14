@@ -76,11 +76,10 @@ class StartOrder(StartOrderTemplate):
     if c:
       # Set the order's status to cancelled, clear the current product ids, and set former products to product ids
       user = anvil.users.get_user()
-      airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
       update_order = {
         "Status": "Cancelled",
         "Products": None,
-        "Cancelled By": airtable_user['id'],
+        "Cancelled By": user['airtable_id'],
         "Former Products": Globals.get_item_from_order_list_dictionary('id')
       }
       anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
@@ -114,10 +113,9 @@ class StartOrder(StartOrderTemplate):
     self.back_button.enabled = False
     self.clear_order_button.enabled = False
     user = anvil.users.get_user()
-    airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
     update_order = {
       "Status": "Finalization",
-      "Finalization By": airtable_user['id']
+      "Finalization By": user['airtable_id']
     }
     anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
     self.content_panel.clear()

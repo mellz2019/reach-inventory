@@ -61,7 +61,6 @@ class ProductInOrder(ProductInOrderTemplate):
       Globals.product = Globals.get_single_product_from_order(self.item['id'])
       self.content_panel.clear()
       get_open_form().clear_start_order_content_panel()
-      # self.content_panel.add_component(EditPrice())
       
 
 

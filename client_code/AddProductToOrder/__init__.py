@@ -39,38 +39,33 @@ class AddProductToOrder(AddProductToOrderTemplate):
       self.add_product_button.enabled = True
       self.add_product_button.text = 'Add Product to Order'
       return
-    anvil_user = anvil.users.get_user()
-    airtable_user = anvil.server.call('match_record', 'users', 'Email', anvil_user['email'])
-    if not airtable_user:
-      # TODO
-      alert('Airtable user not found. Please contant an administrator.')
+    user = anvil.users.get_user()
+    if not Globals.order:
+      # This is the first product in the order
+      # Create Order in airtable
+      order_to_add = {
+        "Products": Globals.product['id'],
+        "Created By": user['airtable_id']
+      }
+      new_order = anvil.server.call('add_item', 'orders', order_to_add)
+      update_product_status = {
+        "Status": "In Pending Order"
+      }
+      anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
+      Globals.order = Globals.order + (Globals.product,)
+      Globals.order_total = Globals.product['fields']['Price']
+      Globals.order_id = new_order['id']
+      Globals.order_paid = False
+      self.content_panel.clear()
+      get_open_form().update_start_order_order_id_label()
+      self.render_start_order()
     else:
-      if not Globals.order:
-        # This is the first product in the order
-        # Create Order in airtable
-        order_to_add = {
-          "Products": Globals.product['id'],
-          "Created By": airtable_user['id']
-        }
-        new_order = anvil.server.call('add_item', 'orders', order_to_add)
-        update_product_status = {
-          "Status": "In Pending Order"
-        }
-        anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
-        Globals.order = Globals.order + (Globals.product,)
-        Globals.order_total = Globals.product['fields']['Price']
-        Globals.order_id = new_order['id']
-        Globals.order_paid = False
-        self.content_panel.clear()
-        get_open_form().update_start_order_order_id_label()
-        self.render_start_order()
-      else:
-        update_product_status = {
-          "Status": "In Pending Order",
-          "Order": Globals.order_id
-        }
-        anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
-        Globals.order = Globals.order + (Globals.product,)
-        Globals.order_total = Globals.calculate_order_total()
-        self.render_start_order()
+      update_product_status = {
+        "Status": "In Pending Order",
+        "Order": Globals.order_id
+      }
+      anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
+      Globals.order = Globals.order + (Globals.product,)
+      Globals.order_total = Globals.calculate_order_total()
+      self.render_start_order()
 

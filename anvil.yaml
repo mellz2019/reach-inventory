@@ -76,5 +76,8 @@ db_schema:
     - name: can_start_order
       admin_ui: {order: 12, width: 200}
       type: bool
+    - name: airtable_id
+      admin_ui: {order: 13, width: 200}
+      type: string
     title: Users
 renamed: true

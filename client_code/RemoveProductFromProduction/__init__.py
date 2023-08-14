@@ -32,11 +32,10 @@ class RemoveProductFromProduction(RemoveProductFromProductionTemplate):
     self.remove_button.enabled = False
     self.cancel_button.enabled = False
     user = anvil.users.get_user()
-    airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
     update_product = {
       "Status": "Removed from Production",
       "Removed from Production Reason": self.reason_textbox.text,
-      "Removed from Production By": airtable_user['id']
+      "Removed from Production By": user['airtable_id']
     }
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
 

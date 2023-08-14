@@ -82,14 +82,13 @@ class ProductDetails(ProductDetailsTemplate):
           self.content_panel.add_component(StartOrder(self.back_button_callback))
     else:
       self.order_button.enabled = False
-      airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
       if user['admin'] or user['can_start_order']:
           self.order_button.text = 'Adding to new order...'
           # This is the first product in the order
           # Create Order in airtable
           order_to_add = {
             "Products": Globals.product['id'],
-            "Created By": airtable_user['id']
+            "Created By": user['airtable_id']
           }
           new_order = anvil.server.call('add_item', 'orders', order_to_add)
           update_product_status = {

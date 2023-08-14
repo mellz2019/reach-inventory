@@ -84,10 +84,9 @@ class EditPrice(EditPriceTemplate):
     Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', selected_price)
     # Update the product's Edited price in airtable
     user = anvil.users.get_user()
-    airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
     update_product = {
       "Edited Price": selected_price,
-      "Price Last Edited By": airtable_user['id']
+      "Price Last Edited By": user['airtable_id']
     }
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
     # Re-calculate the order total

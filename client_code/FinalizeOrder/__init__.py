@@ -53,10 +53,9 @@ class FinalizeOrder(FinalizeOrderTemplate):
         }
         anvil.server.call('update_item', 'products', product['id'], update_product)
       user = anvil.users.get_user()
-      airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
       update_order = {
         "Status": "Complete",
-        "Completed By": airtable_user['id']
+        "Completed By": user['airtable_id']
       }
       anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
       alert('The order has been completed successfully!')
@@ -76,10 +75,9 @@ class FinalizeOrder(FinalizeOrderTemplate):
     udpate_order = {}
     if status:
       user = anvil.users.get_user()
-      airtable_user = anvil.server.call('match_record', 'users', 'Email', user['email'])
       update_order = {
         "Paid": status,
-        "Marked as Paid By": airtable_user['id']
+        "Marked as Paid By": user['airtable_id']
       }
     else:
       update_order = {
