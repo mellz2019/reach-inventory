@@ -38,9 +38,7 @@ class ProductInformation(ProductInformationTemplate):
     # Use some custom JS to hint the FileLoader to open the phone camera by default
     self.call_js("initFileLoader")
 
-  def search_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    
+  def search(self):
     if not self.barcode_text_box.text:
       alert("Please scan or enter a barcode.")
       return
@@ -75,7 +73,16 @@ class ProductInformation(ProductInformationTemplate):
         self.content_panel.clear()
         self.content_panel.add_component(ProductDetails(self.back))
 
+  def search_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.search()
+    
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.cancel()
+
+  def barcode_text_box_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.search()
+
 

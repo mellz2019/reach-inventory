@@ -29,11 +29,13 @@ class AddProductToOrder(AddProductToOrderTemplate):
     # We don't want to add the same product twice.
     self.add_product_button.enabled = False
     self.add_product_button.text = 'Adding product'
+    self.cancel_button.enabled = False
     """This method is called when the button is clicked"""
     # If Globals.order is empty, then create a new Order record in AirTable and set the id in globals
     # just in case the user cancels the order
     if Globals.product['fields']['Status'] != 'In Production':
       alert('Product status must be In Production to add to an order.')
+      self.cancel_button.enabled = True
       self.add_product_button.enabled = True
       self.add_product_button.text = 'Add Product to Order'
       return

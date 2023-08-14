@@ -107,13 +107,27 @@ class ProductDetails(ProductDetailsTemplate):
 
   def remove_from_production_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    user = anvil.users.get_user()
-    if user['admin'] or user['can_remove_product_from_production']:
-      # TO DO
-      self.content_panel.clear()
-      self.content_panel.add_component(RemoveProductFromProduction())
+    self.remove_from_production_button.text = "Loading..."
+    self.remove_from_production_button.enabled = False
+    self.order_button.enabled = False
+    self.back_button.enabled = False
+    if Globals.product['fields']['Status'] == 'In Production':
+      user = anvil.users.get_user()
+      if user['admin'] or user['can_remove_product_from_production']:
+        self.content_panel.clear()
+        self.content_panel.add_component(RemoveProductFromProduction())
+      else:
+        alert('You do not have access to this feature. Please contact an administrator.')
+        self.remove_from_production_button.text = "Remove from Production"
+        self.remove_from_production_button.enabled = True
+        self.order_button.enabled = True
+        self.back_button.enabled = True
     else:
-      alert('You do not have access to this feature. Please contact an administrator.')
+      alert('Product must have status of \"In Production" for this feature.')
+      self.remove_from_production_button.text = "Remove from Production"
+      self.remove_from_production_button.enabled = True
+      self.order_button.enabled = True
+      self.back_button.enabled = True
 
 
     

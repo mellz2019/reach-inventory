@@ -8,52 +8,66 @@ components:
   layout_properties: {grid_position: 'ULSSPT,XKVVYO'}
   components:
   - type: Spacer
-    properties: {height: 104}
+    properties: {height: 65}
     name: spacer_1
-    layout_properties: {grid_position: 'ETICPY,LEAJLE'}
-  - type: FileLoader
-    properties:
-      role: filled-button
-      show_state: true
-      align: center
-      tooltip: ''
-      border: ''
-      file_types: null
-      enabled: true
-      files: []
-      foreground: ''
-      visible: true
-      text: Scan Barcode
-      font_size: null
-      font: ''
-      spacing_above: small
-      icon_align: left
-      spacing_below: small
-      italic: false
-      file: null
-      background: ''
-      bold: false
-      underline: false
-      multiple: false
-      icon: fa:barcode
-    name: file_loader_1
-    layout_properties: {grid_position: 'LPPLEU,XMVYGW'}
-    event_bindings: {change: file_loader_1_change}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Or manually type barcode...,
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: barcode_textbox
-    layout_properties: {grid_position: 'QSFDKL,TIIZLS'}
-  - type: Button
-    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Search, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: search_button
-    layout_properties: {grid_position: 'FYCDOT,DYGSJP'}
-    event_bindings: {click: search_button_click}
+    layout_properties: {grid_position: 'AGKXWW,YTLMEE'}
+  - type: ColumnPanel
+    properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: card_panel
+    layout_properties: {grid_position: 'YGLNVS,UHDGKH'}
+    components:
+    - type: Label
+      properties: {role: input-prompt, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: Scan product barcode or enter manually below, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: label_1
+      layout_properties: {grid_position: 'XOESQQ,VAKSGJ'}
+    - type: FileLoader
+      properties:
+        role: filled-button
+        show_state: true
+        align: center
+        tooltip: ''
+        border: ''
+        file_types: null
+        enabled: true
+        files: []
+        foreground: ''
+        visible: true
+        text: Scan Barcode
+        font_size: null
+        font: ''
+        spacing_above: small
+        icon_align: left
+        spacing_below: small
+        italic: false
+        file: null
+        background: ''
+        bold: false
+        underline: false
+        multiple: false
+        icon: fa:barcode
+      name: file_loader_1
+      layout_properties: {grid_position: 'MLGWGR,XITWRZ'}
+      event_bindings: {change: file_loader_1_change}
+    - type: TextBox
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Or manually type barcode...,
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: barcode_textbox
+      layout_properties: {grid_position: 'SBYEKJ,AFOYET'}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Search, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: search_button
+      layout_properties: {grid_position: 'CXQIFD,DMWTCQ'}
+      event_bindings: {click: search_button_click}
 is_package: true
 custom_component: true
 properties:
