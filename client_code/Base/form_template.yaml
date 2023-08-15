@@ -26,5 +26,5 @@ components:
     spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
     italic: false, background: '', bold: false, underline: false, icon: 'fa:home'}
   name: home_link
-  layout_properties: {slot: title}
+  layout_properties: {slot: top-left-btn}
   event_bindings: {click: home_link_click}

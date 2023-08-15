@@ -15,6 +15,8 @@ class SearchProductToAddProductToOrder(SearchProductToAddProductToOrderTemplate)
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    self.search_button.enabled = False
+
     # Any code you write here will run before the form opens.
     self.render_start_order = render_start_order
     
@@ -27,22 +29,23 @@ class SearchProductToAddProductToOrder(SearchProductToAddProductToOrderTemplate)
       alert('No barcode found.')
     else:
       self.barcode_textbox.text = ",".join(data)
+      self.search_button.enabled = True
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
     # Use some custom JS to hint the FileLoader to open the phone camera by default
     self.call_js("initFileLoader")
 
-  def search_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    
-    if not self.barcode_textbox.text:
-      alert("Please scan or enter a barcode.")
-      return
-
+  def handle_search(self):
     self.search_button.text = 'Searching...'
     self.search_button.enabled = False
     self.file_loader_1.enabled = False
+
+    if self.barcode_textbox.text == None:
+      alert('Please scan or enter a barcode.')
+      self.search_button.text = 'Search'
+      self.file_loader_1.enabled = True
+      return
     
     product = anvil.server.call('match_record', 'products', 'Barcode', self.barcode_textbox.text)
 
@@ -59,5 +62,22 @@ class SearchProductToAddProductToOrder(SearchProductToAddProductToOrderTemplate)
       Globals.product = product
       self.content_panel.clear()
       self.content_panel.add_component(AddProductToOrder(self.render_start_order))
+
+  def search_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.handle_search()
+    
+  def barcode_textbox_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    if self.barcode_textbox.text != None and self.barcode_textbox.text > 0:
+      self.search_button.enabled = True
+    else:
+      self.search_button.enabled = False
+
+  def barcode_textbox_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.handle_search()
+
+
 
 
