@@ -63,32 +63,59 @@ class EditPrice(EditPriceTemplate):
     """This method is called when the button is clicked"""
     selected_price = 0
     if self.regular_price_checkbox.checked:
-      selected_price = Globals.product['fields']['Price']
+      self.confirm_price_button.text = 'Confirming price...'
+      self.confirm_price_button.enabled = False
+      self.cancel_button.enabled = False
+      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', None)
+      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Has Edited Price', 0)
+      Globls.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Price Last Edited By', None)
+      update_product = {
+      "Edited Price": None,
+      "Price Last Edited By": None
+      }
+      anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
     elif self.lowest_price_checkbox.checked:
-      selected_price = Globals.product['fields']['Lowest Price']
+      self.confirm_price_button.text = 'Confirming price...'
+      self.confirm_price_button.enabled = False
+      self.cancel_button.enabled = False
+      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', Globals.product['fields']['Lowest Price'])
+      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Has Edited Price', 1)
+      Globls.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Price Last Edited By', user['airtable_id'])
+      update_product = {
+      "Edited Price": Globals.product['fields']['Lowest Price'],
+      "Price Last Edited By": user['airtable_id']
+      }
+      anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
     elif self.custom_price_checkbox.checked:
-      selected_price = self.custom_price_textfield.text
-
+      self.confirm_price_button.text = 'Confirming price...'
+      self.confirm_price_button.enabled = False
+      self.cancel_button.enabled = False
       if not Globals.is_valid_currency(self.custom_price_textfield.text):
         alert(f"{self.custom_price_textfield.text} is not a valid currency")
+        self.confirm_price_button.enabled = True
+        self.cancel_button.enabled = True
+        self.confirm_price_button.text = 'Confirm Price'
         return
       if float(self.custom_price_textfield.text) < Globals.product['fields']['Lowest Price']:
         alert(f"Custom price (${self.custom_price_textfield.text}) is lower than the lowest price (${Globals.product['fields']['Lowest Price']}) accepted for this product. Please enter a higher amount.")
+        self.confirm_price_button.enabled = True
+        self.cancel_button.enabled = True
+        self.confirm_price_button.text = 'Confirm Price'
         return
 
-    self.confirm_price_button.text = 'Confirming price...'
-    self.confirm_price_button.enabled = False
-    self.cancel_button.enabled = False
+      # Update the price in the Order tuple
+      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', self.custom_price_textfield.text)
+      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Has Edited Price', 1)
+      Globls.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Price Last Edited By', user['airtable_id'])
+      # Update the product's Edited price in airtable
+      user = anvil.users.get_user()
+      update_product = {
+        "Edited Price": self.custom_price_textfield.text,
+        "Price Last Edited By": user['airtable_id']
+      }
+      anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
 
-    # Update the price in the Order tuple
-    Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', selected_price)
-    # Update the product's Edited price in airtable
-    user = anvil.users.get_user()
-    update_product = {
-      "Edited Price": selected_price,
-      "Price Last Edited By": user['airtable_id']
-    }
-    anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
+    
     # Re-calculate the order total
     Globals.order_total = Globals.calculate_order_total()
 
