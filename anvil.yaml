@@ -11,9 +11,9 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: Base}
-package_name: Reach_Products
+package_name: Reach_Inventory
 allow_embedding: false
-name: Reach Products
+name: Reach Inventory
 runtime_options:
   version: 2
   client_version: '3'
@@ -30,7 +30,7 @@ runtime_options:
       pyzbar
 
       requests', base: python310-machine-learning}
-metadata: {title: Reach Products}
+metadata: {title: Reach Inventory}
 startup_form: null
 db_schema:
   users:

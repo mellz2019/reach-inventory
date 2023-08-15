@@ -68,7 +68,7 @@ class ProductDetails(ProductDetailsTemplate):
         else:
           # Set the order id
           Globals.order_id = airtable_order['id']
-          Globals.order_paid = airtable_order['Fields']['Is Paid'] == 1
+          Globals.order_paid = airtable_order['fields']['Is Paid'] == 1
           # Create Globals order object and append all the products
           Globals.order = ()
           product_ids_from_airtable = airtable_order['fields']['Products']
