@@ -49,7 +49,8 @@ class AddProductToOrder(AddProductToOrderTemplate):
       }
       new_order = anvil.server.call('add_item', 'orders', order_to_add)
       update_product_status = {
-        "Status": "In Pending Order"
+        "Status": "In Pending Order",
+        "Added to Order By": user['airtable_id']
       }
       anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
       Globals.order = Globals.order + (Globals.product,)
@@ -62,10 +63,19 @@ class AddProductToOrder(AddProductToOrderTemplate):
     else:
       update_product_status = {
         "Status": "In Pending Order",
-        "Order": Globals.order_id
+        "Order": Globals.order_id,
+        "Added to Order By": user['airtable_id']
       }
       anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
       Globals.order = Globals.order + (Globals.product,)
       Globals.order_total = Globals.calculate_order_total()
       self.render_start_order()
+
+  def cancel_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    #TODO
+    # self.content_panel.clear()
+    # What do we need to go back to?
+    pass
+
 
