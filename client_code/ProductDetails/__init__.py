@@ -44,8 +44,6 @@ class ProductDetails(ProductDetailsTemplate):
     added_on = Globals.convert_airtable_date_to_friendly_date(product['fields']['Date Added'])
     self.added_on_label.text = f'Added on: {added_on}'
     self.added_by_label.text = f"Added by: {product['fields']['Added By Name'][0]}"
-    approved_on = Globals.convert_airtable_date_to_friendly_date(product['fields']['Approved For Sale On'])
-    self.approved_for_sale_on_label.text = f'Approved for Sale on: {approved_on}'
 
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
