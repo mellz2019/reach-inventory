@@ -114,13 +114,6 @@ components:
       icon: ''}
     name: added_by_label
     layout_properties: {grid_position: 'RFOYPI,WBYMFL'}
-  - type: Label
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: ''}
-    name: approved_for_sale_on_label
-    layout_properties: {grid_position: 'MEEPIB,XHKWTV'}
   - type: Spacer
     properties: {height: 10}
     name: spacer_1
