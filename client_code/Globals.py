@@ -18,6 +18,15 @@ order_id = 0
 order_total = 0
 order_paid = False
 
+# Price Confirmation
+price_confirmation_mains = []
+currently_selected_price_confirm_product = 0
+price_changed = False
+price_confirmed = False
+comments_changed = False
+set_aside = 0
+main_number_name_list = []
+
 def reset_order_details():
   main = {}
   product = {}
@@ -92,6 +101,9 @@ def round_to_decimal_places(value, number_of_decimal_places):
         rounded_value = str(value)
         rounded_value += ".00"
         return rounded_value
+
+def alternate_round_to_two_decimal_places(value):
+  return "{:.2f}".format(value)
 
 def calculate_order_total():
   total = 0
