@@ -18,6 +18,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     selected_product_index = Globals.currently_selected_price_confirm_product
 
     Globals.price_confirmed = False
+    Globals.price_changed = False
     Globals.comments_changed = False
 
     linked_product = anvil.server.call('get_single_item', 'products', mains[selected_product_index]['fields']['Products'][0])
@@ -49,7 +50,29 @@ class PriceConfirmation(PriceConfirmationTemplate):
       return c
     return False
 
+  def valid_form(self):
+    if not Globals.is_valid_currency(self.price_text_box.text):
+      alert(f"{self.price_text_box.text} is not a valid currency")
+      return False
+    if not Globals.is_valid_currency(self.lowest_price_text_box.text):
+      alert(f"{self.lowest_price_text_box.text} is not a valid currency")
+      return False
+    if float(self.price_text_box.text) < float(self.lowest_price_text_box.text):
+      alert(f"Lowest price (${self.lowest_price_text_box.text}) can not be higher than regular price (${self.price_text_box.text})")
+      return False
+    return True
+
   def confirm_price(self):
+    if not Globals.is_valid_currency(self.price_text_box.text):
+      alert(f"{self.price_text_box.text} is not a valid currency")
+      return
+    if not Globals.is_valid_currency(self.lowest_price_text_box.text):
+      alert(f"{self.lowest_price_text_box.text} is not a valid currency")
+      return
+    if float(self.price_text_box.text) < float(self.lowest_price_text_box.text):
+      alert(f"Lowest price (${self.lowest_price_text_box.text}) can not be higher than regular price (${self.price_text_box.text})")
+      return
+  
     self.confirm_price_button.enabled = False
     self.back_btton.enabled = False
     self.previous_product_button.enabled = False
@@ -58,6 +81,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     self.price_text_box.enabled = False
     self.lowest_price_text_box.enabled = False
     self.comment_text_field.enabled = False
+    self.not_approved_for_sale_button.enabled = False
     
     # Loop through all of the product_ids conntected to the currently selected main
     # Update each product's price
@@ -70,10 +94,12 @@ class PriceConfirmation(PriceConfirmationTemplate):
       }
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
-    # update the main with the notes
-    update_main = {
-      "Price Confirmation Notes": self.comment_text_field.text
-    }
+    # update the main with the notes if the text box has changed
+    if Globals.comments_changed:
+      update_main = {
+        "Price Confirmation Notes": self.comment_text_field.text
+      }
+      anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
 
     Globals.price_confirmed = True
     # if this is not the last product, go to the next product. If it is the last product, go back home
@@ -92,18 +118,24 @@ class PriceConfirmation(PriceConfirmationTemplate):
   def next_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     if self.confirm_price_confirm():
-      self.confirm_price()
-      self.go_to_next_product()
+      if self.valid_form():
+        self.confirm_price()
+        self.go_to_next_product()
+      else:
+        return
     else:
       self.go_to_next_product()
 
   def previous_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     if self.confirm_price_confirm():
-      self.confirm_price()
-      Globals.currently_selected_price_confirm_product = Globals.currently_selected_price_confirm_product-1
-      self.content_panel.clear()
-      self.content_panel.add_component(PriceConfirmation())
+      if self.valid_form():
+        self.confirm_price()
+        Globals.currently_selected_price_confirm_product = Globals.currently_selected_price_confirm_product-1
+        self.content_panel.clear()
+        self.content_panel.add_component(PriceConfirmation())
+      else:
+        return
     else:
       Globals.currently_selected_price_confirm_product = Globals.currently_selected_price_confirm_product-1
       self.content_panel.clear()
@@ -111,16 +143,6 @@ class PriceConfirmation(PriceConfirmationTemplate):
 
   def confirm_price_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    if not Globals.is_valid_currency(self.price_text_box.text):
-      alert(f"{self.price_text_box.text} is not a valid currency")
-      return
-    if not Globals.is_valid_currency(self.lowest_price_text_box.text):
-      alert(f"{self.lowest_price_text_box.text} is not a valid currency")
-      return
-    if float(self.price_text_box.text) < float(self.lowest_price_text_box.text):
-      alert(f"Lowest price (${self.lowest_price_text_box.text}) can not be higher than regular price (${self.price_text_box.text})")
-      return
-
     self.confirm_price()
 
   def price_text_box_lost_focus(self, **event_args):
@@ -145,9 +167,12 @@ class PriceConfirmation(PriceConfirmationTemplate):
   def back_btton_click(self, **event_args):
     """This method is called when the button is clicked"""
     if self.confirm_price_confirm():
-      self.confirm_price()
-      self.content_panel.clear()
-      get_open_form().go_to_home()
+      if self.valid_form():
+        self.confirm_price()
+        self.content_panel.clear()
+        get_open_form().go_to_home()
+      else:
+        return
     else:
       self.content_panel.clear()
       get_open_form().go_to_home()
@@ -166,8 +191,37 @@ class PriceConfirmation(PriceConfirmationTemplate):
     Globals.comments_changed = True
 
   def not_approved_for_sale_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass
+    self.confirm_price_button.enabled = False
+    self.back_btton.enabled = False
+    self.previous_product_button.enabled = False
+    self.next_product_button.enabled = False
+    self.price_text_box.enabled = False
+    self.lowest_price_text_box.enabled = False
+    self.comment_text_field.enabled = False
+    self.not_approved_for_sale_button.enabled = False
+    self.not_approved_for_sale_button.text = "Loading..."
+    linked_product_ids = Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']
+    for i in range(len(linked_product_ids)):
+      update_product = {
+        "Price": self.price_text_box.text,
+        "Lowest Price": self.lowest_price_text_box.text,
+        "Status": "Not Approved for Sale"
+      }
+      anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
+
+    # update the main with the notes if the text box has changed
+    if Globals.comments_changed:
+      update_main = {
+        "Price Confirmation Notes": self.comment_text_field.text
+      }
+      anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
+    # if this is not the last product, go to the next product. If it is the last product, go back home
+    if Globals.currently_selected_price_confirm_product+1 == len(Globals.price_confirmation_mains):
+      # Go home
+      self.content_panel.clear()
+      get_open_form().go_to_home()
+    else:
+      self.go_to_next_product()
 
 
 
