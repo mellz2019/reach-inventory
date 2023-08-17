@@ -94,19 +94,25 @@ class PriceConfirmation(PriceConfirmationTemplate):
     # Update each product's price
     linked_product_ids = Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']
     for i in range(len(linked_product_ids)):
-      if i > (float(Globals.set_aside)-1):
+      if float(self.set_aside_text_field.text) == len(Globals.price_confirmation_mains):
         update_product = {
-          "Price": self.price_text_box.text,
-          "Lowest Price": self.lowest_price_text_box.text,
-          "Status": "In Production"
+          "Status": "Not Approved for Sale",
+          "Notes": "All products were set aside during price confirmation"
         }
       else:
-        update_product = {
-          "Price": self.price_text_box.text,
-          "Lowest Price": self.lowest_price_text_box.text,
-          "Status": "Not Approved for Sale",
-          "Notes": "This product was set aside during price confirmation"
-        }
+        if i > (float(Globals.set_aside)-1):
+          update_product = {
+            "Price": self.price_text_box.text,
+            "Lowest Price": self.lowest_price_text_box.text,
+            "Status": "In Production"
+          }
+        else:
+          update_product = {
+            "Price": self.price_text_box.text,
+            "Lowest Price": self.lowest_price_text_box.text,
+            "Status": "Not Approved for Sale",
+            "Notes": "This product was set aside during price confirmation"
+          }
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
     # update the main with the notes if the text box has changed
@@ -161,9 +167,11 @@ class PriceConfirmation(PriceConfirmationTemplate):
     self.confirm_price()
 
   def calculate_price(self):
-    if self.set_aside_text_field.text == '':
-      self.set_aside_text_field.text = 0
+    if self.set_aside_text_field.text is None:
       Globals.set_aside = 0
+    else:
+      if self.set_aside_text_field.text > len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
+        Globals.set_aside = 0
     calculated_price = float(self.price_text_box.text) * (Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation'] - float(Globals.set_aside))
     self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
 
@@ -248,25 +256,36 @@ class PriceConfirmation(PriceConfirmationTemplate):
 
   def set_aside_text_field_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
-    if self.set_aside_text_field.text == '':
+    if self.set_aside_text_field.text is None:
       self.set_aside_text_field.text = 0
-    if float(self.set_aside_text_field.text) > len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
-      alert(f"{self.set_aside_text_field.text} is greater than the amount of units available ({len(Globals.price_confirmation_mains)[Globals.currently_selected_price_confirm_product]['fields']['Products']}). Please enter a lower amount.")
       Globals.set_aside = 0
-      self.set_aside_text_field.text = 0
-      self.calculate_price()
     else:
+      num_units = len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products'])
+      if num_units == 1:
+        words = 'There is'
+        unit_word = 'unit'
+      else:
+        words = 'There are'
+        unit_word = 'units'
+      if float(self.set_aside_text_field.text) == num_units:
+        alert(f"{words} {num_units} {unit_word} available. If you set aside this amount and confirm the price, all units will be marked as 'Not Approved for Sale'.")
+        self.confirm_price_button.enabled = True
       Globals.set_aside = self.set_aside_text_field.text
       self.calculate_price()
 
   def set_aside_text_field_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
+    if self.set_aside_text_field.text == len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
+      self.confirm_price_button.enabled = False
     Globals.price_changed = True
-    if self.set_aside_text_field.text != '':
+    if self.set_aside_text_field.text is not None:
       if float(self.set_aside_text_field.text) > len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
-        alert(f"{self.set_aside_text_field.text} is greater than the amount of units available ({len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products'])}). Please enter a lower amount.")
+        alert(f"{self.set_aside_text_field.text} is greater than the amount of units available: {len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products'])}. Please enter a lower amount.")
         Globals.set_aside = 0
         self.set_aside_text_field.text = 0
+        self.calculate_price()
+      else:
+        Globals.set_aside = self.set_aside_text_field.text
         self.calculate_price()
     else:
       Globals.set_aside = self.set_aside_text_field.text
