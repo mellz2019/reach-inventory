@@ -20,6 +20,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     Globals.price_confirmed = False
     Globals.price_changed = False
     Globals.comments_changed = False
+    Globals.set_aside = 0
 
     linked_product = anvil.server.call('get_single_item', 'products', mains[selected_product_index]['fields']['Products'][0])
 
@@ -145,6 +146,9 @@ class PriceConfirmation(PriceConfirmationTemplate):
     """This method is called when the button is clicked"""
     self.confirm_price()
 
+  def calculate_price(self):
+    return float(self.price_text_box.text) * Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']
+
   def price_text_box_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
     if not Globals.is_valid_currency(self.price_text_box.text):
@@ -153,7 +157,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     if "." not in self.price_text_box.text:
       self.price_text_box.text = self.price_text_box.text + ".00"
 
-    calculated_price = float(self.price_text_box.text) * Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']
+    calculated_price = self.calculate_price()
     self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
 
   def lowest_price_text_box_lost_focus(self, **event_args):
@@ -222,6 +226,11 @@ class PriceConfirmation(PriceConfirmationTemplate):
       get_open_form().go_to_home()
     else:
       self.go_to_next_product()
+
+  def set_aside_text_field_lost_focus(self, **event_args):
+    """This method is called when the TextBox loses focus"""
+    self.calculate_price()
+
 
 
 

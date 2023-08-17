@@ -87,6 +87,21 @@ components:
       event_bindings: {change: comment_text_field_change}
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Set Aside:', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: set_aside_label
+      layout_properties: {grid_position: 'HCZXCB,XGRNCP'}
+    - type: TextBox
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '0', font_size: null,
+        font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: set_aside_text_field
+      layout_properties: {grid_position: 'WBWRUQ,GKZKNC'}
+      event_bindings: {lost_focus: set_aside_text_field_lost_focus}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: price, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
