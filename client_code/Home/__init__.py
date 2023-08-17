@@ -54,8 +54,8 @@ class Home(HomeTemplate):
         self.product_info_button.enabled = False
         self.orders_button.enabled = False
         # Load the info
-        Globals.price_confirmation_products = anvil.server.call('get_items_from_view', 'main', 'Pending Price Confirmation')
-        if Globals.price_confirmation_products:
+        Globals.price_confirmation_mains = anvil.server.call('get_items_from_view', 'main', 'Pending Price Confirmation')
+        if Globals.price_confirmation_mains:
           Globals.currently_selected_price_confirm_product = 0
           self.content_panel.clear()
           self.content_panel.add_component(PriceConfirmation())
