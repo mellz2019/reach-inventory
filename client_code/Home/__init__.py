@@ -57,6 +57,8 @@ class Home(HomeTemplate):
         Globals.price_confirmation_mains = anvil.server.call('get_items_from_view', 'main', 'Pending Price Confirmation')
         if Globals.price_confirmation_mains:
           Globals.currently_selected_price_confirm_product = 0
+          for i in range(len(Globals.price_confirmation_mains)):
+            Globals.main_number_name_list.append(f"{i+1} - {Globals.price_confirmation_mains[i]['fields']['Name']}")
           self.content_panel.clear()
           self.content_panel.add_component(PriceConfirmation())
         else:

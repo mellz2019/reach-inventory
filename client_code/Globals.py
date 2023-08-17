@@ -24,7 +24,8 @@ currently_selected_price_confirm_product = 0
 price_changed = False
 price_confirmed = False
 comments_changed = False
-set_aside
+set_aside = 0
+main_number_name_list = []
 
 def reset_order_details():
   main = {}
@@ -100,6 +101,9 @@ def round_to_decimal_places(value, number_of_decimal_places):
         rounded_value = str(value)
         rounded_value += ".00"
         return rounded_value
+
+def alternate_round_to_two_decimal_places(value):
+  return "{:.2f}".format(value)
 
 def calculate_order_total():
   total = 0
