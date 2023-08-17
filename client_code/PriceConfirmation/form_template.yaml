@@ -83,6 +83,13 @@ components:
         background: '', bold: false, underline: false}
       name: comment_text_field
       layout_properties: {grid_position: 'EMPHMG,QYAKAA'}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: price, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: price_calculation_label
+      layout_properties: {grid_position: 'TDWMCH,LOHDXD'}
     - type: Button
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Confirm Price, font_size: null, font: '',

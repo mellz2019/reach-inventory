@@ -25,6 +25,9 @@ class PriceConfirmation(PriceConfirmationTemplate):
     if selected_product_index+1 == len(mains):
       self.next_product_button.enabled = False
 
+    calculated_price = linked_product['fields']['Price'] * mains[selected_product_index]['fields']['Pending Price Confirmation']
+    self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
+
     # Any code you write here will run before the form opens.
     self.title_label.text = f"Product {selected_product_index+1} of {len(mains)}"
     self.name_label.text = mains[selected_product_index]['fields']['Name']
@@ -57,6 +60,9 @@ class PriceConfirmation(PriceConfirmationTemplate):
     if not Globals.is_valid_currency(self.lowest_price_text_box.text):
       alert(f"{self.lowest_price_text_box.text} is not a valid currency")
       return
+    if float(self.price_text_box.text) < float(self.lowest_price_text_box.text):
+      alert(f"Lowest price (${self.lowest_price_text_box.text}) can not be higher than regular price (${self.price_text_box.text})")
+      return
 
     self.confirm_price_button.enabled = False
     self.back_btton.enabled = False
@@ -75,6 +81,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
         "Pirce": self.price_text_box.text,
         "Lowest Price": self.lowest_price_text_box.text
       }
+      print(f"updating product: {linked_product_ids[i]}")
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
   def price_text_box_lost_focus(self, **event_args):
@@ -84,6 +91,9 @@ class PriceConfirmation(PriceConfirmationTemplate):
       return
     if "." not in self.price_text_box.text:
       self.price_text_box.text = self.price_text_box.text + ".00"
+
+    calculated_price = float(self.price_text_box.text) * Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']
+    self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
 
   def lowest_price_text_box_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
