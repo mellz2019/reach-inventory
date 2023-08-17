@@ -17,6 +17,8 @@ class PriceConfirmation(PriceConfirmationTemplate):
     mains = Globals.price_confirmation_mains
     selected_product_index = Globals.currently_selected_price_confirm_product
 
+    Globals.price_confirmed = False
+
     linked_product = anvil.server.call('get_single_item', 'products', mains[selected_product_index]['fields']['Products'][0])
 
     if selected_product_index == 0:
@@ -40,11 +42,19 @@ class PriceConfirmation(PriceConfirmationTemplate):
     self.price_text_box.text = Globals.round_to_decimal_places(linked_product['fields']['Price'], 2)
     self.lowest_price_text_box.text = Globals.round_to_decimal_places(linked_product['fields']['Lowest Price'], 2)
 
-  def next_product_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
+  def check_if_price_changed(self):
+    if Globals.price_changed and not price_confirmed:
+      c = confirm("You've made changes without clicking Confirm Price. Your changes will be discarded. Please Confirm Price.")
+      
+  
+  def go_to_next_product(self):
     Globals.currently_selected_price_confirm_product = Globals.currently_selected_price_confirm_product+1
     self.content_panel.clear()
     self.content_panel.add_component(PriceConfirmation())
+
+  def next_product_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.go_to_next_product()
 
   def previous_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -81,10 +91,15 @@ class PriceConfirmation(PriceConfirmationTemplate):
         "Price": self.price_text_box.text,
         "Lowest Price": self.lowest_price_text_box.text
       }
-      anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
+      #anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
     # update the main with the notes
     # if this is not the last product, go to the next product. If it is the last product, go back home
+    if Globals.currently_selected_price_confirm_product+1 == len(Globals.price_confirmation_mains):
+      # Go home
+      pass
+    else:
+      self.go_to_next_product()
 
   def price_text_box_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
@@ -104,6 +119,28 @@ class PriceConfirmation(PriceConfirmationTemplate):
       return
     if "." not in self.lowest_price_text_box.text:
       self.lowest_price_text_box.text = self.lowest_price_text_box.text + ".00"
+
+  def back_btton_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if Globals.price_changed:
+    self.content_panel.clear()
+    get_open_form().go_to_home()
+
+  def price_text_box_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    Globals.price_changed = True
+
+  def lowest_price_text_box_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    Globals.price_changed = True
+
+  def comment_text_field_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    Globals.price_changed = True
+
+
+
+
 
 
 
