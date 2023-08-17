@@ -18,6 +18,9 @@ order_id = 0
 order_total = 0
 order_paid = False
 
+# Price Confirmation
+price_confirmation_products = ()
+
 def reset_order_details():
   main = {}
   product = {}
