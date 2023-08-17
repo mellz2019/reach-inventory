@@ -78,11 +78,13 @@ class PriceConfirmation(PriceConfirmationTemplate):
     linked_product_ids = Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']
     for i in range(len(linked_product_ids)):
       update_product = {
-        "Pirce": self.price_text_box.text,
+        "Price": self.price_text_box.text,
         "Lowest Price": self.lowest_price_text_box.text
       }
-      print(f"updating product: {linked_product_ids[i]}")
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
+
+    # update the main with the notes
+    # if this is not the last product, go to the next product. If it is the last product, go back home
 
   def price_text_box_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
