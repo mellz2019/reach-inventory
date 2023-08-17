@@ -57,6 +57,7 @@ components:
         background: '', bold: false, underline: false, icon: 'fa:check'}
       name: price_confirmation_button
       layout_properties: {grid_position: 'HLATXZ,WOGHOK'}
+      event_bindings: {click: price_confirmation_button_click}
     - type: Button
       properties: {role: elevated-button, align: center, tooltip: '', border: '',
         enabled: false, foreground: '', visible: true, text: Settings, font_size: null,
