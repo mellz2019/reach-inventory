@@ -23,6 +23,7 @@ price_confirmation_mains = []
 currently_selected_price_confirm_product = 0
 price_changed = False
 price_confirmed = False
+comments_changed = False
 
 def reset_order_details():
   main = {}
