@@ -165,7 +165,7 @@ components:
         background: ''
         bold: false
         underline: false
-        include_placeholder: true
+        include_placeholder: false
       name: product_selector_dropdown
       layout_properties: {grid_position: 'EWHZPR,NDIFQR'}
       event_bindings: {change: product_selector_dropdown_change}

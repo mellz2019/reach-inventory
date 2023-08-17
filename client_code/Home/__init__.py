@@ -15,6 +15,7 @@ class Home(HomeTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    Globals.clear_price_confirmation_information()
 
   def cancel(self):
     self.content_panel.clear()
