@@ -68,6 +68,11 @@ def get_all_items(table):
   return table.get_all()
 
 @anvil.server.callable
+def search_for_items(table, column_to_search, search_value):
+    table = get_table(table)
+    return table.search(column_to_search, search_value)
+
+@anvil.server.callable
 def get_single_item(table, id):
   table = get_table(table)
   item = table.get(id)
