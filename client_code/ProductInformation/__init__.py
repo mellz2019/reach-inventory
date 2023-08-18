@@ -29,7 +29,7 @@ class ProductInformation(ProductInformationTemplate):
       data = anvil.server.call('decode', anvil.image.generate_thumbnail(file, 640))
 
       if len(data) < 1:
-        alert('No barcode found.')
+        alert('No barcode found. Please make sure your image is a close-up and in focus image of the barocde.')
       else:
         self.barcode_text_box.text = ",".join(data)
         self.search_button.enabled = True
