@@ -204,11 +204,11 @@ class PriceConfirmation(PriceConfirmationTemplate):
       self.lowest_price_text_box.text = str(self.lowest_price_text_box.text) + ".00"
     if self.price_text_box.text < self.lowest_price_text_box.text:
       alert(f"Lowest price (${self.lowest_price_text_box.text}) can not be higher than regular price (${self.price_text_box.text})")
-      print(str(self.price_text_box.text))
-      if ".00" in str(self.price_text_box.text):
+      if "." not in str(self.price_text_box.text):
         self.lowest_price_text_box.text = str(self.price_text_box.text) + ".00"
       else:
         self.lowest_price_text_box.text = self.price_text_box.text
+    self.confirm_price_button.enabled = True
 
   def back_btton_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -231,6 +231,12 @@ class PriceConfirmation(PriceConfirmationTemplate):
   def lowest_price_text_box_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
     Globals.price_changed = True
+    if self.lowest_price_text_box.text is None:
+      price = 0
+    else:
+      price = self.lowest_price_text_box.text
+    if self.price_text_box.text < price:
+      self.confirm_price_button.enabled = False
 
   def comment_text_field_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
