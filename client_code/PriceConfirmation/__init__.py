@@ -172,26 +172,43 @@ class PriceConfirmation(PriceConfirmationTemplate):
     else:
       if self.set_aside_text_field.text > len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
         Globals.set_aside = 0
-    calculated_price = float(self.price_text_box.text) * (Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation'] - float(Globals.set_aside))
-    self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
+
+    if self.price_text_box.text is None:
+      price = 0
+    else:
+      price = self.price_text_box.text
+      
+    calculated_price = float(price) * (Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation'] - float(Globals.set_aside))
+    self.price_calculation_label.text = f"${Globals.alternate_round_to_two_decimal_places(calculated_price)} value"
 
   def price_text_box_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
-    if not Globals.is_valid_currency(self.price_text_box.text):
+    if self.price_text_box.text is None:
+      self.price_text_box.text = 0.00
+    if not Globals.is_valid_currency(str(self.price_text_box.text)):
       alert(f"{self.price_text_box.text} is not a valid currency")
       return
-    if "." not in self.price_text_box.text:
-      self.price_text_box.text = self.price_text_box.text + ".00"
+    if "." not in str(self.price_text_box.text):
+      self.price_text_box.text = str(self.price_text_box.text) + ".00"
 
     calculated_price = self.calculate_price()
 
   def lowest_price_text_box_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
-    if not Globals.is_valid_currency(self.lowest_price_text_box.text):
+    if self.lowest_price_text_box.text is None:
+      self.lowest_price_text_box.text = 0.00
+    if not Globals.is_valid_currency(str(self.lowest_price_text_box.text)):
       alert(f"{self.lowest_price_text_box.text} is not a valid currency")
       return
-    if "." not in self.lowest_price_text_box.text:
-      self.lowest_price_text_box.text = self.lowest_price_text_box.text + ".00"
+    if "." not in str(self.lowest_price_text_box.text):
+      self.lowest_price_text_box.text = str(self.lowest_price_text_box.text) + ".00"
+    if self.price_text_box.text < self.lowest_price_text_box.text:
+      alert(f"Lowest price (${self.lowest_price_text_box.text}) can not be higher than regular price (${self.price_text_box.text})")
+      if "." not in str(self.price_text_box.text):
+        self.lowest_price_text_box.text = str(self.price_text_box.text) + ".00"
+      else:
+        self.lowest_price_text_box.text = self.price_text_box.text
+    self.confirm_price_button.enabled = True
 
   def back_btton_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -208,11 +225,18 @@ class PriceConfirmation(PriceConfirmationTemplate):
 
   def price_text_box_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
+    self.calculate_price()
     Globals.price_changed = True
 
   def lowest_price_text_box_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
     Globals.price_changed = True
+    if self.lowest_price_text_box.text is None:
+      price = 0
+    else:
+      price = self.lowest_price_text_box.text
+    if self.price_text_box.text < price:
+      self.confirm_price_button.enabled = False
 
   def comment_text_field_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
