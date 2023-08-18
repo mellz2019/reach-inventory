@@ -172,6 +172,9 @@ class PriceConfirmation(PriceConfirmationTemplate):
     else:
       if self.set_aside_text_field.text > len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
         Globals.set_aside = 0
+
+    if self
+    
     calculated_price = float(self.price_text_box.text) * (Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation'] - float(Globals.set_aside))
     self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
 
@@ -208,6 +211,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
 
   def price_text_box_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
+    self.calculate_price()
     Globals.price_changed = True
 
   def lowest_price_text_box_change(self, **event_args):
