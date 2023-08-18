@@ -83,6 +83,7 @@ def get_single_product_from_order(id):
     return None
 
 def is_valid_currency(value):
+    value = alternate_round_to_two_decimal_places(float(value))
     pattern = r'^\d{1,3}(,\d{3})*(\.\d{2})?$'
     return bool(re.match(pattern, value))
 
