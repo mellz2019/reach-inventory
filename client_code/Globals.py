@@ -83,9 +83,8 @@ def get_single_product_from_order(id):
     return None
 
 def is_valid_currency(value):
-    value = alternate_round_to_two_decimal_places(float(value))
     pattern = r'^\d{1,3}(,\d{3})*(\.\d{2})?$'
-    return bool(re.match(pattern, value))
+    return bool(re.match(pattern, str(value)))
 
 def edit_product_in_order_by_id(id, value_to_update, update_value):
     items_list = list(order)

@@ -185,11 +185,16 @@ class PriceConfirmation(PriceConfirmationTemplate):
     """This method is called when the TextBox loses focus"""
     if self.price_text_box.text is None:
       self.price_text_box.text = 0.00
-    if not Globals.is_valid_currency(str(self.price_text_box.text)):
+    if not Globals.is_valid_currency(self.price_text_box.text):
       alert(f"{self.price_text_box.text} is not a valid currency")
+      self.price_text_box.text = Globals.alternate_round_to_two_decimal_places(self.price_text_box.text)
+      if self.price_text_box.text < self.lowest_price_text_box.text:
+        self.lowest_price_text_box.text = Globals.alternate_round_to_two_decimal_places(self.price_text_box.text)
       return
     if "." not in str(self.price_text_box.text):
       self.price_text_box.text = str(self.price_text_box.text) + ".00"
+    if self.price_text_box.text < self.lowest_price_text_box.text:
+      self.lowest_price_text_box.text = Globals.alternate_round_to_two_decimal_places(self.price_text_box.text)
 
     calculated_price = self.calculate_price()
 
@@ -199,7 +204,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
       self.lowest_price_text_box.text = 0.00
     if not Globals.is_valid_currency(str(self.lowest_price_text_box.text)):
       alert(f"{self.lowest_price_text_box.text} is not a valid currency")
-      return
+      self.lowest_price_text_box.text = Globals.alternate_round_to_two_decimal_places(self.lowest_price_text_box.text)
     if "." not in str(self.lowest_price_text_box.text):
       self.lowest_price_text_box.text = str(self.lowest_price_text_box.text) + ".00"
     if self.price_text_box.text < self.lowest_price_text_box.text:
