@@ -15,9 +15,10 @@ class PendingOrders(PendingOrdersTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    pending_orders = anvil.server.call('get_items_from_view', 'orders', 'Non-Completed')
+    if not Globals.order:
+      existing_orders = anvil.server.call('get_items_from_view', 'orders', 'Past Week')
 
-    for i in range(len(pending_orders)):
-      Globals.orders = Globals.order + (pending_orders[i],)
+    for i in range(len(existing_orders)):
+      Globals.orders = Globals.order + (existing_orders[i],)
     
-    self.orders_panel.items =  pending_orders
+    self.orders_panel.items =  existing_orders

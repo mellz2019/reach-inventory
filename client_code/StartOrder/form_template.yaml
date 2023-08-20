@@ -29,6 +29,13 @@ components:
     layout_properties: {grid_position: 'FEVCJB,JALZVN', full_width_row: false, row_background: ''}
     data_bindings:
     - {property: items, code: 'self.item['''']'}
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter notes about this order. (Optional),
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: orders_comment_text_box
+    layout_properties: {grid_position: 'BVOMZD,NYEWPN'}
   - type: Button
     properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Add Product, font_size: null, font: '',
