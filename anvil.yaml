@@ -79,5 +79,11 @@ db_schema:
     - name: airtable_id
       admin_ui: {order: 13, width: 200}
       type: string
+    - name: First Name
+      admin_ui: {order: 13, width: 200}
+      type: string
+    - name: Last Name
+      type: string
+      admin_ui: {width: 200, order: 14}
     title: Users
 renamed: true

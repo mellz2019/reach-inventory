@@ -46,9 +46,8 @@ class Base(BaseTemplate):
     user = anvil.users.get_user()
     if user:
       email = user['email']
-      air_table_user = anvil.server.call('get_single_item', 'users', user['airtable_id'])
-      first_name = air_table_user['fields']['First Name']
-      last_name = air_table_user['fields']['Last Name']
+      first_name = user['First Name']
+      last_name = user['Last Name']
       self.sign_in_link.text = f"{first_name} {last_name[0]}."
     else:
       self.sign_in_link.text = 'Sign In'

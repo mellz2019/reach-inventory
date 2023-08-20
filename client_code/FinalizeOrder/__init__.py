@@ -41,6 +41,7 @@ class FinalizeOrder(FinalizeOrderTemplate):
       self.complete_order_button.enabled = False
       self.complete_order_button.text = 'Completing Order...'
       self.edit_order_button.enabled = False
+      self.mark_as_paid_button.enabled = False
       # Update each product's Final Price
       selected_price = 0
       for product in Globals.order:
