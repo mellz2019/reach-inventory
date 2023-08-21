@@ -13,6 +13,7 @@ from ..OrderSelector import OrderSelector
 from ..FinalizeOrder import FinalizeOrder
 from ..ProductDetails import ProductDetails
 from ..ProductInformation import ProductInformation
+from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
@@ -47,6 +48,9 @@ class Base(BaseTemplate):
   def back_button_callback(self):
     ProductDetails.render_product_details(self)
 
+  def render_search_product_to_add_to_order(self):
+    SearchProductToAddProductToOrder().render_search_product_to_add_to_order(self)
+    
   def back(self):
     OrderSelector.back(self)
 

@@ -48,7 +48,7 @@ class ProductDetails(ProductDetailsTemplate):
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.content_panel.clear()
-    get_open_form().back_button_callback()
+    get_open_form().render_product_information()
 
   def render_product_details(self):
     self.content_panel.clear()

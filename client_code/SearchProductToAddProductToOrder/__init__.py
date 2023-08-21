@@ -19,6 +19,10 @@ class SearchProductToAddProductToOrder(SearchProductToAddProductToOrderTemplate)
 
     # Any code you write here will run before the form opens.
     self.render_start_order = render_start_order
+
+  def render_search_product_to_add_to_order(self):
+    self.content_panel.clear()
+    self.content_panel.add_component(SearchProductToAddProductToOrder(self.render_start_order))
     
 
   def file_loader_1_change(self, file, **event_args):
@@ -40,6 +44,7 @@ class SearchProductToAddProductToOrder(SearchProductToAddProductToOrderTemplate)
     self.search_button.text = 'Searching...'
     self.search_button.enabled = False
     self.file_loader_1.enabled = False
+    self.barcode_textbox.enabled = False
 
     if self.barcode_textbox.text == None:
       alert('Please scan or enter a barcode.')
@@ -53,10 +58,20 @@ class SearchProductToAddProductToOrder(SearchProductToAddProductToOrderTemplate)
     
     if not product:
       alert('Product not found.')
+      self.search_button.text = 'Search'
+      self.search_button.enabled = True
+      self.file_loader_1.enabled = True
+      self.barcode_textbox.enabled = True
+      return
     else:
       has_main = product['fields']['Has Main']
     if has_main != 1:
       alert('Product is not connected to main.')
+      self.search_button.text = 'Search'
+      self.search_button.enabled = True
+      self.file_loader_1.enabled = True
+      self.barcode_textbox.enabled = True
+      return
     else:
       Globals.main = anvil.server.call('get_single_item', 'main', product['fields']['Main ID'][0])
       Globals.product = product

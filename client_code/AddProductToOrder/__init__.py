@@ -74,8 +74,7 @@ class AddProductToOrder(AddProductToOrderTemplate):
   def cancel_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     #TODO
-    # self.content_panel.clear()
-    # What do we need to go back to?
+    get_open_form().render_start_order()
     pass
 
 
