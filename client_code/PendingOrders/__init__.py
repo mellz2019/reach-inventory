@@ -27,6 +27,7 @@ class PendingOrders(PendingOrdersTemplate):
 
     if Globals.selected_order_ownership == '':
       Globals.selected_order_ownership = "My Orders"
+      belonging_to = f" belonging to {user['First Name']} {user['Last Name'][0]}."
       Globals.selected_order_status = "All"
       self.order_ownership_dropdown.selected_value = Globals.selected_order_ownership
       existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id']]
@@ -37,6 +38,11 @@ class PendingOrders(PendingOrdersTemplate):
     else:
       self.order_ownership_dropdown.selected_value = Globals.selected_order_ownership
       self.order_status_dropdown.selected_value = Globals.selected_order_status
+
+      if Globals.selected_order_ownership == 'My Orders':
+        belonging_to = f"{user['First Name']} {user['Last Name'][0]}."
+      elif Globals.selected_order_ownership == 'Everyone\'s Orders':
+        belonging_to = ''
       
       if Globals.selected_order_ownership == 'My Orders' and Globals.selected_order_status == 'All':
         existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id']]
@@ -44,7 +50,37 @@ class PendingOrders(PendingOrdersTemplate):
           orders_exist = False
         status_phrase = 'with all statuses'
       elif Globals.selected_order_ownership == 'My Orders' and Globals.selected_order_status == 'Pending':
-        existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id']] and order['fields']['Status'] == 'Pending'
+        existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id'] and order['fields']['Status'] == 'Pending']
+        if not existing_orders:
+          orders_exist = False
+        status_phrase = f'with a status of {Globals.selected_order_status}'
+      elif Globals.selected_order_ownership == 'My Orders' and Globals.selected_order_status == 'Finalization':
+        existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id'] and order['fields']['Status'] == 'Finalization']
+        if not existing_orders:
+          orders_exist = False
+        status_phrase = f'with a status of {Globals.selected_order_status}'
+      elif Globals.selected_order_ownership == 'My Orders' and Globals.selected_order_status == 'Complete':
+        existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id'] and order['fields']['Status'] == 'Complete']
+        if not existing_orders:
+          orders_exist = False
+        status_phrase = f'with a status of {Globals.selected_order_status}'
+      elif Globals.selected_order_ownership == 'Everyone\'s Orders' and Globals.selected_order_status == 'All':
+        existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id']]
+        if not existing_orders:
+          orders_exist = False
+        status_phrase = 'with all statuses'
+      elif Globals.selected_order_ownership == 'Everyone\'s Orders' and Globals.selected_order_status == 'Pending':
+        existing_orders = [order for order in existing_orders if order['fields']['Status'] == 'Pending']
+        if not existing_orders:
+          orders_exist = False
+        status_phrase = f'with a status of {Globals.selected_order_status}'
+      elif Globals.selected_order_ownership == 'Everyone\'s Orders' and Globals.selected_order_status == 'Finalization':
+        existing_orders = [order for order in existing_orders if order['fields']['Status'] == 'Finalization']
+        if not existing_orders:
+          orders_exist = False
+        status_phrase = f'with a status of {Globals.selected_order_status}'
+      elif Globals.selected_order_ownership == 'Everyone\'s Orders' and Globals.selected_order_status == 'Complete':
+        existing_orders = [order for order in existing_orders if order['fields']['Status'] == 'Complete']
         if not existing_orders:
           orders_exist = False
         status_phrase = f'with a status of {Globals.selected_order_status}'
@@ -57,7 +93,7 @@ class PendingOrders(PendingOrdersTemplate):
       if num_of_orders == 1:
         quantity_phrase = 'There is'
         quantity_word = 'order'
-    self.filter_results_label.text = f"{quantity_phrase} {num_of_orders} {quantity_word} belonging to {user['First Name']} {user['Last Name'][0]}. {status_phrase}."
+    self.filter_results_label.text = f"{quantity_phrase} {num_of_orders} {quantity_word}{belonging_to} {status_phrase}."
     if orders_exist:
       self.orders_panel.items =  existing_orders
     else:
