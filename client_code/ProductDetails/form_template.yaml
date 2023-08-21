@@ -127,7 +127,7 @@ components:
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Remove from Production, font_size: null,
         font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: true, underline: false, icon: ''}
+        background: '', bold: true, underline: false, icon: 'fa:trash'}
       name: remove_from_production_button
       layout_properties: {grid_position: 'KMCAES,KWGGZS'}
       event_bindings: {click: remove_from_production_button_click}
@@ -135,10 +135,18 @@ components:
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Order, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+        underline: false, icon: 'fa:inbox'}
       name: order_button
       layout_properties: {grid_position: 'KMCAES,GPDBXS'}
       event_bindings: {click: order_button_click}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: false,
+        foreground: '', visible: true, text: More, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: 'fa:align-justify'}
+      name: more_actions_button
+      layout_properties: {grid_position: 'KMCAES,OIJBFH'}
+      event_bindings: {click: more_actions_button_click}
 is_package: true
 custom_component: true
 properties:

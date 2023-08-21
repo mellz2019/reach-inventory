@@ -134,6 +134,11 @@ class ProductDetails(ProductDetailsTemplate):
       self.order_button.enabled = True
       self.back_button.enabled = True
 
+  def more_actions_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+
 
     
     
