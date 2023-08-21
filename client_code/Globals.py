@@ -27,6 +27,14 @@ comments_changed = False
 set_aside = 0
 main_number_name_list = []
 
+# Order Selector Orders
+selected_order_ownership = ''
+selected_order_status = ''
+
+def clar_selected_order_information():
+  selected_order_ownership = ''
+  selected_order_status = ''
+
 def clear_price_confirmation_information():
   price_confirmation_mains = []
   currently_selected_price_confirm_product = 0
