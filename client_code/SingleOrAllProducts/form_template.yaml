@@ -1,0 +1,50 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'VSCONN,NDWWCH'}
+  components:
+  - type: Spacer
+    properties: {height: 47}
+    name: spacer_1
+    layout_properties: {grid_position: 'OVJPFH,VCTBKR'}
+  - type: ColumnPanel
+    properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: card_panel
+    layout_properties: {grid_position: 'VZOPQL,OBEFPV'}
+    components:
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Would you like to change the price for this single product
+          or for all products connected to this main?', font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: true,
+        background: '', bold: true, underline: false, icon: ''}
+      name: question_label
+      layout_properties: {grid_position: 'EFTKGT,YVMKAA'}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: All Products, font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: all_products_button
+      layout_properties: {grid_position: 'RPRPHI,OFAWVQ'}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: This Product, font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: single_product_button
+      layout_properties: {grid_position: 'LUGTJE,VHDMEI'}
+    - type: Button
+      properties: {role: outlined-button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: '', visible: true, text: Cancel, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: 'fa:arrow-circle-o-left'}
+      name: cancel_button
+      layout_properties: {grid_position: 'JKVPPH,NLSOUS'}
+is_package: true

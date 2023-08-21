@@ -10,6 +10,7 @@ import anvil.server
 from .. import Globals
 from ..StartOrder import StartOrder
 from ..RemoveProductFromProduction import RemoveProductFromProduction
+from ..MoreActions import MoreActions
 
 class ProductDetails(ProductDetailsTemplate):
   def __init__(self, back_button_callback, **properties):
@@ -136,7 +137,9 @@ class ProductDetails(ProductDetailsTemplate):
 
   def more_actions_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    self.content_panel.clear()
+    self.content_panel.role = 'default'
+    self.content_panel.add_component(MoreActions())
 
 
 

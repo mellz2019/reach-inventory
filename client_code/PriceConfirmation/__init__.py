@@ -92,6 +92,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     
     # Loop through all of the product_ids conntected to the currently selected main
     # Update each product's price
+    user = anvil.users.get_user()
     linked_product_ids = Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']
     for i in range(len(linked_product_ids)):
       if float(self.set_aside_text_field.text) == len(Globals.price_confirmation_mains):
@@ -104,14 +105,16 @@ class PriceConfirmation(PriceConfirmationTemplate):
           update_product = {
             "Price": self.price_text_box.text,
             "Lowest Price": self.lowest_price_text_box.text,
-            "Status": "In Production"
+            "Status": "In Production",
+            "Price Last Changed By": user['airtable_id']
           }
         else:
           update_product = {
             "Price": self.price_text_box.text,
             "Lowest Price": self.lowest_price_text_box.text,
             "Status": "Not Approved for Sale",
-            "Notes": "This product was set aside during price confirmation"
+            "Notes": "This product was set aside during price confirmation",
+            "Price Last Changed By": user['airtable_id']
           }
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
