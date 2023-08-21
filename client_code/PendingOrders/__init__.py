@@ -16,6 +16,8 @@ class PendingOrders(PendingOrdersTemplate):
     user = anvil.users.get_user()
     orders_exist = True
 
+    self.filter_button.enabled = False
+
     # Any code you write here will run before the form opens.
     if not Globals.order:
       existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', 25)
@@ -40,7 +42,7 @@ class PendingOrders(PendingOrdersTemplate):
       self.order_status_dropdown.selected_value = Globals.selected_order_status
 
       if Globals.selected_order_ownership == 'My Orders':
-        belonging_to = f"{user['First Name']} {user['Last Name'][0]}."
+        belonging_to = f" belonging to {user['First Name']} {user['Last Name'][0]}."
       elif Globals.selected_order_ownership == 'Everyone\'s Orders':
         belonging_to = ''
       
