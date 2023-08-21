@@ -15,8 +15,6 @@ class MoreActions(MoreActionsTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    Globals.came_from_more_actions = False
-
     user = anvil.users.get_user()
     self.change_price_button.enabled = user['airtable_id'] == 'recLMPfGbsbReIeZD' or user['airtable_id'] == 'rec6PFEn8sQhkdO3J'
 
@@ -33,8 +31,15 @@ class MoreActions(MoreActionsTemplate):
   
   def change_price_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    Globals.came_from_more_actions = True
-    self.content_panel.clear()
-    self.content_panel.add_component(SingleOrAllProducts())
+    if Globals.product['fields']['Status'] == 'In Production':
+      self.content_panel.clear()
+      self.content_panel.add_component(SingleOrAllProducts())
+    else:
+      alert('Product must have a status of \'In Production\' in order to change its price.')
+
+  def cancel_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    get_open_form().render_product_details()
+
 
     

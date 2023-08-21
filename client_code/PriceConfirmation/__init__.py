@@ -21,7 +21,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     Globals.price_changed = False
     Globals.comments_changed = False
     Globals.set_aside = 0
-
+    
     linked_product = anvil.server.call('get_single_item', 'products', mains[selected_product_index]['fields']['Products'][0])
 
     if selected_product_index == 0:
@@ -116,6 +116,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
             "Notes": "This product was set aside during price confirmation",
             "Price Last Changed By": user['airtable_id']
           }
+
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
     # update the main with the notes if the text box has changed

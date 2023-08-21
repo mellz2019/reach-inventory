@@ -102,7 +102,7 @@ class PendingOrders(PendingOrdersTemplate):
 
   def order_ownership_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
-    pass
+    self.filter_button.enabled = True
 
   def filter_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -110,4 +110,9 @@ class PendingOrders(PendingOrdersTemplate):
     Globals.selected_order_status = self.order_status_dropdown.selected_value
     self.content_panel.clear()
     self.content_panel.add_component(PendingOrders())
+
+  def order_status_dropdown_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.filter_button.enabled = True
+
 

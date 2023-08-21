@@ -56,11 +56,12 @@ components:
     - type: TextBox
       properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter custom price...,
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
       name: custom_price_textfield
       layout_properties: {grid_position: 'FKYGKE,HQDLIY'}
-      event_bindings: {change: custom_price_textfield_change, pressed_enter: custom_price_textfield_pressed_enter}
+      event_bindings: {change: custom_price_textfield_change, pressed_enter: custom_price_textfield_pressed_enter,
+        lost_focus: custom_price_textfield_lost_focus}
     - type: Button
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Confirm Price, font_size: null, font: '',

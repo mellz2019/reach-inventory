@@ -73,6 +73,7 @@ components:
       include_placeholder: false
     name: order_status_dropdown
     layout_properties: {grid_position: 'NOTAQM,LGBCPV'}
+    event_bindings: {change: order_status_dropdown_change}
   - type: Button
     properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Filter, font_size: null, font: '', spacing_above: small,

@@ -102,7 +102,10 @@ class StartOrder(StartOrderTemplate):
 
   def back_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.back()
+    if Globals.coming_from_product_details:
+      get_open_form().render_product_details()
+    else:
+      self.back()
 
   def finalize_order_button_click(self, **event_args):
     """This method is called when the button is clicked"""
