@@ -139,6 +139,11 @@ class EditPrice(EditPriceTemplate):
     """This method is called when the user presses Enter in this text box"""
     self.handle_confirm_price()
 
+  def cancel_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    get_open_form().render_start_order()
+
+
 
 
 
