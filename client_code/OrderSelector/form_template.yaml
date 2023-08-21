@@ -29,7 +29,7 @@ components:
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: New Order, font_size: null, font: '',
         spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+        background: '', bold: false, underline: false, icon: 'fa:plus-circle'}
       name: start_order_button
       layout_properties: {grid_position: 'IMEWCQ,KDQKVY'}
       event_bindings: {click: start_order_button_click}
@@ -37,7 +37,7 @@ components:
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Existing Orders, font_size: null, font: '',
         spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+        background: '', bold: false, underline: false, icon: 'fa:inbox'}
       name: pending_orders_button
       layout_properties: {grid_position: 'OIVQBT,NHSNYQ'}
       event_bindings: {click: existing_orders_button_click}

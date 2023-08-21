@@ -11,6 +11,8 @@ from ..Home import Home
 from ..StartOrder import StartOrder
 from ..OrderSelector import OrderSelector
 from ..FinalizeOrder import FinalizeOrder
+from ..ProductDetails import ProductDetails
+from ..ProductInformation import ProductInformation
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
@@ -30,11 +32,20 @@ class Base(BaseTemplate):
   def render_start_order(self):
     StartOrder.render_start_order(self)
 
+  def render_product_information(self):
+    ProductInformation.back(self)
+
   def update_start_order_order_id_label(self):
     StartOrder.update_order_id_label(self)
 
   def clear_start_order_content_panel(self):
     StartOrder.clear_start_order_content_panel(self)
+
+  def render_product_details(self):
+    ProductDetails.render_product_details(self)
+
+  def back_button_callback(self):
+    ProductDetails.render_product_details(self)
 
   def back(self):
     OrderSelector.back(self)

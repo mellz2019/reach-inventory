@@ -69,6 +69,10 @@ class FinalizeOrder(FinalizeOrderTemplate):
 
   def edit_order_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    update_order = {
+      "Status": 'Pending'
+    }
+    anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
     self.content_panel.clear()
     get_open_form().render_start_order()
 

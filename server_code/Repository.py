@@ -86,6 +86,18 @@ def get_items_from_view(table, view):
   table = get_table(table)
   items = table.get_all(view=view)
   return items
+
+@anvil.server.callable
+def get_num_of_records_from_any_view(table, num_records):
+  table = get_table(table)
+  items = table.get_all(maxRecords=num_records)
+  return items
+
+@anvil.server.callable
+def get_num_of_records_from_specific_view(table, view, num_records):
+  table = get_table(table)
+  items = table.get_all(view=view, maxRecords=num_records)
+  return items
   
 
 @anvil.server.callable

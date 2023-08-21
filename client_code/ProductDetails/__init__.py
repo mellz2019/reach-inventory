@@ -47,7 +47,12 @@ class ProductDetails(ProductDetailsTemplate):
 
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.back_button_callback()
+    self.content_panel.clear()
+    get_open_form().back_button_callback()
+
+  def render_product_details(self):
+    self.content_panel.clear()
+    self.content_panel.add_component(ProductDetails(self.back_button_callback))
 
   def order_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -77,7 +82,10 @@ class ProductDetails(ProductDetailsTemplate):
           Globals.order_total = Globals.calculate_order_total()
           # Render the UI
           self.content_panel.clear()
-          self.content_panel.add_component(StartOrder(self.back_button_callback))
+          if airtable_order['fields']['Status'] == 'Finalization':
+            get_open_form().render_finalize_order()
+          else:
+            self.content_panel.add_component(StartOrder(self.back_button_callback))
     else:
       self.order_button.enabled = False
       if user['admin'] or user['can_start_order']:

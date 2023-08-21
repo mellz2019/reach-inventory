@@ -18,8 +18,8 @@ class PendingOrders(PendingOrdersTemplate):
 
     # Any code you write here will run before the form opens.
     if not Globals.order:
-      existing_orders = anvil.server.call('get_items_from_view', 'orders', 'Past Week')
-
+      existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', 25)
+    
       for i in range(len(existing_orders)):
         Globals.order = Globals.order + (existing_orders[i],)
     else:
@@ -65,7 +65,6 @@ class PendingOrders(PendingOrdersTemplate):
           orders_exist = False
         status_phrase = f'with a status of {Globals.selected_order_status}'
       elif Globals.selected_order_ownership == 'Everyone\'s Orders' and Globals.selected_order_status == 'All':
-        existing_orders = [order for order in existing_orders if order['fields']['Created By'][0] == user['airtable_id']]
         if not existing_orders:
           orders_exist = False
         status_phrase = 'with all statuses'
@@ -95,7 +94,7 @@ class PendingOrders(PendingOrdersTemplate):
         quantity_word = 'order'
     self.filter_results_label.text = f"{quantity_phrase} {num_of_orders} {quantity_word}{belonging_to} {status_phrase}."
     if orders_exist:
-      self.orders_panel.items =  existing_orders
+      self.orders_panel.items = existing_orders
     else:
       self.orders_panel.items = None
 

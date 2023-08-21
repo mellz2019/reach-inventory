@@ -38,6 +38,9 @@ class PendingOrder(PendingOrderTemplate):
     Globals.order_total = Globals.calculate_order_total()
     # Render the UI
     self.content_panel.clear()
-    get_open_form().render_start_order()
+    if self.item['fields']['Status'] == 'Finalization':
+      get_open_form().render_finalize_order()
+    else:
+      get_open_form().render_start_order()
 
     
