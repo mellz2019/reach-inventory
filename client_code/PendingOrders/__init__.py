@@ -19,13 +19,13 @@ class PendingOrders(PendingOrdersTemplate):
     self.filter_button.enabled = False
 
     # Any code you write here will run before the form opens.
-    if not Globals.order:
+    if not Globals.orders:
       existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', 25)
     
       for i in range(len(existing_orders)):
-        Globals.order = Globals.order + (existing_orders[i],)
+        Globals.orders = Globals.orders + (existing_orders[i],)
     else:
-      existing_orders = Globals.order
+      existing_orders = Globals.orders
 
     if Globals.selected_order_ownership == '':
       Globals.selected_order_ownership = "My Orders"

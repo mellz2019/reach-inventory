@@ -17,9 +17,17 @@ class Home(HomeTemplate):
     # Any code you write here will run before the form opens.
     Globals.clear_price_confirmation_information()
 
+    Globals.orders = ()
+
   def cancel(self):
     self.content_panel.clear()
     self.content_panel.add_component(Home())
+
+  def user_signed_in(self):
+    self.price_confirmation_button.enabled = True
+    self.orders_button.enabled = True
+    self.product_info_button.enabled = True
+    self.login_label.visible = False
 
   def product_info_button_click(self, **event_args):
     """This method is called when the button is clicked"""

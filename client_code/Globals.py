@@ -17,6 +17,7 @@ order = ()
 order_id = 0
 order_total = 0
 order_paid = False
+orders = ()
 
 # Price Confirmation
 price_confirmation_mains = []
