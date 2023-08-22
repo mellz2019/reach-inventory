@@ -31,6 +31,15 @@ main_number_name_list = []
 selected_order_ownership = ''
 selected_order_status = ''
 
+# Change Price
+change_price_products = ()
+single_product_or_all_products = 'All'
+total_number_of_change_products = 0
+lowest_price_changed = False
+
+# Product Details
+coming_from_product_details = False
+
 def clar_selected_order_information():
   selected_order_ownership = ''
   selected_order_status = ''

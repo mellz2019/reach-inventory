@@ -14,6 +14,8 @@ from ..FinalizeOrder import FinalizeOrder
 from ..ProductDetails import ProductDetails
 from ..ProductInformation import ProductInformation
 from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
+from ..MoreActions import MoreActions
+from ..SingleOrAllProducts import SingleOrAllProducts
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
@@ -49,7 +51,10 @@ class Base(BaseTemplate):
     ProductDetails.render_product_details(self)
 
   def render_search_product_to_add_to_order(self):
-    SearchProductToAddProductToOrder().render_search_product_to_add_to_order(self)
+    SearchProductToAddProductToOrder.render_search_product_to_add_to_order(self)
+
+  def render_single_or_all_products(self):
+    SingleOrAllProducts.render_single_or_all_products(self)
     
   def back(self):
     OrderSelector.back(self)
@@ -57,10 +62,12 @@ class Base(BaseTemplate):
   def cancel(self):
     Home.cancel(self)
 
+  def render_more_actions(self):
+    MoreActions.render_more_actions(self)
+
   def change_sign_in_text(self):
     user = anvil.users.get_user()
     if user:
-      email = user['email']
       first_name = user['First Name']
       last_name = user['Last Name']
       self.sign_in_link.text = f"{first_name} {last_name[0]}."

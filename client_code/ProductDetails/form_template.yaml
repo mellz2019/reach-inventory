@@ -140,7 +140,7 @@ components:
       layout_properties: {grid_position: 'KMCAES,GPDBXS'}
       event_bindings: {click: order_button_click}
     - type: Button
-      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: false,
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: More, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: 'fa:align-justify'}

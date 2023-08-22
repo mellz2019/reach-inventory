@@ -9,6 +9,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from ..StartOrder import StartOrder
 from ..PendingOrders import PendingOrders
+from .. import Globals
 
 class OrderSelector(OrderSelectorTemplate):
   def __init__(self, cancel, **properties):

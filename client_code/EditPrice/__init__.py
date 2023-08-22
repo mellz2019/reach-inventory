@@ -64,7 +64,6 @@ class EditPrice(EditPriceTemplate):
 
   def handle_confirm_price(self):
     user = anvil.users.get_user()
-    """This method is called when the button is clicked"""
     selected_price = 0
     if self.regular_price_checkbox.checked:
       self.confirm_price_button.text = 'Confirming price...'
@@ -130,10 +129,11 @@ class EditPrice(EditPriceTemplate):
 
   def custom_price_textfield_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
-    if len(self.custom_price_textfield.text) > 0:
+    if self.custom_price_textfield.text != None:
+      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price']:
+        self.confirm_price_button.enabled = False
+      else:
         self.confirm_price_button.enabled = True
-    else:
-      self.confirm_price_button.enabled = False
 
   def custom_price_textfield_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
@@ -142,6 +142,15 @@ class EditPrice(EditPriceTemplate):
   def cancel_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     get_open_form().render_start_order()
+
+  def custom_price_textfield_lost_focus(self, **event_args):
+    """This method is called when the TextBox loses focus"""
+    if self.custom_price_textfield.text != None:
+      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price']:
+        alert(f"Custom price (${self.custom_price_textfield.text}) cannot be lower than the lowest price (${Globals.product['fields']['Lowest Price']}) accepted for this product.")
+        self.custom_price_textfield.text = Globals.product['fields']['Lowest Price']
+    else:
+      self.custom_price_textfield.text = Globals.product['fields']['Price']
 
 
 

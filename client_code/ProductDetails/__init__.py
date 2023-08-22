@@ -10,6 +10,7 @@ import anvil.server
 from .. import Globals
 from ..StartOrder import StartOrder
 from ..RemoveProductFromProduction import RemoveProductFromProduction
+from ..MoreActions import MoreActions
 
 class ProductDetails(ProductDetailsTemplate):
   def __init__(self, back_button_callback, **properties):
@@ -21,11 +22,15 @@ class ProductDetails(ProductDetailsTemplate):
     product = Globals.product
     main = Globals.main
 
+    Globals.coming_from_product_details = False
+    
     product_is_in_order = product['fields']['Is In Order']
     if product_is_in_order:
       self.order_button.text = "View Order"
     else:
       self.order_button.text = 'Add to New Order'
+
+    self.remove_from_production_button.enabled = product['fields']['Status'] == 'In Production'
 
     msrp_price = product['fields']['Price']
     self.name_label.text = f"{main['fields']['Name']} - ${Globals.round_to_decimal_places(msrp_price, 2)}"
@@ -35,7 +40,7 @@ class ProductDetails(ProductDetailsTemplate):
     self.condition_label.text = f"Condition: {product['fields']['Condition']}"
     self.category_label.text = f"Categories: {Globals.convert_list_to_string(main['fields']['Category'])}"
     lowest_price = product['fields']['Lowest Price']
-    self.price_label.text = f'MSRP: ${Globals.round_to_decimal_places(msrp_price, 2)}'
+    self.price_label.text = f'Regular Price: ${Globals.round_to_decimal_places(msrp_price, 2)}'
     self.lowest_price_label.text = f'Lowest Price: ${Globals.round_to_decimal_places(lowest_price, 2)}'
     self.status_label.text = f'Status: {product["fields"]["Status"]}'
     self.total_quantity_label.text = f"Total Units: {main['fields']['Quantity']}"
@@ -59,8 +64,10 @@ class ProductDetails(ProductDetailsTemplate):
     product = Globals.product
     main = Globals.main
     user = anvil.users.get_user()
+    Globals.coming_from_product_details = True
     self.remove_from_production_button.enabled = False
     self.back_button.enabled = False
+    self.more_actions_button.enabled = False
     if product['fields']['Is In Order'] == 1:
         self.order_button.text = 'Loading order...'
         self.order_button.enabled = False
@@ -68,6 +75,7 @@ class ProductDetails(ProductDetailsTemplate):
         airtable_order = anvil.server.call('get_single_item', 'orders', Globals.product['fields']['Order ID'][0])
         if not airtable_order:
           alert('Airtable order not found')
+          Globals.coming_from_product_details = False
         else:
           # Set the order id
           Globals.order_id = airtable_order['id']
@@ -82,6 +90,7 @@ class ProductDetails(ProductDetailsTemplate):
           Globals.order_total = Globals.calculate_order_total()
           # Render the UI
           self.content_panel.clear()
+          self.content_panel.role = 'default'
           if airtable_order['fields']['Status'] == 'Finalization':
             get_open_form().render_finalize_order()
           else:
@@ -109,6 +118,7 @@ class ProductDetails(ProductDetailsTemplate):
           self.content_panel.add_component(StartOrder(self.back_button_callback))
       else:
         alert('You do not have access to this feature. Please contact an administrator.')
+        Globals.coming_from_product_details = False
 
   def remove_from_production_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -116,6 +126,7 @@ class ProductDetails(ProductDetailsTemplate):
     self.remove_from_production_button.enabled = False
     self.order_button.enabled = False
     self.back_button.enabled = False
+    self.more_actions_button.enabled = False
     if Globals.product['fields']['Status'] == 'In Production':
       user = anvil.users.get_user()
       if user['admin'] or user['can_remove_product_from_production']:
@@ -127,16 +138,20 @@ class ProductDetails(ProductDetailsTemplate):
         self.remove_from_production_button.enabled = True
         self.order_button.enabled = True
         self.back_button.enabled = True
+        self.more_actions_button.enabled = True
     else:
       alert('Product must have status of \"In Production" for this feature.')
       self.remove_from_production_button.text = "Remove from Production"
       self.remove_from_production_button.enabled = True
       self.order_button.enabled = True
       self.back_button.enabled = True
+      self.more_actions_button.enabled = True
 
   def more_actions_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    self.content_panel.clear()
+    self.content_panel.role = 'default'
+    self.content_panel.add_component(MoreActions())
 
 
 
