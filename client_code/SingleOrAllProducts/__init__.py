@@ -29,8 +29,11 @@ class SingleOrAllProducts(SingleOrAllProductsTemplate):
     self.single_product_button.enabled = False
     self.cancel_button.enabled = False
     main = anvil.server.call('get_single_item', 'main', Globals.product['fields']['Main'][0])
-    Globals.change_price_products_ids = main['fields']['Products']
-    print(Globals.change_price_products_ids)
+    Globals.total_number_of_change_products = len(main['fields']['Products'])
+    for product_id in main['fields']['Products']:
+      product = anvil.server.call('get_single_item', 'products', product_id)
+      if product['fields']['Status'] == 'In Production':
+        Globals.change_price_products = Globals.change_price_products + (product,)
     self.go_to_change_price()
 
   def single_product_button_click(self, **event_args):

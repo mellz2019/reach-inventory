@@ -16,7 +16,8 @@ class ChangePrice(ChangePriceTemplate):
 
     # Any code you write here will run before the form opens.
     if Globals.single_product_or_all_products == 'All':
-      self.title_label.text = f"Changing price for {len(Globals.change_price_products_ids)} products"
+      self.title_label.text = f"Changing price for {len(Globals.change_price_products)} products"
+      self.info_label.text = f"There are {Globals.total_number_of_change_products} total products of this type. You can change the price of {len(Globals.change_price_products)} products due to their status being 'In Production'."
     else:
       self.title_label.text = 'Changing price for 1 product'
 
@@ -25,14 +26,12 @@ class ChangePrice(ChangePriceTemplate):
     self.cancel_button.enabled = False
     self.regular_price_text_box.enabled = False
     self.lowest_price_text_box.enabled = False
+    self.confirm_price_button.enabled = False
 
     self.confirm_price_button.text = 'Confirming Price...'
 
     if Globals.single_product_or_all_products == 'All':
-      # Get the main
-      # Get all of the linked product ids
       # Update each product that has a status of 'In Production'
-      # Go back to more actions
       pass
     else:
       # Update the product

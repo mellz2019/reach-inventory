@@ -32,8 +32,9 @@ selected_order_ownership = ''
 selected_order_status = ''
 
 # Change Price
-change_price_products_ids = {}
+change_price_products = ()
 single_product_or_all_products = 'All'
+total_number_of_change_products = 0
 
 # Product Details
 coming_from_product_details = False
