@@ -30,6 +30,8 @@ class ProductDetails(ProductDetailsTemplate):
     else:
       self.order_button.text = 'Add to New Order'
 
+    self.remove_from_production_button.enabled = product['fields']['Status'] == 'In Production'
+
     msrp_price = product['fields']['Price']
     self.name_label.text = f"{main['fields']['Name']} - ${Globals.round_to_decimal_places(msrp_price, 2)}"
     self.product_image.source = main['fields']['Image'][0]['thumbnails']['large']['url']

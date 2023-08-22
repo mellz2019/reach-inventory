@@ -31,6 +31,11 @@ class ChangePrice(ChangePriceTemplate):
       self.title_label.text = 'Changing price for 1 product'
 
   def confirm_price_button_click(self, **event_args):
+    if self.lowest_price_text_box.text != None and self.regular_price_text_box.text != None:
+      if self.lowest_price_text_box.text > self.regular_price_text_box.text:
+        alert('Lowest price cannot be more than regular price.')
+        self.lowest_price_text_box.text = self.regular_price_text_box.text
+        return
     """This method is called when the button is clicked"""
     self.cancel_button.enabled = False
     self.regular_price_text_box.enabled = False
@@ -43,13 +48,16 @@ class ChangePrice(ChangePriceTemplate):
     
     if Globals.single_product_or_all_products == 'All':
       # Update each product that has a status of 'In Production'
-      for product in Globals.change_price_products:
+      for i in range(len(Globals.change_price_products)):
+        self.update_status_label.text = f"Updating product {i+1} of {len(Globals.change_price_products)}"
+        self.update_status_label.visible = True
         update_product = {
           "Price": self.regular_price_text_box.text,
           "Lowest Price": self.lowest_price_text_box.text,
-          "Price last Edited By": user['airtable_id']
+          "Price Last Edited By": user['airtable_id']
         }
-        anvil.server.call('update_item', 'products', product['id'], update_product)
+        anvil.server.call('update_item', 'products', Globals.change_price_products[i]['id'], update_product)
+      self.update_status_label.text = 'Done!'
     else:
       # Update the product
       update_product = {
@@ -59,9 +67,15 @@ class ChangePrice(ChangePriceTemplate):
       }
 
       anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
+    alert(f'The price has been succesfully updated!')
+    self.update_status_label.visible = False
       
   def regular_price_text_box_lost_focus(self, **event_args):
-    pass
+    if self.lowest_price_text_box.text > self.regular_price_text_box.text:
+      self.lowest_price_text_box.text = self.regular_price_text_box.text
+      n = Notification('Lowest price cannot be more than regular price.')
+      n.show()
+      self.confirm_price_button.enabled = True
 
   def regular_price_text_box_change(self, **event_args):
     if not Globals.is_valid_currency(str(self.regular_price_text_box.text)):
