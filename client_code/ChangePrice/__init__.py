@@ -39,32 +39,67 @@ class ChangePrice(ChangePriceTemplate):
 
     self.confirm_price_button.text = 'Confirming Price...'
 
+    user = anvil.users.get_user()
+    
     if Globals.single_product_or_all_products == 'All':
       # Update each product that has a status of 'In Production'
-      pass
+      for product in Globals.change_price_products:
+        update_product = {
+          "Price": self.regular_price_text_box.text,
+          "Lowest Price": self.lowest_price_text_box.text,
+          "Price last Edited By": user['airtable_id']
+        }
+        anvil.server.call('update_item', 'products', product['id'], update_product)
     else:
       # Update the product
-      pass
+      update_product = {
+        "Price": self.regular_price_text_box.text,
+        "Lowest Price": self.lowest_price_text_box.text,
+        "Price Last Edited By": user['airtable_id']
+      }
 
+      anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
+      
   def regular_price_text_box_lost_focus(self, **event_args):
     pass
 
   def regular_price_text_box_change(self, **event_args):
     if not Globals.is_valid_currency(str(self.regular_price_text_box.text)):
       self.confirm_price_button.enabled = False
+      return
     else:
       self.confirm_price_button.enabled = True
 
     if not Globals.lowest_price_changed:
       self.lowest_price_text_box.text = self.regular_price_text_box.text
 
+    if self.regular_price_text_box.text == None or self.lowest_price_text_box.text == None:
+      self.confirm_price_button.enabled = False
+    else:
+      self.confirm_price_button.enabled = True
+
   def lowest_price_text_box_lost_focus(self, **event_args):
     if self.lowest_price_text_box.text > self.regular_price_text_box.text:
       self.lowest_price_text_box.text = self.regular_price_text_box.text
+      n = Notification('Lowest price cannot be more than regular price.')
+      n.show()
+      self.confirm_price_button.enabled = True
 
   def lowest_price_text_box_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
     Globals.lowest_price_changed = True
+
+    if self.lowest_price_text_box.text != None and self.regular_price_text_box.text != None:
+      if self.lowest_price_text_box.text > self.regular_price_text_box.text:
+        self.confirm_price_button.enabled = False
+        return
+      else:
+        self.confirm_price_button.enabled = True
+
+    if self.regular_price_text_box.text == None or self.lowest_price_text_box.text == None:
+      self.confirm_price_button.enabled = False
+    else:
+      self.confirm_price_button.enabled = True
 
   def cancel_button_click(self, **event_args):
     """This method is called when the button is clicked"""
