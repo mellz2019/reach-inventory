@@ -35,6 +35,7 @@ selected_order_status = ''
 change_price_products = ()
 single_product_or_all_products = 'All'
 total_number_of_change_products = 0
+lowest_price_changed = False
 
 # Product Details
 coming_from_product_details = False

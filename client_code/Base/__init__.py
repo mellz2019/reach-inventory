@@ -15,6 +15,7 @@ from ..ProductDetails import ProductDetails
 from ..ProductInformation import ProductInformation
 from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
 from ..MoreActions import MoreActions
+from ..SingleOrAllProducts import SingleOrAllProducts
 
 class Base(BaseTemplate):
   def __init__(self, **properties):
@@ -51,6 +52,9 @@ class Base(BaseTemplate):
 
   def render_search_product_to_add_to_order(self):
     SearchProductToAddProductToOrder.render_search_product_to_add_to_order(self)
+
+  def render_single_or_all_products(self):
+    SingleOrAllProducts.render_single_or_all_products(self)
     
   def back(self):
     OrderSelector.back(self)

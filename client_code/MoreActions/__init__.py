@@ -16,7 +16,7 @@ class MoreActions(MoreActionsTemplate):
     self.init_components(**properties)
 
     user = anvil.users.get_user()
-    self.change_price_button.enabled = user['airtable_id'] == 'recLMPfGbsbReIeZD' or user['airtable_id'] == 'rec6PFEn8sQhkdO3J'
+    self.change_price_button.visible = user['airtable_id'] == 'recLMPfGbsbReIeZD' or user['airtable_id'] == 'rec6PFEn8sQhkdO3J'
 
     # Any code you write here will run before the form opens.
     product = Globals.product

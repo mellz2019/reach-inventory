@@ -21,6 +21,10 @@ class SingleOrAllProducts(SingleOrAllProductsTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(ChangePrice())
 
+  def render_single_or_all_products(self):
+    self.content_panel.clear()
+    self.content_panel.add_component(SingleOrAllProducts())
+
   def all_products_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     Globals.single_product_or_all_products = 'All'
