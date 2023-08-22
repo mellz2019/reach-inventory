@@ -40,7 +40,7 @@ class StartOrder(StartOrderTemplate):
         Globals.order
       )
       order_status = anvil.server.call('get_single_item', 'orders', Globals.order_id)['fields']['Status']
-      if order_status == 'Completed' or order_status == "Cancelled":
+      if order_status == 'Complete' or order_status == "Cancelled":
         self.add_product_button.enabled = False
         self.finalize_order_button.enabled = False
         self.clear_order_button.enabled = False

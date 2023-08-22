@@ -23,9 +23,13 @@ class PendingOrder(PendingOrderTemplate):
     self.status_label.text = self.item['fields']['Status']
     airtable_user = anvil.server.call('get_single_item', 'users', self.item['fields']['Created By'][0])
     self.created_by_label.text = airtable_user['fields']['Name']
-
+      
   def view_order_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    order_status = anvil.server.call('get_single_item', 'orders', self.item['id'])['fields']['Status']
+    if order_status == 'Complete' or order_status == "Cancelled":
+      alert('Cannot view a cancelled order')
+      return
     self.view_order_button.enabled = False
     self.view_order_button.text = "Loading order..."
     Globals.order_id = self.item['id']

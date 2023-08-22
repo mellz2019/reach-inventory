@@ -30,7 +30,7 @@ components:
     data_bindings:
     - {property: items, code: 'self.item['''']'}
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter notes about this order. (Optional),
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter a comment about this order. (Optional),
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}

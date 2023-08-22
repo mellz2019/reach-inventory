@@ -27,6 +27,11 @@ class ProductInOrder(ProductInOrderTemplate):
         selected_price = self.item['fields']['Price']
       self.product_price_label.text = f"${Globals.round_to_decimal_places(selected_price, 2)}"
 
+    order_status = anvil.server.call('get_single_item', 'orders', Globals.order_id)['fields']['Status']
+    if order_status == 'Complete' or order_status == "Cancelled":
+      self.edit_price_button.visible = False
+      self.remove_product_button.visible = False
+
   def remove_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     c = confirm("Are you sure you want to remove this product from the order?")
