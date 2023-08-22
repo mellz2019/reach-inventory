@@ -19,6 +19,13 @@ components:
       visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
+    name: order_status_label
+    layout_properties: {grid_position: 'HPPULY,PYURPW'}
+  - type: Label
+    properties: {role: title, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
     name: order_total_label
     layout_properties: {grid_position: 'LKUMQD,ILFPVO'}
   - type: RepeatingPanel

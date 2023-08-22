@@ -30,6 +30,7 @@ class StartOrder(StartOrderTemplate):
       self.clear_order_button.enabled = False
       self.add_product_button.text = "Add a Product"
       self.finalize_order_button.enabled = False
+      self.order_status_label.text = "Status: New"
     else:
       self.new_order_label.text = f"Order - {Globals.order_id}"
       self.clear_order_button.enabled = True
@@ -40,6 +41,7 @@ class StartOrder(StartOrderTemplate):
         Globals.order
       )
       order_status = anvil.server.call('get_single_item', 'orders', Globals.order_id)['fields']['Status']
+      self.order_status_label.text = f"Status: {order_status}"
       if order_status == 'Complete' or order_status == "Cancelled":
         self.add_product_button.enabled = False
         self.finalize_order_button.enabled = False
