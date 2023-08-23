@@ -27,7 +27,7 @@ class PendingOrder(PendingOrderTemplate):
   def view_order_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     order_status = anvil.server.call('get_single_item', 'orders', self.item['id'])['fields']['Status']
-    if order_status == 'Complete' or order_status == "Cancelled":
+    if order_status == "Cancelled":
       alert('Cannot view a cancelled order')
       return
     self.view_order_button.enabled = False
