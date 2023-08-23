@@ -23,14 +23,20 @@ class ProductDetails(ProductDetailsTemplate):
     main = Globals.main
 
     Globals.coming_from_product_details = False
+
+    product_status = product['fields']['Status']
     
     product_is_in_order = product['fields']['Is In Order']
+    
     if product_is_in_order:
       self.order_button.text = "View Order"
     else:
-      self.order_button.text = 'Add to New Order'
+      if product_status != 'In Production':
+        self.order_button.enabled = False
+      else:
+        self.order_button.text = 'Add to New Order'
 
-    self.remove_from_production_button.enabled = product['fields']['Status'] == 'In Production'
+    self.remove_from_production_button.enabled = product_status == 'In Production'
 
     msrp_price = product['fields']['Price']
     self.name_label.text = f"{main['fields']['Name']} - ${Globals.round_to_decimal_places(msrp_price, 2)}"
