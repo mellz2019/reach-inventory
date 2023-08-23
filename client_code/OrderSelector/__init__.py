@@ -28,6 +28,7 @@ class OrderSelector(OrderSelectorTemplate):
 
   def start_order_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    Globals.reset_order_details()
     user = anvil.users.get_user()
     if user['admin'] or user['can_start_order']:
         self.content_panel.clear()

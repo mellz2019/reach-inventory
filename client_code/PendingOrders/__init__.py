@@ -20,7 +20,7 @@ class PendingOrders(PendingOrdersTemplate):
 
     # Any code you write here will run before the form opens.
     if not Globals.order:
-      existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', 25)
+      existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', 25, '-Created')
     
       for i in range(len(existing_orders)):
         Globals.order = Globals.order + (existing_orders[i],)
