@@ -48,7 +48,7 @@ class StartOrder(StartOrderTemplate):
         self.add_product_button.visible = False
         self.finalize_order_button.visible = False
         self.clear_order_button.visible = False
-      self.view_comments_button.enabled = airtable_order['fields']['Has Comments'] == 1
+      self.view_comments_button.enabled = airtable_order['fields']['Has Active Comments'] == 1
       self.orders_comment_text_box.visible = order_status != 'Complete' and order_status != 'Cancelled'
 
   def reset_order_details(self):

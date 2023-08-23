@@ -44,6 +44,8 @@ class Comment(CommentTemplate):
       'Comment': self.comment_text_box.text
     }
     anvil.server.call('update_item', 'comments', self.item['id'], update_comment)
+    n = Notification('Comment saved succesfully!')
+    n.show()
     # Get the new value
     self.item = anvil.server.call('get_single_item', 'comments', self.item['id'])
     user = anvil.users.get_user()
@@ -93,6 +95,37 @@ class Comment(CommentTemplate):
   def delete_comment_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     c = confirm('Are you sure you want to delete this comment?')
+
+    if c:
+      self.delete_comment_button.text = 'Deleting...'
+      self.comment_label.text = self.comment_text_box.text
+      self.save_comment_button.enabled = False
+      self.edit_comment_button.enabled = False
+      self.delete_comment_button.enabled = False
+      self.comment_text_box.enabled = False
+      self.cancel_button.enabled = False
+      user = anvil.users.get_user()
+      archive_comment = {
+        'Archived': True,
+        'Archived By': user['airtable_id']
+      }
+      anvil.server.call('update_item', 'comments', self.item['id'], archive_comment)
+      n = Notification('Comment deleted succesfully!')
+      self.remove_from_parent()
+      n.show()
+      if user['can_delete_others_comments'] or self.item['fields']['By'][0] == user['airtable_id']:
+        self.delete_comment_button.enabled = True
+        self.edit_comment_button.enabled = True
+      self.save_comment_button.text = 'Save'
+      self.save_comment_button.enabled = False
+      self.comment_text_box.enabled = False
+      self.cancel_button.enabled = False
+      
+      self.cancel_button.visible = False
+      self.comment_text_box.visible = False
+      self.save_comment_button.visible = False
+    else:
+      return
 
       
 
