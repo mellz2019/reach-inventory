@@ -18,11 +18,13 @@ ORDERS_TABLE_NAME = 'Orders'
 REPORTS_TABLE_NAME = 'Reports'
 USERS_TABLE_NAME = 'Users'
 ATTENDEES_TABLE_NAME = 'Attendees'
+COMMENTS_TABLE_NAME = 'Comments'
 
 main_table = Airtable(REACH_PRODUCTS_BASE_ID, MAIN_TABLE_NAME, MY_API_KEY)
 products_table = Airtable(REACH_PRODUCTS_BASE_ID, PRODUCTS_TABLE_NAME, MY_API_KEY)
 orders_table = Airtable(REACH_PRODUCTS_BASE_ID, ORDERS_TABLE_NAME, MY_API_KEY)
 users_table = Airtable(REACH_PRODUCTS_BASE_ID, USERS_TABLE_NAME, MY_API_KEY)
+comments_table = Airtable(REACH_PRODUCTS_BASE_ID, COMMENTS_TABLE_NAME, MY_API_KEY)
 
 def get_table(table):
   if table == 'products':
@@ -33,6 +35,8 @@ def get_table(table):
     return users_table
   elif table == 'main':
     return main_table
+  elif table == 'comments':
+    return comments_table
 
 @anvil.server.callable
 def match_record(table, column_to_match_on, value):
@@ -63,9 +67,13 @@ def delete_item(table, id):
         return 'Item deleted successfully'
 
 @anvil.server.callable
-def get_all_items(table):
+def get_all_items(table, column_to_sort=None):
   table = get_table(table)
-  return table.get_all()
+  if column_to_sort is not None:
+    items = table.get_all(sort=column_to_sort)
+  else:
+    items = table.get_all()
+  return items
 
 @anvil.server.callable
 def search_for_items(table, column_to_search, search_value):
@@ -88,9 +96,12 @@ def get_items_from_view(table, view):
   return items
 
 @anvil.server.callable
-def get_num_of_records_from_any_view(table, num_records):
+def get_num_of_records_from_any_view(table, num_records, column_to_sort=None):
   table = get_table(table)
-  items = table.get_all(maxRecords=num_records)
+  if column_to_sort is not None:
+    items = table.get_all(maxRecords=num_records, sort=column_to_sort)
+  else:
+    items = table.get_all(maxRecords=num_records)
   return items
 
 @anvil.server.callable

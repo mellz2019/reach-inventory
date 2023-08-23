@@ -80,10 +80,16 @@ db_schema:
       admin_ui: {order: 13, width: 200}
       type: string
     - name: First Name
-      admin_ui: {order: 13, width: 200}
+      admin_ui: {order: 9.125, width: 200}
       type: string
     - name: Last Name
+      admin_ui: {order: 9.25, width: 200}
       type: string
-      admin_ui: {width: 200, order: 14}
+    - name: can_view_all_private_comments
+      type: bool
+      admin_ui: {width: 200, order: 15}
+    - name: can_delete_others_comments
+      type: bool
+      admin_ui: {width: 200, order: 16}
     title: Users
 renamed: true

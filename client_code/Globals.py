@@ -17,6 +17,7 @@ order = ()
 order_id = 0
 order_total = 0
 order_paid = False
+comment_text_box_changed = False
 
 # Price Confirmation
 price_confirmation_mains = []
@@ -43,6 +44,11 @@ coming_from_product_details = False
 # View All Products
 all_products_main = ()
 
+# Comments
+comments = ()
+comment_label = 'Comments'
+edited_comment_change = False
+
 def clar_selected_order_information():
   selected_order_ownership = ''
   selected_order_status = ''
@@ -63,6 +69,7 @@ def reset_order_details():
   order_id = 0
   order_total = 0
   order_paid = False
+  comment_text_box_changed = False
 
 def get_globals_order():
   return order

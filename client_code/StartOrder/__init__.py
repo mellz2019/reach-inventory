@@ -12,6 +12,7 @@ from ..SearchProductToAddProductToOrder import SearchProductToAddProductToOrder
 from .. import Globals
 from ..EditPrice import EditPrice
 from ..FinalizeOrder import FinalizeOrder
+from ..Comments import Comments
 
 class StartOrder(StartOrderTemplate):
   def __init__(self, back, **properties):
@@ -23,7 +24,7 @@ class StartOrder(StartOrderTemplate):
 
     self.back = back
 
-    Globals.order = Globals.get_globals_order()
+    Globals.comment_text_box_changed = False
 
     if not Globals.order:
       self.order_total_label.text = 'Order total: $0.00'
@@ -40,12 +41,15 @@ class StartOrder(StartOrderTemplate):
       self.products_panel.items = (
         Globals.order
       )
-      order_status = anvil.server.call('get_single_item', 'orders', Globals.order_id)['fields']['Status']
+      airtable_order = anvil.server.call('get_single_item', 'orders', Globals.order_id)
+      order_status = airtable_order['fields']['Status']
       self.order_status_label.text = f"Status: {order_status}"
       if order_status == 'Complete' or order_status == "Cancelled":
         self.add_product_button.visible = False
         self.finalize_order_button.visible = False
         self.clear_order_button.visible = False
+      self.view_comments_button.enabled = airtable_order['fields']['Has Comments'] == 1
+      self.orders_comment_text_box.visible = order_status != 'Complete' and order_status != 'Cancelled'
 
   def reset_order_details(self):
     Globals.main = {}
@@ -125,6 +129,89 @@ class StartOrder(StartOrderTemplate):
     anvil.server.call('update_item', 'orders', Globals.order_id, update_order)
     self.content_panel.clear()
     self.content_panel.add_component(FinalizeOrder())
+
+  def save_commment(self):
+    self.save_comment_button.text = "Saving..."
+    self.save_comment_button.enabled = False
+    self.view_comments_button.enabled = False
+    self.add_product_button.enabled = False
+    self.finalize_order_button.enabled = False
+    self.back_button.enabled = False
+    self.clear_order_button.enabled = False
+    self.private_comment_check_box.enabled = False
+    user = anvil.users.get_user()
+    if self.private_comment_check_box.checked:
+      public_or_private = 'Private'
+    else:
+      public_or_private = 'Public'
+    new_comment = {
+      'Comment': self.orders_comment_text_box.text,
+      'Order': Globals.order_id,
+      'By': user['airtable_id'],
+      'Visibility': public_or_private
+    }
+    anvil.server.call('add_item', 'comments', new_comment)
+    self.save_comment_button.text = 'Save Comment'
+    self.orders_comment_text_box.text = ''
+    self.save_comment_button.visible = False
+    self.private_comment_check_box.visible = False
+    self.view_comments_button.enabled = True
+    self.save_comment_button.enabled = True
+    self.add_product_button.enabled = True
+    self.finalize_order_button.enabled = True
+    self.back_button.enabled = True
+    self.clear_order_button.enabled = True
+    n = Notification('Comment saved succesfully')
+    n.show()
+
+  def save_comment_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.save_commment()
+
+  def view_comments_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.view_comments_button.text = "Loading..."
+    self.save_comment_button.enabled = False
+    self.view_comments_button.enabled = False
+    self.add_product_button.enabled = False
+    self.finalize_order_button.enabled = False
+    self.back_button.enabled = False
+    self.clear_order_button.enabled = False
+
+    user = anvil.users.get_user()
+    all_comments = anvil.server.call('get_all_items', 'comments', '-Created')
+    this_orders_comments = list(filter(lambda n: n['fields']['Order ID'][0] == Globals.order_id and n['fields']['Is Archived'] == 0, all_comments))
+    if user['can_view_all_private_comments']:
+      Globals.comments = this_orders_comments
+    else:
+      Globals.comments = list(filter(lambda n: n['fields']['Visibility'] == 'Public' or n['fields']['User ID'] == user['airtable_id'], this_orders_comments))
+    Globals.comment_label = f"Comments for Order - {Globals.order_id}"
+    self.content_panel.clear()
+    self.add_component(Comments())
+
+  def orders_comment_text_box_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    if self.orders_comment_text_box.text == '':
+      self.save_comment_button.visible = False
+      self.private_comment_check_box.visible = False
+    else:
+      self.save_comment_button.visible = True
+      self.private_comment_check_box.visible = True
+      self.private_comment_check_box.enabled = True
+      self.private_comment_check_box.checked = False
+
+  def orders_comment_text_box_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.save_comment()
+
+  def orders_comment_text_box_lost_focus(self, **event_args):
+    """This method is called when the TextBox loses focus"""
+    pass
+
+
+
+
+
 
 
 

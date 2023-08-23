@@ -1,0 +1,67 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    spacing_below: small, background: ''}
+  name: card_panel
+  layout_properties: {grid_position: 'THDLYS,SKZAUN'}
+  components:
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      icon: ''}
+    name: comment_label
+    layout_properties: {grid_position: 'UPSRCW,CNMFTQ'}
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: false, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: comment_text_box
+    layout_properties: {grid_position: 'LSVQGJ,MMVGNK'}
+    event_bindings: {change: comment_text_box_change}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: false,
+      foreground: '', visible: false, text: Save, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:check'}
+    name: save_comment_button
+    layout_properties: {grid_position: 'LFKYRL,NHBEFW'}
+    event_bindings: {click: save_comment_button_click}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: false, text: Cancel, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:ban'}
+    name: cancel_button
+    layout_properties: {grid_position: 'LFKYRL,LJRWBG'}
+    event_bindings: {click: cancel_button_click}
+  - type: Label
+    properties: {}
+    name: date_label
+    layout_properties: {grid_position: 'NBYGLN,TSMAOC'}
+  - type: Label
+    properties: {}
+    name: owner_label
+    layout_properties: {grid_position: 'TMVFHJ,GFECFM'}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: false,
+      foreground: '', visible: true, text: Edit, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:pencil'}
+    name: edit_comment_button
+    layout_properties: {grid_position: 'UVMEKJ,TORXAY'}
+    event_bindings: {click: edit_comment_button_click}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: false,
+      foreground: '', visible: true, text: Delete, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:trash'}
+    name: delete_comment_button
+    layout_properties: {grid_position: 'UVMEKJ,DHQQOG'}
+    event_bindings: {click: delete_comment_button_click}
+is_package: true
