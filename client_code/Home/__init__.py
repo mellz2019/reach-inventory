@@ -8,6 +8,7 @@ from ..ProductInformation import ProductInformation
 from .. import Globals
 from ..OrderSelector import OrderSelector
 from ..PriceConfirmation import PriceConfirmation
+from ..ViewAllProducts import ViewAllProducts
 
 class Home(HomeTemplate):
   def __init__(self, **properties):
@@ -54,6 +55,7 @@ class Home(HomeTemplate):
         self.price_confirmation_button.enabled = False
         self.product_info_button.enabled = False
         self.orders_button.enabled = False
+        self.view_all_products_button.enabled = False
         # Load the info
         Globals.price_confirmation_mains = anvil.server.call('get_items_from_view', 'main', 'Pending Price Confirmation')
         if Globals.price_confirmation_mains:
@@ -68,6 +70,7 @@ class Home(HomeTemplate):
           self.price_confirmation_button.enabled = True
           self.product_info_button.enabled = True
           self.orders_button.enabled = True
+          self.view_all_products_button.enabled = True
           return
       else:
         alert('You do not have access to this feature.')
@@ -75,4 +78,23 @@ class Home(HomeTemplate):
     else:
       alert('You must be signed in to use this feature.')
       return
+
+  def view_all_products_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    user = anvil.users.get_user()
+    if user:
+      self.view_all_products_button.text = 'Loading...'
+      self.price_confirmation_button.enabled = False
+      self.product_info_button.enabled = False
+      self.orders_button.enabled = False
+      self.view_all_products_button.enabled = False
+      all_mains = anvil.server.call('get_items_from_view', 'main', 'Show in Inventory')
+      for main in all_mains:
+        Globals.all_products_main = Globals.all_products_main + (main,)
+      self.content_panel.clear()
+      self.add_component(ViewAllProducts())
+    else:
+      alert('You must be signed in to use this feature.')
+      return
+
 

@@ -1,0 +1,54 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    spacing_below: small, background: ''}
+  name: card_panel
+  layout_properties: {grid_position: 'XEJQPA,LBQZTE'}
+  components:
+  - type: Label
+    properties: {role: title, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      icon: ''}
+    name: product_name_label
+    layout_properties: {grid_position: 'AVFFCF,UEDPWD'}
+  - type: Image
+    properties: {role: null, vertical_align: center, height: '200', tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: original_size, spacing_above: small,
+      source: '', spacing_below: small, background: '', horizontal_align: center}
+    name: product_image
+    layout_properties: {grid_position: 'EAEAIF,SMSAJU'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: 17, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: true, background: '', bold: true, underline: false,
+      icon: ''}
+    name: availability_label
+    layout_properties: {grid_position: 'MBVTXL,JTFSQU'}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: View Price, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: 'fa:money'}
+    name: view_price_button
+    layout_properties: {grid_position: 'MAAITW,ISDMOV'}
+    event_bindings: {click: view_price_button_click}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: false, text: regular_price, font_size: 17, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: regular_price_label
+    layout_properties: {grid_position: 'IOJMTQ,QJWNLW'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: false, text: lowest_price, font_size: 17, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: lowest_price_label
+    layout_properties: {grid_position: 'AEGEKF,THOUVO'}
+is_package: true
