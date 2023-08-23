@@ -18,3 +18,8 @@ class Comments(CommentsTemplate):
 
     # Any code you write here will run before the form opens.
     self.comments_panel.items = Globals.comments
+
+  def back_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    Globals.comment_label = 'Comments'
+    get_open_form().render_start_order()
