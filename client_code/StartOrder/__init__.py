@@ -48,7 +48,9 @@ class StartOrder(StartOrderTemplate):
         self.add_product_button.visible = False
         self.finalize_order_button.visible = False
         self.clear_order_button.visible = False
-      self.view_comments_button.enabled = airtable_order['fields']['Has Active Comments'] == 1
+      if airtable_order['fields']['Has Active Comments'] == 1:
+        self.view_comments_button.visible = True
+        self.view_comments_button.text = f"View Comments ({airtable_order['fields']['Non-Archived Comments']})"
       self.orders_comment_text_box.visible = order_status != 'Complete' and order_status != 'Cancelled'
 
   def reset_order_details(self):
@@ -196,7 +198,7 @@ class StartOrder(StartOrderTemplate):
       self.private_comment_check_box.visible = False
     else:
       self.save_comment_button.visible = True
-      self.private_comment_check_box.visible = True
+      # self.private_comment_check_box.visible = True
       self.private_comment_check_box.enabled = True
       self.private_comment_check_box.checked = False
 

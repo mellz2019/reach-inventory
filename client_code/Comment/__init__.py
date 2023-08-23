@@ -21,6 +21,8 @@ class Comment(CommentTemplate):
 
     # Any code you write here will run before the form opens.
     self.comment_label.text = self.item['fields']['Comment']
+    self.date_label.text = Globals.convert_airtable_date_to_friendly_date_with_time(self.item['fields']['Date'])
+    self.owner_label.text = self.item['fields']['By Name'][0]
 
   def edit_comment_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -31,6 +33,10 @@ class Comment(CommentTemplate):
     self.save_comment_button.visible = True
     self.cancel_button.visible = True
     self.cancel_button.enabled = True
+    self.date_label.visible = False
+    self.owner_label.visible = False
+    self.edit_comment_button.visible = False
+    self.delete_comment_button.visible = False
 
   def save_comment(self):
     self.save_comment_button.text = 'Saving...'
@@ -60,6 +66,10 @@ class Comment(CommentTemplate):
     self.cancel_button.visible = False
     self.comment_text_box.visible = False
     self.save_comment_button.visible = False
+    self.date_label.visible = True
+    self.owner_label.visible = True
+    self.edit_comment_button.visible = True
+    self.delete_comment_button.visible = True
 
     Globals.edited_comment_change = False
 
@@ -74,6 +84,10 @@ class Comment(CommentTemplate):
     self.comment_text_box.visible = False
     self.save_comment_button.visible = False
     self.cancel_button.visible = False
+    self.date_label.visible = True
+    self.owner_label.visible = True
+    self.edit_comment_button.visible = True
+    self.delete_comment_button.visible = True
     self.comment_label.text = self.item['fields']['Comment']
 
     Globals.edited_comment_change = False
@@ -120,6 +134,10 @@ class Comment(CommentTemplate):
       self.save_comment_button.enabled = False
       self.comment_text_box.enabled = False
       self.cancel_button.enabled = False
+      self.date_label.visible = True
+      self.owner_label.visible = True
+      self.edit_comment_button.visible = True
+      self.delete_comment_button.visible = True
       
       self.cancel_button.visible = False
       self.comment_text_box.visible = False

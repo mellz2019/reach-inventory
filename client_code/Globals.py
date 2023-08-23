@@ -88,6 +88,10 @@ def convert_airtable_date_to_friendly_date(date):
   date_object = datetime.strptime(date_string, '%Y-%m-%d')
   return date_object.strftime('%B %d, %Y')
 
+def convert_airtable_date_to_friendly_date_with_time(date_time):
+  date_obj = datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S.%fZ')
+  return date_obj.strftime('%B %d, %Y - %I:%M%p')
+
 def convert_list_to_string(list):
   return ', '.join(list)
 
