@@ -15,7 +15,7 @@ components:
     name: order_id_label
     layout_properties: {grid_position: 'OUNJOD,GNAIFI'}
   - type: RepeatingPanel
-    properties: {role: elevated-card, tooltip: '', border: '', foreground: '', items: null,
+    properties: {role: null, tooltip: '', border: '', foreground: '', items: null,
       visible: true, spacing_above: small, spacing_below: small, item_template: ProductInFinalizeOrder,
       background: ''}
     name: products_panel

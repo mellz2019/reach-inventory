@@ -7,53 +7,61 @@ components:
   name: content_panel
   layout_properties: {grid_position: 'PWYSPE,NXEBVX'}
   components:
-  - type: GridPanel
-    properties: {}
-    name: grid_panel_1
-    layout_properties: {grid_position: 'KPAIJC,NRLROI'}
+  - type: ColumnPanel
+    properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: card_panel
+    layout_properties: {grid_position: 'FBIWRO,BTUEDT', row: DNREQW, width_xs: 12,
+      col_xs: 0, width: 750}
     components:
-    - type: Image
-      properties: {height: 146}
-      name: product_image
-      layout_properties: {row: HSQHSN, width_xs: 4, col_xs: 4}
-    - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: barcode_label, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: barcode_label
-      layout_properties: {row: FIHICV, width_xs: 4, col_xs: 4, width: 165}
-    - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: price_label, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: price_label
-      layout_properties: {row: LCNQUK, width_xs: 4, col_xs: 4, width: 229.992}
-    - type: DropDown
-      properties:
-        role: null
-        align: full
-        tooltip: ''
-        placeholder: ''
-        border: ''
-        enabled: true
-        foreground: ''
-        items: [In Pending Order, On Hold for Pickup, On Hold for Delivery, Pending Load,
-          Ready for Pickup, Out for Delivery, Picked Up, Delivered]
-        visible: true
-        font_size: null
-        font: ''
-        spacing_above: small
-        spacing_below: small
-        italic: false
-        background: ''
-        bold: false
-        underline: false
-        include_placeholder: false
-      name: product_status_dropdown
-      layout_properties: {row: HICCFP, width_xs: 4, col_xs: 4, width: 229.992}
-      event_bindings: {change: product_status_dropdown_change}
+    - type: GridPanel
+      properties: {}
+      name: grid_panel_1
+      layout_properties: {grid_position: 'JOIIJT,HFGEYJ'}
+      components:
+      - type: Image
+        properties: {height: 146}
+        name: product_image
+        layout_properties: {row: HSQHSN, width_xs: 4, col_xs: 4}
+      - type: Label
+        properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+          visible: true, text: barcode_label, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        name: barcode_label
+        layout_properties: {row: FIHICV, width_xs: 4, col_xs: 4, width: 165}
+      - type: Label
+        properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+          visible: true, text: price_label, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        name: price_label
+        layout_properties: {row: LCNQUK, width_xs: 4, col_xs: 4, width: 229.992}
+      - type: DropDown
+        properties:
+          role: null
+          align: full
+          tooltip: ''
+          placeholder: ''
+          border: ''
+          enabled: true
+          foreground: ''
+          items: [In Pending Order, On Hold for Pickup, On Hold for Delivery, Pending Load,
+            Ready for Pickup, Out for Delivery, Picked Up, Delivered]
+          visible: true
+          font_size: null
+          font: ''
+          spacing_above: small
+          spacing_below: small
+          italic: false
+          background: ''
+          bold: false
+          underline: false
+          include_placeholder: false
+        name: product_status_dropdown
+        layout_properties: {row: HICCFP, width_xs: 4, col_xs: 4, width: 220}
+        event_bindings: {change: product_status_dropdown_change}
 is_package: true
 custom_component: true
 properties:

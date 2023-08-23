@@ -7,10 +7,12 @@ components:
   name: content_panel
   layout_properties: {grid_position: 'STWNLJ,XNXLKG'}
   components:
-  - type: GridPanel
-    properties: {}
-    name: grid_panel_1
-    layout_properties: {grid_position: 'XNXWRG,EFIWJV'}
+  - type: ColumnPanel
+    properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: card_panel
+    layout_properties: {grid_position: 'RTRIKY,IBWRRB'}
     components:
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
@@ -18,34 +20,38 @@ components:
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: date_label
-      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 0, width: 165}
+      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 0, width: 165, grid_position: 'TBICKD,MUQNBH'}
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: num_of_products, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: num_of_products
-      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 3, width: 99.9922}
+      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 3, width: 99.9922, grid_position: 'TBICKD,VPQVWD'}
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: status, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: status_label
-      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 6, width: 99.9922}
+      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 6, width: 99.9922, grid_position: 'TBICKD,FJYUWB'}
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: created_by, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: created_by_label
-      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 9, width: 165}
+      layout_properties: {row: PMGICK, width_xs: 3, col_xs: 9, width: 165, grid_position: 'TBICKD,LLRXLY'}
     - type: Button
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: View, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: 'fa:arrow-circle-o-up'}
       name: view_order_button
-      layout_properties: {row: REMPLW, width_xs: 8, col_xs: 2, width: 99.9922}
+      layout_properties: {row: REMPLW, width_xs: 8, col_xs: 2, width: 99.9922, grid_position: 'BUNFVX,NALWUG'}
       event_bindings: {click: view_order_button_click}
+  - type: Spacer
+    properties: {height: 38}
+    name: spacer_1
+    layout_properties: {grid_position: 'NBFQTD,KMHLPZ'}
 is_package: true
