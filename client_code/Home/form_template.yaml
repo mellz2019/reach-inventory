@@ -44,6 +44,14 @@ components:
       event_bindings: {click: product_info_button_click}
     - type: Button
       properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: View All Products, font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: 'fa:laptop'}
+      name: view_all_products_button
+      layout_properties: {grid_position: 'CSVBHZ,AXFOKD'}
+      event_bindings: {click: view_all_products_button_click}
+    - type: Button
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Orders, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: 'fa:inbox'}

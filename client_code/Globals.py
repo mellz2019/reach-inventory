@@ -40,6 +40,9 @@ lowest_price_changed = False
 # Product Details
 coming_from_product_details = False
 
+# View All Products
+all_products_main = ()
+
 def clar_selected_order_information():
   selected_order_ownership = ''
   selected_order_status = ''
