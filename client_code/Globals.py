@@ -31,6 +31,7 @@ main_number_name_list = []
 # Order Selector Orders
 selected_order_ownership = ''
 selected_order_status = ''
+pending_orders = ()
 
 # Change Price
 change_price_products = ()
@@ -49,6 +50,10 @@ comments = ()
 comment_label = 'Comments'
 edited_comment_change = False
 
+# Cancelled Order
+product_cancelled = {}
+main_cancelled = {}
+
 def clar_selected_order_information():
   selected_order_ownership = ''
   selected_order_status = ''
@@ -64,7 +69,7 @@ def clear_price_confirmation_information():
 
 def reset_order_details():
   main = {}
-  product = {}
+  #product = {}
   order = ()
   order_id = 0
   order_total = 0

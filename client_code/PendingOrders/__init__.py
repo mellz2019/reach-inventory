@@ -19,13 +19,13 @@ class PendingOrders(PendingOrdersTemplate):
     self.filter_button.enabled = False
 
     # Any code you write here will run before the form opens.
-    if not Globals.order:
+    if not Globals.pending_orders:
       existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', 25, '-Created')
     
       for i in range(len(existing_orders)):
-        Globals.order = Globals.order + (existing_orders[i],)
+        Globals.pending_orders = Globals.pending_orders + (existing_orders[i],)
     else:
-      existing_orders = Globals.order
+      existing_orders = Globals.pending_orders
 
     if Globals.selected_order_ownership == '':
       Globals.selected_order_ownership = "My Orders"
@@ -36,7 +36,6 @@ class PendingOrders(PendingOrdersTemplate):
       if not existing_orders:
         orders_exist = False
       status_phrase = 'with all statuses'
-      
     else:
       self.order_ownership_dropdown.selected_value = Globals.selected_order_ownership
       self.order_status_dropdown.selected_value = Globals.selected_order_status
@@ -114,5 +113,6 @@ class PendingOrders(PendingOrdersTemplate):
   def order_status_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     self.filter_button.enabled = True
+
 
 

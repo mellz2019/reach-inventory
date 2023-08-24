@@ -101,7 +101,12 @@ class StartOrder(StartOrderTemplate):
         anvil.server.call('update_item', 'products', Globals.order[i]['id'], update_product)
 
       alert("The order was cancelled successfully.")
-        
+
+      # So we won't get an error if we go back to ProductDetails
+      if Globals.coming_from_product_details:
+        Globals.main_cancelled = Globals.main
+        Globals.product_cancelled = Globals.product
+      
       # Clear the order locally
       self.reset_order_details()
       Globals.reset_order_details()

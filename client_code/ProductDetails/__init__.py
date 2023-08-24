@@ -19,8 +19,13 @@ class ProductDetails(ProductDetailsTemplate):
 
     self.back_button_callback = back_button_callback
 
-    product = Globals.product
-    main = Globals.main
+    if Globals.coming_from_product_details:
+      product = Globals.product_cancelled
+      main = Globals.main_cancelled
+      
+    else:
+      product = Globals.product
+      main = Globals.main
 
     Globals.coming_from_product_details = False
 
