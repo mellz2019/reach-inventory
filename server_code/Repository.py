@@ -90,9 +90,12 @@ def get_single_item(table, id):
     return item
 
 @anvil.server.callable
-def get_items_from_view(table, view):
+def get_items_from_view(table, view, column_to_sort=None):
   table = get_table(table)
-  items = table.get_all(view=view)
+  if column_to_sort is not None:
+    items = table.get_all(view=view, sort=column_to_sort)
+  else:
+    items = table.get_all(view=view)
   return items
 
 @anvil.server.callable
@@ -105,9 +108,12 @@ def get_num_of_records_from_any_view(table, num_records, column_to_sort=None):
   return items
 
 @anvil.server.callable
-def get_num_of_records_from_specific_view(table, view, num_records):
+def get_num_of_records_from_specific_view(table, view, num_records, column_to_sort=None):
   table = get_table(table)
-  items = table.get_all(view=view, maxRecords=num_records)
+  if column_to_sort is not None:
+    items = table.get_all(view=view, maxRecords=num_records, sort=column_to_sort)
+  else:
+    items = table.get_all(view=view, maxRecords=num_records)
   return items
   
 
@@ -124,8 +130,3 @@ def update_item(table, id, fields):
         return f'Error updating item: {e}'
     else:
         return 'Item updated successfully'
-
-# Returns a view of your database to the front end, but the data can not be changed
-@anvil.server.callable()
-def get_user_details():
-  return app_tables.users.client_readable()
