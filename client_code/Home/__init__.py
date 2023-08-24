@@ -90,7 +90,7 @@ class Home(HomeTemplate):
       self.product_info_button.enabled = False
       self.orders_button.enabled = False
       self.view_all_products_button.enabled = False
-      all_mains = anvil.server.call('get_items_from_view', 'main', 'Show in Inventory')
+      all_mains = anvil.server.call('get_items_from_view', 'main', 'Show in Inventory', '-Created')
       for main in all_mains:
         Globals.all_products_main = Globals.all_products_main + (main,)
       self.content_panel.clear()
