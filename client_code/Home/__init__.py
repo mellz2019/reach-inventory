@@ -18,6 +18,8 @@ class Home(HomeTemplate):
     # Any code you write here will run before the form opens.
     Globals.clear_price_confirmation_information()
 
+    Globals.filters_manually_shown = False
+
   def cancel(self):
     self.content_panel.clear()
     self.content_panel.add_component(Home())

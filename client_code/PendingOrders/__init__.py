@@ -18,9 +18,20 @@ class PendingOrders(PendingOrdersTemplate):
 
     self.filter_button.enabled = False
 
+    self.order_ownership_label.visible = Globals.filters_manually_shown
+    self.order_ownership_dropdown.visible = Globals.filters_manually_shown
+    self.order_status_label.visible = Globals.filters_manually_shown
+    self.order_status_dropdown.visible = Globals.filters_manually_shown
+    self.filter_button.visible = Globals.filters_manually_shown
+
+    if Globals.filters_manually_shown:
+      self.show_hide_filters_button.text = 'Hide Filters'
+    else:
+      self.show_hide_filters_button.text = 'Show Filters'
+
     # Any code you write here will run before the form opens.
     if not Globals.pending_orders:
-      existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', 25, '-Created')
+      existing_orders = anvil.server.call('get_num_of_records_from_any_view', 'orders', Globals.max_num_of_pending_orders_to_show, '-Created')
     
       for i in range(len(existing_orders)):
         Globals.pending_orders = Globals.pending_orders + (existing_orders[i],)
@@ -85,6 +96,8 @@ class PendingOrders(PendingOrdersTemplate):
           orders_exist = False
         status_phrase = f'with a status of {Globals.selected_order_status}'
 
+    self.num_of_recent_orders_loaded_label.text = f"Only the most recent {Globals.max_num_of_pending_orders_to_show} orders are shown."
+
     quantity_phrase = 'There are'
     quantity_word = 'orders'
     num_of_orders = 0
@@ -98,7 +111,7 @@ class PendingOrders(PendingOrdersTemplate):
       self.orders_panel.items = existing_orders
     else:
       self.orders_panel.items = None
-
+      
   def order_ownership_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     self.filter_button.enabled = True
@@ -113,6 +126,31 @@ class PendingOrders(PendingOrdersTemplate):
   def order_status_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     self.filter_button.enabled = True
+
+  def show_hide_filters_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if Globals.filters_manually_shown:
+      self.order_ownership_label.visible = False
+      self.order_ownership_dropdown.visible = False
+      self.order_status_label.visible = False
+      self.order_status_dropdown.visible = False
+      self.filter_button.visible = False
+      Globals.filters_manually_shown = False
+      self.show_hide_filters_button.text = 'Show Filters'
+    else:
+      self.order_ownership_label.visible = True
+      self.order_ownership_dropdown.visible = True
+      self.order_status_label.visible = True
+      self.order_status_dropdown.visible = True
+      self.filter_button.visible = True
+      Globals.filters_manually_shown = True
+      self.show_hide_filters_button.text = 'Hide Filters'
+
+  def back_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    get_open_form().go_to_home()
+
+
 
 
 

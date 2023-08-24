@@ -31,6 +31,7 @@ class RemoveProductFromProduction(RemoveProductFromProductionTemplate):
     self.remove_button.text = "Removing from Production..."
     self.remove_button.enabled = False
     self.cancel_button.enabled = False
+    self.reason_textbox.enabled = False
     user = anvil.users.get_user()
     update_product = {
       "Status": "Removed from Production",
@@ -39,7 +40,11 @@ class RemoveProductFromProduction(RemoveProductFromProductionTemplate):
     }
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
 
-    # Go back to Product Information
+    # Get the updated product
+    Globals.product['fields']['Status'] = 'Removed from Production'
+    
+    # Go back
+    get_open_form().back_button_callback()
 
   def remove_button_click(self, **event_args):
     """This method is called when the button is clicked"""

@@ -32,6 +32,7 @@ class StartOrder(StartOrderTemplate):
       self.add_product_button.text = "Add a Product"
       self.finalize_order_button.enabled = False
       self.order_status_label.text = "Status: New"
+      self.orders_comment_text_box.visible = False
     else:
       self.new_order_label.text = f"Order - {Globals.order_id}"
       self.clear_order_button.enabled = True

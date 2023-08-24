@@ -50,6 +50,10 @@ comments = ()
 comment_label = 'Comments'
 edited_comment_change = False
 
+# Filters for pending orders
+filters_manually_shown = True
+max_num_of_pending_orders_to_show = 25
+
 # Cancelled Order
 product_cancelled = {}
 main_cancelled = {}
