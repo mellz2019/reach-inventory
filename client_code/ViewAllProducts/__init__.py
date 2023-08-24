@@ -16,6 +16,8 @@ class ViewAllProducts(ViewAllProductsTemplate):
     # Any code you write here will run before the form opens.
     self.products_panel.items = Globals.all_products_main
 
+    self.num_of_products_label.text = f"{len(Globals.all_products_main)} total products"
+
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
     get_open_form().go_to_home()
