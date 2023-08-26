@@ -30,7 +30,7 @@ runtime_options:
       pyzbar
 
       requests', base: python310-machine-learning}
-metadata: {title: Reach Inventory, logo_img: 'asset:Reach Inventory Favicon.png'}
+metadata: {title: Reach Inventory, logo_img: 'asset:reach inventory icon rounded.png'}
 startup_form: null
 db_schema:
   users:
