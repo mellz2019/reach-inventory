@@ -53,7 +53,13 @@ class ProductDetails(ProductDetailsTemplate):
     lowest_price = product['fields']['Lowest Price']
     self.price_label.text = f'Regular Price: ${Globals.round_to_decimal_places(msrp_price, 2)}'
     self.lowest_price_label.text = f'Lowest Price: ${Globals.round_to_decimal_places(lowest_price, 2)}'
-    self.status_label.text = f'Status: {product["fields"]["Status"]}'
+    status = product["fields"]["Status"]
+    self.status_label.text = f'Status: {status}'
+    if status == 'Removed from Production':
+      self.removed_from_prod_reason_label.text = f"Removed from Production reason: {product['fields']['Removed from Production Reason']}"
+      self.removed_from_prod_reason_label.visible = True
+      self.removed_from_production_by_label.text = f"Removed from Production by {product['fields']['Removed from Production By Name'][0]}"
+      self.removed_from_production_by_label.visible = True
     self.total_quantity_label.text = f"Total Units: {main['fields']['Quantity']}"
     self.available_label.text = f"Available for Sale: {main['fields']['Available']}"
     self.quantity_sold_label.text = f"Units Sold: {main['fields']['Sold']}"

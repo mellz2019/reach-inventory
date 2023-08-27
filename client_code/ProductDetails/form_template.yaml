@@ -81,6 +81,20 @@ components:
     layout_properties: {grid_position: 'MYOKUX,HHANFA'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: false, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: removed_from_prod_reason_label
+    layout_properties: {grid_position: 'SZFLWM,PQGVRY'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: false, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: removed_from_production_by_label
+    layout_properties: {grid_position: 'NECVIJ,RBXGVS'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
       visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
