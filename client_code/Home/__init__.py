@@ -20,6 +20,9 @@ class Home(HomeTemplate):
 
     Globals.filters_manually_shown = False
 
+    self.product_info_button.text = 'Test'
+    
+
   def cancel(self):
     self.content_panel.clear()
     self.content_panel.add_component(Home())
