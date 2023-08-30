@@ -39,7 +39,6 @@ class PriceConfirmation(PriceConfirmationTemplate):
 
     # Any code you write here will run before the form opens.
     self.title_label.text = f"Product {selected_product_index+1} of {len(mains)}"
-    print(mains)
     self.product_image.source = mains[selected_product_index]['fields']['Image'][0]['thumbnails']['large']['url']
     self.name_label.text = mains[selected_product_index]['fields']['Name']
     pending_units = mains[selected_product_index]['fields']['Pending Price Confirmation']
@@ -119,6 +118,12 @@ class PriceConfirmation(PriceConfirmationTemplate):
           }
 
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
+
+      update_main = {
+        "Barry Approved": True
+      }
+
+      anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
 
     # update the main with the notes if the text box has changed
     if Globals.comments_changed:
