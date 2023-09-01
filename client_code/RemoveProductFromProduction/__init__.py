@@ -42,6 +42,10 @@ class RemoveProductFromProduction(RemoveProductFromProductionTemplate):
 
     # Get the updated product
     Globals.product['fields']['Status'] = 'Removed from Production'
+    Globals.product['fields']['Removed from Production Reason'] = self.reason_textbox.text
+    airtable_user = anvil.server.call('get_single_item', 'users', user['airtable_id'])
+    name = airtable_user['fields']['Name']
+    Globals.product['fields']['Removed from Production By Name'] = name
     
     # Go back
     get_open_form().back_button_callback()
