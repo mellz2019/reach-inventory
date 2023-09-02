@@ -22,6 +22,7 @@ class ProductInViewAllProducts(ProductInViewAllProductsTemplate):
     else:
       phrase = 'units'
     self.availability_label.text = f"{available_units} {phrase} available"
+    
 
   def view_price_button_click(self, **event_args):
     """This method is called when the button is clicked"""
