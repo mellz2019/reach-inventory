@@ -8,7 +8,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from .. import Globals
-from ..SingleOrAllProducts import SingleOrAllProducts
+from ..ChangePrice import ChangePrice
 
 class MoreActions(MoreActionsTemplate):
   def __init__(self, **properties):
@@ -42,8 +42,9 @@ class MoreActions(MoreActionsTemplate):
   def change_price_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     if Globals.product['fields']['Status'] == 'In Production':
+      Globals.main = anvil.server.call('get_single_item', 'main', Globals.product['fields']['Main'][0])
       self.content_panel.clear()
-      self.content_panel.add_component(SingleOrAllProducts())
+      self.content_panel.add_component(ChangePrice())
     else:
       alert('Product must have a status of \'In Production\' in order to change its price.')
 

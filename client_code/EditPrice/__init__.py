@@ -19,13 +19,13 @@ class EditPrice(EditPriceTemplate):
     self.custom_price_textfield.placeholder = 'Enter custom price...'
 
     self.product_image.source = Globals.product['fields']['Main Image'][0]['thumbnails']['large']['url']
-    self.regular_price_checkbox.text = f"Regular price: ${Globals.round_to_decimal_places(Globals.product['fields']['Price'], 2)}"
-    self.lowest_price_checkbox.text = f"Lowest price: ${Globals.round_to_decimal_places(Globals.product['fields']['Lowest Price'], 2)}"
+    self.regular_price_checkbox.text = f"Regular price: ${Globals.round_to_decimal_places(Globals.product['fields']['Price Lookup'][0], 2)}"
+    self.lowest_price_checkbox.text = f"Lowest price: ${Globals.round_to_decimal_places(Globals.product['fields']['Lowest Price Lookup'][0], 2)}"
 
     if Globals.product['fields']['Has Edited Price'] == 1:
-      if Globals.product['fields']['Edited Price'] == Globals.product['fields']['Lowest Price']:
+      if Globals.product['fields']['Edited Price'] == Globals.product['fields']['Lowest Price Lookup'][0]:
         self.lowest_price_checkbox.checked = True
-      elif Globals.product['fields']['Edited Price'] == Globals.product['fields']['Price']:
+      elif Globals.product['fields']['Edited Price'] == Globals.product['fields']['Price Lookup'][0]:
         self.regular_price_checkbox.checked = True
       else:
         self.custom_price_checkbox.checked = True
@@ -146,11 +146,11 @@ class EditPrice(EditPriceTemplate):
   def custom_price_textfield_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
     if self.custom_price_textfield.text != None:
-      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price']:
-        alert(f"Custom price (${self.custom_price_textfield.text}) cannot be lower than the lowest price (${Globals.product['fields']['Lowest Price']}) accepted for this product.")
-        self.custom_price_textfield.text = Globals.product['fields']['Lowest Price']
+      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price'][0]:
+        alert(f"Custom price (${self.custom_price_textfield.text}) cannot be lower than the lowest price (${Globals.product['fields']['Lowest Price Lookup'][0]}) accepted for this product.")
+        self.custom_price_textfield.text = Globals.product['fields']['Lowest Price Lookup'][0]
     else:
-      self.custom_price_textfield.text = Globals.product['fields']['Price']
+      self.custom_price_textfield.text = Globals.product['fields']['Price Lookup'][0]
 
 
 

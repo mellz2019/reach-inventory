@@ -19,16 +19,7 @@ class ChangePrice(ChangePriceTemplate):
     Globals.lowest_price_changed = False
 
     # Any code you write here will run before the form opens.
-    if Globals.single_product_or_all_products == 'All':
-      if Globals.total_number_of_change_products == 1:
-        self.info_label.visible = False
-        self.title_label.text = 'Changing price for 1 product'
-      else:
-        self.title_label.text = f"Changing price for {len(Globals.change_price_products)} products"
-        self.info_label.text = f"There are {Globals.total_number_of_change_products} total products of this type. You can change the price of {len(Globals.change_price_products)} products due to their status being 'In Production'."
-    else:
-      self.info_label.visible = False
-      self.title_label.text = 'Changing price for 1 product'
+    self.title_label.text = f"Changing price for {Globals.main['fields']['Name']}"
 
   def confirm_price_button_click(self, **event_args):
     if self.lowest_price_text_box.text != None and self.regular_price_text_box.text != None:
@@ -36,39 +27,25 @@ class ChangePrice(ChangePriceTemplate):
         alert('Lowest price cannot be more than regular price.')
         self.lowest_price_text_box.text = self.regular_price_text_box.text
         return
-    """This method is called when the button is clicked"""
     self.cancel_button.enabled = False
     self.regular_price_text_box.enabled = False
     self.lowest_price_text_box.enabled = False
     self.confirm_price_button.enabled = False
 
-    self.confirm_price_button.text = 'Confirming Price...'
+    self.confirm_price_button.text = 'Confirming New Price...'
 
     user = anvil.users.get_user()
-    
-    if Globals.single_product_or_all_products == 'All':
-      # Update each product that has a status of 'In Production'
-      for i in range(len(Globals.change_price_products)):
-        self.update_status_label.text = f"Updating product {i+1} of {len(Globals.change_price_products)}"
-        self.update_status_label.visible = True
-        update_product = {
-          "Price": self.regular_price_text_box.text,
-          "Lowest Price": self.lowest_price_text_box.text,
-          "Price Last Edited By": user['airtable_id']
-        }
-        anvil.server.call('update_item', 'products', Globals.change_price_products[i]['id'], update_product)
-      self.update_status_label.text = 'Done!'
-    else:
-      # Update the product
-      update_product = {
-        "Price": self.regular_price_text_box.text,
-        "Lowest Price": self.lowest_price_text_box.text,
-        "Price Last Edited By": user['airtable_id']
-      }
+    update_price = {
+      "Price": self.regular_price_text_box.text,
+      "Lowest Price": self.lowest_price_text_box.text,
+      "Price Last Edited By": user['airtable_id']
+    }
 
-      anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
+    anvil.server.call('update_item', 'main', Globals.main['id'], update_price)
+    
     alert(f'The price has been succesfully updated!')
     self.update_status_label.visible = False
+    get_open_form().render_more_actions()
       
   def regular_price_text_box_lost_focus(self, **event_args):
     if self.lowest_price_text_box.text > self.regular_price_text_box.text:
@@ -117,7 +94,7 @@ class ChangePrice(ChangePriceTemplate):
 
   def cancel_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    get_open_form().render_single_or_all_products()
+    get_open_form().render_more_actions()
 
 
 
