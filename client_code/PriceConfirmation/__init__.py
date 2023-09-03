@@ -30,7 +30,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     if selected_product_index+1 == len(mains):
       self.next_product_button.enabled = False
 
-    calculated_price = linked_product['fields']['Price'] * mains[selected_product_index]['fields']['Pending Price Confirmation']
+    calculated_price = linked_product['fields']['Price'][0] * mains[selected_product_index]['fields']['Pending Price Confirmation']
     self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
 
     self.product_selector_dropdown.items = Globals.main_number_name_list
@@ -46,8 +46,8 @@ class PriceConfirmation(PriceConfirmationTemplate):
     if pending_units == 1:
       word = 'unit'
     self.unit_count.text = f"{pending_units} {word}"
-    self.price_text_box.text = Globals.alternate_round_to_two_decimal_places(linked_product['fields']['Price'])
-    self.lowest_price_text_box.text = Globals.alternate_round_to_two_decimal_places(linked_product['fields']['Lowest Price'])
+    self.price_text_box.text = Globals.alternate_round_to_two_decimal_places(linked_product['fields']['Price'][0])
+    self.lowest_price_text_box.text = Globals.alternate_round_to_two_decimal_places(linked_product['fields']['Lowest Price'][0])
 
   def confirm_price_confirm(self):
     if Globals.price_changed and not Globals.price_confirmed:
@@ -103,15 +103,11 @@ class PriceConfirmation(PriceConfirmationTemplate):
       else:
         if i > (float(Globals.set_aside)-1):
           update_product = {
-            "Price": self.price_text_box.text,
-            "Lowest Price": self.lowest_price_text_box.text,
             "Status": "In Production",
             "Price Last Changed By": user['airtable_id']
           }
         else:
           update_product = {
-            "Price": self.price_text_box.text,
-            "Lowest Price": self.lowest_price_text_box.text,
             "Status": "Not Approved for Sale",
             "Notes": "This product was set aside during price confirmation",
             "Price Last Changed By": user['airtable_id']
@@ -120,7 +116,9 @@ class PriceConfirmation(PriceConfirmationTemplate):
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
       update_main = {
-        "Barry Approved": True
+        "Barry Approved": True,
+        "Price": self.price_text_box.text,
+        "Lowest Price": self.lowest_price_text_box.text
       }
 
       anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
