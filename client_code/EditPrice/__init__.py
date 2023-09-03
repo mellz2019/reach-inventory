@@ -19,13 +19,13 @@ class EditPrice(EditPriceTemplate):
     self.custom_price_textfield.placeholder = 'Enter custom price...'
 
     self.product_image.source = Globals.product['fields']['Main Image'][0]['thumbnails']['large']['url']
-    self.regular_price_checkbox.text = f"Regular price: ${Globals.round_to_decimal_places(Globals.product['fields']['Price'], 2)}"
-    self.lowest_price_checkbox.text = f"Lowest price: ${Globals.round_to_decimal_places(Globals.product['fields']['Lowest Price'], 2)}"
+    self.regular_price_checkbox.text = f"Regular price: ${Globals.round_to_decimal_places(Globals.product['fields']['Price'][0], 2)}"
+    self.lowest_price_checkbox.text = f"Lowest price: ${Globals.round_to_decimal_places(Globals.product['fields']['Lowest Price'][0], 2)}"
 
     if Globals.product['fields']['Has Edited Price'] == 1:
-      if Globals.product['fields']['Edited Price'] == Globals.product['fields']['Lowest Price']:
+      if Globals.product['fields']['Edited Price'] == Globals.product['fields']['Lowest Price'][0]:
         self.lowest_price_checkbox.checked = True
-      elif Globals.product['fields']['Edited Price'] == Globals.product['fields']['Price']:
+      elif Globals.product['fields']['Edited Price'] == Globals.product['fields']['Price'][0]:
         self.regular_price_checkbox.checked = True
       else:
         self.custom_price_checkbox.checked = True
@@ -81,11 +81,11 @@ class EditPrice(EditPriceTemplate):
       self.confirm_price_button.text = 'Confirming price...'
       self.confirm_price_button.enabled = False
       self.cancel_button.enabled = False
-      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', Globals.product['fields']['Lowest Price'])
+      Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Edited Price', Globals.product['fields']['Lowest Price'][0])
       Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Has Edited Price', 1)
       Globals.order = Globals.edit_product_in_order_by_id(Globals.product['id'], 'Price Last Edited By', user['airtable_id'])
       update_product = {
-      "Edited Price": Globals.product['fields']['Lowest Price'],
+      "Edited Price": Globals.product['fields']['Lowest Price'][0],
       "Price Last Edited By": user['airtable_id']
       }
       anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
@@ -99,8 +99,8 @@ class EditPrice(EditPriceTemplate):
         self.cancel_button.enabled = True
         self.confirm_price_button.text = 'Confirm Price'
         return
-      if float(self.custom_price_textfield.text) < Globals.product['fields']['Lowest Price']:
-        alert(f"Custom price (${Globals.round_to_decimal_places(self.custom_price_textfield.text, 2)}) is lower than the lowest price (${Globals.round_to_decimal_places(Globals.product['fields']['Lowest Price'], 2)}) accepted for this product. Please enter a higher amount.")
+      if float(self.custom_price_textfield.text) < Globals.product['fields']['Lowest Price'][0]:
+        alert(f"Custom price (${Globals.round_to_decimal_places(self.custom_price_textfield.text, 2)}) is lower than the lowest price (${Globals.round_to_decimal_places(Globals.product['fields']['Lowest Price'][0], 2)}) accepted for this product. Please enter a higher amount.")
         self.confirm_price_button.enabled = True
         self.cancel_button.enabled = True
         self.confirm_price_button.text = 'Confirm Price'
@@ -130,7 +130,7 @@ class EditPrice(EditPriceTemplate):
   def custom_price_textfield_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
     if self.custom_price_textfield.text != None:
-      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price']:
+      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price'][0]:
         self.confirm_price_button.enabled = False
       else:
         self.confirm_price_button.enabled = True
@@ -146,11 +146,16 @@ class EditPrice(EditPriceTemplate):
   def custom_price_textfield_lost_focus(self, **event_args):
     """This method is called when the TextBox loses focus"""
     if self.custom_price_textfield.text != None:
-      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price']:
-        alert(f"Custom price (${self.custom_price_textfield.text}) cannot be lower than the lowest price (${Globals.product['fields']['Lowest Price']}) accepted for this product.")
-        self.custom_price_textfield.text = Globals.product['fields']['Lowest Price']
+      if self.custom_price_textfield.text < Globals.product['fields']['Lowest Price'][0]:
+        alert(f"Custom price (${self.custom_price_textfield.text}) cannot be lower than the lowest price (${Globals.product['fields']['Lowest Price'][0]}) accepted for this product.")
+        self.custom_price_textfield.text = Globals.product['fields']['Lowest Price'][0]
+        self.lowest_price_checkbox.checked = True
+        self.custom_price_textfield.text = None
+        self.custom_price_textfield.enabled = False
+        self.custom_price_checkbox.checked = False
+        self.confirm_price_button.enabled = True
     else:
-      self.custom_price_textfield.text = Globals.product['fields']['Price']
+      self.custom_price_textfield.text = Globals.product['fields']['Price'][0]
 
 
 

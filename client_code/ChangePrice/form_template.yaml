@@ -23,7 +23,7 @@ components:
       layout_properties: {grid_position: 'OOWLKV,OAHUUV'}
     - type: Label
       properties: {role: body, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: blah blah blah, font_size: null, font: '', spacing_above: small,
+        visible: false, text: blah blah blah, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: true, background: '', bold: false,
         underline: false, icon: ''}
       name: info_label

@@ -8,7 +8,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from .. import Globals
-from ..SingleOrAllProducts import SingleOrAllProducts
+from ..ChangePrice import ChangePrice
 
 class MoreActions(MoreActionsTemplate):
   def __init__(self, **properties):
@@ -35,6 +35,13 @@ class MoreActions(MoreActionsTemplate):
     self.product_name_label.text = f"Editing {main['fields']['Name']}"
     self.product_image.source = main['fields']['Image'][0]['thumbnails']['large']['url']
 
+    if product['fields']['Display Unit Formula'] == 1:
+      self.remove_from_display_button.enabled = True
+      self.move_to_display_button.enabled = False
+    else:
+      self.remove_from_display_button.enabled = False
+      self.move_to_display_button.enabled = True
+
   def render_more_actions(self):
     self.content_panel.clear()
     self.content_panel.add_component(MoreActions())
@@ -42,8 +49,9 @@ class MoreActions(MoreActionsTemplate):
   def change_price_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     if Globals.product['fields']['Status'] == 'In Production':
+      Globals.main = anvil.server.call('get_single_item', 'main', Globals.product['fields']['Main'][0])
       self.content_panel.clear()
-      self.content_panel.add_component(SingleOrAllProducts())
+      self.content_panel.add_component(ChangePrice())
     else:
       alert('Product must have a status of \'In Production\' in order to change its price.')
 
@@ -64,7 +72,8 @@ class MoreActions(MoreActionsTemplate):
       "Is Display Unit": True
     }
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
-    alert('The product was successfully updated!')
+    Globals.product['fields']['Display Unit Formula'] = 1
+    alert('The product was successfully moved to display!')
     self.render_more_actions()
     
 
@@ -81,7 +90,8 @@ class MoreActions(MoreActionsTemplate):
       "Is Display Unit": False
     }
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
-    alert('The product was successfully updated!')
+    Globals.product['fields']['Display Unit Formula'] = 0
+    alert('The product was successfully removed from display!')
     self.render_more_actions()
 
   def change_condition_button_click(self, **event_args):
@@ -108,7 +118,7 @@ class MoreActions(MoreActionsTemplate):
     }
 
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
-    alert('The product\'s condition was updated successfully!')
+    alert(f"The product\'s condition was successfully updated to {self.condition_dropdown.selected_value}!")
     self.render_more_actions()
 
   def cancel_condition_button_click(self, **event_args):
