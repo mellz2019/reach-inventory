@@ -22,7 +22,7 @@ class ProductInFinalizeOrder(ProductInFinalizeOrderTemplate):
     if self.item['fields']['Has Edited Price'] == 1:
       selected_price = self.item['fields']['Edited Price']
     else:
-      selected_price = self.item['fields']['Price Lookup'][0]
+      selected_price = self.item['fields']['Price'][0]
     self.price_label.text = f"${Globals.round_to_decimal_places(selected_price, 2)}"
 
   def product_status_dropdown_change(self, **event_args):

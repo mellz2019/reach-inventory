@@ -24,7 +24,7 @@ class ProductInOrder(ProductInOrderTemplate):
       if self.item['fields']['Has Edited Price'] == 1:
         selected_price = self.item['fields']['Edited Price']
       else:
-        selected_price = self.item['fields']['Price Lookup'][0]
+        selected_price = self.item['fields']['Price'][0]
       self.product_price_label.text = f"${Globals.round_to_decimal_places(selected_price, 2)}"
 
     order_status = anvil.server.call('get_single_item', 'orders', Globals.order_id)['fields']['Status']
@@ -60,8 +60,8 @@ class ProductInOrder(ProductInOrderTemplate):
   def edit_price_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     # Make sure that the price can be edited
-    if float(self.item['fields']['Price Lookup'][0]) == float(self.item['fields']['Lowest Price Lookup'][0]):
-      alert(f"${self.item['fields']['Price Lookup'][0]} is the lowest price accepted for this item. The price cannot be edited.")
+    if float(self.item['fields']['Price'][0]) == float(self.item['fields']['Lowest Price'][0]):
+      alert(f"${self.item['fields']['Price'][0]} is the lowest price accepted for this item. The price cannot be edited.")
     else:
       Globals.product = Globals.get_single_product_from_order(self.item['id'])
       self.content_panel.clear()

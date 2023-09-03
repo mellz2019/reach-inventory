@@ -43,14 +43,14 @@ class ProductDetails(ProductDetailsTemplate):
 
     self.remove_from_production_button.enabled = product_status == 'In Production'
 
-    msrp_price = product['fields']['Price Lookup'][0]
+    msrp_price = product['fields']['Price'][0]
     self.name_label.text = f"{main['fields']['Name']} - ${Globals.round_to_decimal_places(msrp_price, 2)}"
     self.product_image.source = main['fields']['Image'][0]['thumbnails']['large']['url']
     self.barcode_label.text = product['fields']['Barcode']['text']
     self.description_label.text = main['fields']['Description']
     self.condition_label.text = f"Condition: {product['fields']['Condition']}"
     self.category_label.text = f"Categories: {Globals.convert_list_to_string(main['fields']['Category'])}"
-    lowest_price = product['fields']['Lowest Price Lookup'][0]
+    lowest_price = product['fields']['Lowest Price'][0]
     self.price_label.text = f'Regular Price: ${Globals.round_to_decimal_places(msrp_price, 2)}'
     self.lowest_price_label.text = f'Lowest Price: ${Globals.round_to_decimal_places(lowest_price, 2)}'
     status = product["fields"]["Status"]

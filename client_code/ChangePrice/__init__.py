@@ -21,6 +21,10 @@ class ChangePrice(ChangePriceTemplate):
     # Any code you write here will run before the form opens.
     self.title_label.text = f"Changing price for {Globals.main['fields']['Name']}"
 
+    self.regular_price_text_box.text = Globals.alternate_round_to_two_decimal_places(Globals.product['fields']['Price'][0])
+    self.lowest_price_text_box.text = Globals.alternate_round_to_two_decimal_places(Globals.product['fields']['Lowest Price'][0])
+    
+
   def confirm_price_button_click(self, **event_args):
     if self.lowest_price_text_box.text != None and self.regular_price_text_box.text != None:
       if self.lowest_price_text_box.text > self.regular_price_text_box.text:
@@ -42,17 +46,21 @@ class ChangePrice(ChangePriceTemplate):
     }
 
     anvil.server.call('update_item', 'main', Globals.main['id'], update_price)
+
+    Globals.product['fields']['Price'][0] = self.regular_price_text_box.text
+    Globals.product['fields']['Lowest Price'][0] = self.lowest_price_text_box.text
     
     alert(f'The price has been succesfully updated!')
     self.update_status_label.visible = False
     get_open_form().render_more_actions()
       
   def regular_price_text_box_lost_focus(self, **event_args):
-    if self.lowest_price_text_box.text > self.regular_price_text_box.text:
-      self.lowest_price_text_box.text = self.regular_price_text_box.text
-      n = Notification('Lowest price cannot be more than regular price.')
-      n.show()
-      self.confirm_price_button.enabled = True
+    if self.regular_price_text_box.text is not None and self.lowest_price_text_box.text is not None:
+      if self.lowest_price_text_box.text > self.regular_price_text_box.text:
+        self.lowest_price_text_box.text = self.regular_price_text_box.text
+        n = Notification('Lowest price cannot be more than regular price.')
+        n.show()
+        self.confirm_price_button.enabled = True
 
   def regular_price_text_box_change(self, **event_args):
     if not Globals.is_valid_currency(str(self.regular_price_text_box.text)):
@@ -70,11 +78,12 @@ class ChangePrice(ChangePriceTemplate):
       self.confirm_price_button.enabled = True
 
   def lowest_price_text_box_lost_focus(self, **event_args):
-    if self.lowest_price_text_box.text > self.regular_price_text_box.text:
-      self.lowest_price_text_box.text = self.regular_price_text_box.text
-      n = Notification('Lowest price cannot be more than regular price.')
-      n.show()
-      self.confirm_price_button.enabled = True
+    if self.lowest_price_text_box.text is not None and self.regular_price_text_box.text is not None:
+      if self.lowest_price_text_box.text > self.regular_price_text_box.text:
+        self.lowest_price_text_box.text = self.regular_price_text_box.text
+        n = Notification('Lowest price cannot be more than regular price.')
+        n.show()
+        self.confirm_price_button.enabled = True
 
   def lowest_price_text_box_change(self, **event_args):
     """This method is called when the text in this text box is edited"""

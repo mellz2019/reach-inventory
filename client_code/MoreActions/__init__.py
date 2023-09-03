@@ -35,6 +35,13 @@ class MoreActions(MoreActionsTemplate):
     self.product_name_label.text = f"Editing {main['fields']['Name']}"
     self.product_image.source = main['fields']['Image'][0]['thumbnails']['large']['url']
 
+    if product['fields']['Display Unit Formula'] == 1:
+      self.remove_from_display_button.enabled = True
+      self.move_to_display_button.enabled = False
+    else:
+      self.remove_from_display_button.enabled = False
+      self.move_to_display_button.enabled = True
+
   def render_more_actions(self):
     self.content_panel.clear()
     self.content_panel.add_component(MoreActions())
@@ -65,7 +72,8 @@ class MoreActions(MoreActionsTemplate):
       "Is Display Unit": True
     }
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
-    alert('The product was successfully updated!')
+    Globals.product['fields']['Display Unit Formula'] = 1
+    alert('The product was successfully moved to display!')
     self.render_more_actions()
     
 
@@ -82,7 +90,8 @@ class MoreActions(MoreActionsTemplate):
       "Is Display Unit": False
     }
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
-    alert('The product was successfully updated!')
+    Globals.product['fields']['Display Unit Formula'] = 0
+    alert('The product was successfully removed from display!')
     self.render_more_actions()
 
   def change_condition_button_click(self, **event_args):
@@ -109,7 +118,7 @@ class MoreActions(MoreActionsTemplate):
     }
 
     anvil.server.call('update_item', 'products', Globals.product['id'], update_product)
-    alert('The product\'s condition was updated successfully!')
+    alert(f"The product\'s condition was successfully updated to {self.condition_dropdown.selected_value}!")
     self.render_more_actions()
 
   def cancel_condition_button_click(self, **event_args):

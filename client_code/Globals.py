@@ -161,7 +161,7 @@ def calculate_order_total():
       if fields.get('Has Edited Price', 0) == 1:
           total += float(fields.get('Edited Price', 0))
       else:
-          total += float(fields.get('Price Lookup'[0], 0))
+          total += item['fields']['Price'][0]
         
   return round_to_decimal_places(total, 2)
 

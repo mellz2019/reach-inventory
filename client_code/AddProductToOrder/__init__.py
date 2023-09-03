@@ -54,7 +54,7 @@ class AddProductToOrder(AddProductToOrderTemplate):
       }
       anvil.server.call('update_item', 'products', Globals.product['id'], update_product_status)
       Globals.order = Globals.order + (Globals.product,)
-      Globals.order_total = Globals.product['fields']['Price Lookup'][0]
+      Globals.order_total = Globals.product['fields']['Price'][0]
       Globals.order_id = new_order['id']
       Globals.order_paid = False
       self.content_panel.clear()
