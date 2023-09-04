@@ -33,7 +33,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     calculated_price = linked_product['fields']['Price'][0] * mains[selected_product_index]['fields']['Pending Price Confirmation']
     self.price_calculation_label.text = f"${Globals.round_to_decimal_places(calculated_price, 2)} value"
 
-    self.product_selector_dropdown.items = Globals.main_number_name_list
+    self.product_selector_dropdown.items = list(set(Globals.main_number_name_list))
     self.product_selector_dropdown.selected_value = Globals.main_number_name_list[selected_product_index]
     #self.product_selector_dropdown.placeholder = f"{selected_product_index+1} - {mains[selected_product_index]['fields']['Name']}"
 
@@ -45,7 +45,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     word = 'units'
     if pending_units == 1:
       word = 'unit'
-    self.unit_count.text = f"{pending_units} {word}"
+    self.unit_count.text = f"{pending_units} {word} pending price confirmation"
     self.price_text_box.text = Globals.alternate_round_to_two_decimal_places(linked_product['fields']['Price'][0])
     self.lowest_price_text_box.text = Globals.alternate_round_to_two_decimal_places(linked_product['fields']['Lowest Price'][0])
 
@@ -94,50 +94,64 @@ class PriceConfirmation(PriceConfirmationTemplate):
     # Update each product's price
     user = anvil.users.get_user()
     linked_product_ids = Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']
+    
     for i in range(len(linked_product_ids)):
-      if float(self.set_aside_text_field.text) == len(Globals.price_confirmation_mains):
-        update_product = {
-          "Status": "Not Approved for Sale",
-          "Notes": "All products were set aside during price confirmation"
-        }
-      else:
-        if i > (float(Globals.set_aside)-1):
+      if self.set_aside_text_field.text > 0:
+        if self.set_aside_text_field.text == Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']:
           update_product = {
-            "Status": "In Production",
-            "Price Last Changed By": user['airtable_id']
+            "Status": "Not Approved for Sale",
+            "Notes": "All products were set aside during price confirmation"
           }
         else:
           update_product = {
-            "Status": "Not Approved for Sale",
-            "Notes": "This product was set aside during price confirmation",
-            "Price Last Changed By": user['airtable_id']
+            "Status": "Pending Set Aside",
+            "Notes": f"Barry requested that {self.set_aside_text_field.text} of these products are set aside and not sold"
           }
+      else:
+        update_product = {
+          "Status": "In Production",
+          "Price Last Changed By": user['airtable_id']
+        }
 
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
-      update_main = {
-        "Barry Approved": True,
-        "Price": self.price_text_box.text,
-        "Lowest Price": self.lowest_price_text_box.text
-      }
+    update_main = {
+      "Barry Approved": True,
+      "Price": self.price_text_box.text,
+      "Lowest Price": self.lowest_price_text_box.text,
+      "Set Aside Items": self.set_aside_text_field.text,
+      "Price Confirmation Notes": self.comment_text_field.text
+    }
 
-      anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
+    anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
 
-    # update the main with the notes if the text box has changed
-    if Globals.comments_changed:
-      update_main = {
-        "Price Confirmation Notes": self.comment_text_field.text
-      }
-      anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
+    Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Barry Approved'] = True
+
+    all_prices_confirmed = True
+    
+    for price_confirm_main in Globals.price_confirmation_mains:
+      if not price_confirm_main['fields']['Barry Approved']:
+        all_prices_confirmed = False
+      continue
 
     Globals.price_confirmed = True
-    # if this is not the last product, go to the next product. If it is the last product, go back home
-    if Globals.currently_selected_price_confirm_product+1 == len(Globals.price_confirmation_mains):
-      # Go home
+
+    # PLEASE TEST THIS PART ON DOWN
+    if all_prices_confirmed == True:
       self.content_panel.clear()
       get_open_form().go_to_home()
     else:
-      self.go_to_next_product()
+      if Globals.currently_selected_price_confirm_product+1 == len(Globals.price_confirmation_mains):
+        # If this is not the end of the list, Find the earlist index where a price has not been confirmed and go to that one
+        for k in range(len(Globals.price_confirmation_mains)):
+          if not Globals.price_confirmation_mains[k]['fields']['Barry Approved']:
+            # ESPECIALLY THIS
+            Globals.currently_selected_price_confirm_product = k
+            Globals.currently_selected_price_confirm_product = Globals.main_number_name_list.index(self.product_selector_dropdown.selected_value)
+            self.content_panel.clear()
+            self.content_panel.add_component(PriceConfirmation())
+      else:
+        self.go_to_next_product()
   
   def go_to_next_product(self):
     Globals.currently_selected_price_confirm_product = Globals.currently_selected_price_confirm_product+1
@@ -178,7 +192,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
     if self.set_aside_text_field.text is None:
       Globals.set_aside = 0
     else:
-      if self.set_aside_text_field.text > len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
+      if self.set_aside_text_field.text > Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']:
         Globals.set_aside = 0
 
     if self.price_text_box.text is None:
@@ -271,15 +285,16 @@ class PriceConfirmation(PriceConfirmationTemplate):
     linked_product_ids = Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']
     for i in range(len(linked_product_ids)):
       update_product = {
-        "Price": self.price_text_box.text,
-        "Lowest Price": self.lowest_price_text_box.text,
-        "Status": "Not Approved for Sale"
+        "Status": "Not Approved for Sale",
+        "Notes": "Barry marked this product as 'Do not sell'"
       }
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
     # update the main with the notes if the text box has changed
     if Globals.comments_changed:
       update_main = {
+        "Price": self.price_text_box.text,
+        "Lowest Price": self.lowest_price_text_box.text,
         "Price Confirmation Notes": self.comment_text_field.text
       }
       anvil.server.call('update_item', 'main', Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['id'], update_main)
@@ -297,7 +312,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
       self.set_aside_text_field.text = 0
       Globals.set_aside = 0
     else:
-      num_units = len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products'])
+      num_units = Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']
       if num_units == 1:
         words = 'There is'
         unit_word = 'unit'
@@ -312,12 +327,12 @@ class PriceConfirmation(PriceConfirmationTemplate):
 
   def set_aside_text_field_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
-    if self.set_aside_text_field.text == len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
+    if self.set_aside_text_field.text == Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']:
       self.confirm_price_button.enabled = False
     Globals.price_changed = True
     if self.set_aside_text_field.text is not None:
-      if float(self.set_aside_text_field.text) > len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products']):
-        alert(f"{self.set_aside_text_field.text} is greater than the amount of units available: {len(Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Products'])}. Please enter a lower amount.")
+      if float(self.set_aside_text_field.text) > Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']:
+        alert(f"{self.set_aside_text_field.text} is greater than the amount of units pending price confirmation: {Globals.price_confirmation_mains[Globals.currently_selected_price_confirm_product]['fields']['Pending Price Confirmation']}. Please enter a lower amount.")
         Globals.set_aside = 0
         self.set_aside_text_field.text = 0
         self.calculate_price()
