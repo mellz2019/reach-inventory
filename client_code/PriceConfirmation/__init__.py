@@ -116,7 +116,7 @@ class PriceConfirmation(PriceConfirmationTemplate):
       anvil.server.call('update_item', 'products', linked_product_ids[i], update_product)
 
     update_main = {
-      "Barry Approved": True,
+      "Barry Approved": 'True',
       "Price": self.price_text_box.text,
       "Lowest Price": self.lowest_price_text_box.text,
       "Set Aside Items": self.set_aside_text_field.text,
@@ -130,26 +130,25 @@ class PriceConfirmation(PriceConfirmationTemplate):
     all_prices_confirmed = True
     
     for price_confirm_main in Globals.price_confirmation_mains:
-      if not price_confirm_main['fields']['Barry Approved']:
+      if price_confirm_main['fields']['Barry Approved'] == 'False':
         all_prices_confirmed = False
-      continue
+        break
 
     Globals.price_confirmed = True
 
-    # PLEASE TEST THIS PART ON DOWN
     if all_prices_confirmed == True:
+      alert('All prices have been confirmed!')
       self.content_panel.clear()
       get_open_form().go_to_home()
     else:
       if Globals.currently_selected_price_confirm_product+1 == len(Globals.price_confirmation_mains):
         # If this is not the end of the list, Find the earlist index where a price has not been confirmed and go to that one
         for k in range(len(Globals.price_confirmation_mains)):
-          if not Globals.price_confirmation_mains[k]['fields']['Barry Approved']:
-            # ESPECIALLY THIS
+          if Globals.price_confirmation_mains[k]['fields']['Barry Approved'] == 'False':
             Globals.currently_selected_price_confirm_product = k
-            Globals.currently_selected_price_confirm_product = Globals.main_number_name_list.index(self.product_selector_dropdown.selected_value)
             self.content_panel.clear()
             self.content_panel.add_component(PriceConfirmation())
+            break
       else:
         self.go_to_next_product()
   
