@@ -44,6 +44,7 @@ coming_from_product_details = False
 
 # View All Products
 all_products_main = ()
+all_or_only_available = 'All'
 
 # Comments
 comments = ()

@@ -29,6 +29,14 @@ components:
       icon: ''}
     name: num_of_products_label
     layout_properties: {grid_position: 'LJDYMW,HIRSXA'}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Hide Sold Out Products, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: hide_unavailable_product_button
+    layout_properties: {grid_position: 'WYGSPR,NFPMYL'}
+    event_bindings: {click: hide_unavailable_product_button_click}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: card_panel
