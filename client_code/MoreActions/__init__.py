@@ -35,12 +35,15 @@ class MoreActions(MoreActionsTemplate):
     self.product_name_label.text = f"Editing {main['fields']['Name']}"
     self.product_image.source = main['fields']['Image'][0]['thumbnails']['large']['url']
 
-    if product['fields']['Display Unit Formula'] == 1:
+    if product['fields']['Display Unit Formula'] == 1 and Globals.product['fields']['Status'] == 'In Production':
       self.remove_from_display_button.enabled = True
       self.move_to_display_button.enabled = False
-    else:
+    elif Globals.product['fields']['Status'] == 'In Production':
       self.remove_from_display_button.enabled = False
       self.move_to_display_button.enabled = True
+    else:
+      self.remove_from_display_button.enabled = False
+      self.move_to_display_button.enabled = False
 
   def render_more_actions(self):
     self.content_panel.clear()
